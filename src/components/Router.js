@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Auth from "../routes/Auth";
-import Home from "../routes/Home";
+//절대경로로 바꿈
+import Auth from "routes/Auth";
+import Home from "routes/Home";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 const AppRouter = ({ isLoggedIn }) => {
