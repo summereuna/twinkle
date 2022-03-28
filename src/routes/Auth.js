@@ -12,7 +12,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
-  //🔥 error 스테이드를 만들자. 디폴트 값으로 비어 있는 텍스트 주기
+  //error 스테이드를 만들자. 디폴트 값으로 비어 있는 텍스트 주기
   const [error, setError] = useState("");
   const auth = getAuth();
   //email, password에 사용하는 이벤트
@@ -41,12 +41,13 @@ const Auth = () => {
       }
       console.log(data);
     } catch (error) {
-      //🔥에러가 생기면 error 스테이트에 넣어서 에러 메세지 띄우기
+      //에러가 생기면 error 스테이트에 넣어서 에러 메세지 띄우기
       //console.log(error.message);
       setError(error.message);
     }
   };
-
+  //🔥 가입해야하는지 로그인해야 하는지 토글하는 함수: newAccount의 이전 값과 반대되는 값 리턴하기
+  const toggleAccount = () => setNewAccount((prev) => !prev);
   return (
     <div>
       <h1>로그인 페이지</h1>
@@ -68,10 +69,14 @@ const Auth = () => {
           name="password"
           onChange={onChange}
         ></input>
-        <input type="submit" value={newAccount ? "Create Account" : "Login"} />
-        {/*🔥 error 보여주기*/}
+        <input type="submit" value={newAccount ? "가입하기" : "로그인"} />
+        {/*error 보여주기*/}
         {error}
       </form>
+      {/*🔥 newAccount(새로운 계정)가 참이면 로그인, 거짓이면 가입하기가 되는 토글 만들기 */}
+      <button onClick={toggleAccount}>
+        {newAccount ? "로그인" : "가입하기"}
+      </button>
       <div>
         <button>Continue with Google</button>
         <button>Continue with GitHub</button>
