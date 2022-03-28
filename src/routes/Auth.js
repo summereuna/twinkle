@@ -1,5 +1,5 @@
-//🔥 이메일, 비번으로 새로운 계정 생성 및 로그인 하기위해 아래 메서드 임포트하기
-//🔥 getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword
+//이메일, 비번으로 새로운 계정 생성 및 로그인 하기위해 아래 메서드 임포트하기
+//getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -12,6 +12,8 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
+  //🔥 error 스테이드를 만들자. 디폴트 값으로 비어 있는 텍스트 주기
+  const [error, setError] = useState("");
   const auth = getAuth();
   //email, password에 사용하는 이벤트
   const onChange = (event) => {
@@ -39,7 +41,9 @@ const Auth = () => {
       }
       console.log(data);
     } catch (error) {
-      console.log(error);
+      //🔥에러가 생기면 error 스테이트에 넣어서 에러 메세지 띄우기
+      //console.log(error.message);
+      setError(error.message);
     }
   };
 
@@ -65,6 +69,8 @@ const Auth = () => {
           onChange={onChange}
         ></input>
         <input type="submit" value={newAccount ? "Create Account" : "Login"} />
+        {/*🔥 error 보여주기*/}
+        {error}
       </form>
       <div>
         <button>Continue with Google</button>
