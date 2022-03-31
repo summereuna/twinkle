@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+//파이어베이스에서 데이터 베이스 가져오기
+import "firebase/database";
 // Follow this pattern to import other Firebase services
 // import { } from 'firebase/<service>';
 
