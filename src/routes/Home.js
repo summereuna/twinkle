@@ -8,7 +8,8 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-const Home = () => {
+//App > Router > Home 순으로 보낸 로그인한 유저 정보 prop으로 받기
+const Home = ({ userObj }) => {
   //홈에서 트윗 내용 작성하는 폼
   const [tweet, setTweet] = useState("");
 
@@ -49,7 +50,9 @@ const Home = () => {
     //트윗하기 누르면 새로운 document 생성하기
     try {
       const docRef = await addDoc(collection(dbService, "tweets"), {
-        tweet, // tweet(다큐먼트의 key): tweet(value로 tweet state 값)
+        //트윗 작성자
+        creatorId: userObj.uid,
+        text: tweet, //tweet(value로 tweet state 값)
         createdAt: serverTimestamp(), //Date.now(),로 해도 되지만 이왕 있는거 함 써보자(타임존 동북아3 = 서울로 설정되어 있음)
       });
       console.log("Document written with ID: ", docRef.id);
@@ -87,7 +90,7 @@ const Home = () => {
         {tweets.map((tweet) => (
           //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
           <div key={tweet.id}>
-            <h4>{tweet.tweet}</h4>
+            <h4>{tweet.text}</h4>
           </div>
         ))}
       </div>
