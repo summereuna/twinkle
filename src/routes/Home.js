@@ -9,6 +9,8 @@ import {
   orderBy,
 } from "firebase/firestore";
 
+import Tweet from "components/Tweet";
+
 //App > Router > Home 순으로 보낸 로그인한 유저 정보 prop으로 받기
 const Home = ({ userObj }) => {
   //홈에서 트윗 내용 작성하는 폼
@@ -34,7 +36,7 @@ const Home = ({ userObj }) => {
         ...doc.data(),
       }));
       //트윗어레이 확인해보자. 오케이 원하는대로 포맷된것을 확인할 수 있다!
-      console.log(tweetArr);
+      //console.log(tweetArr);
       setTweets(tweetArr);
     });
     return () => {
@@ -85,10 +87,13 @@ const Home = ({ userObj }) => {
       {/*DB에서 가져온 트위터 나열*/}
       <div>
         {tweets.map((tweet) => (
+          //Tweet을 컴포넌트로 만고 props으로 가져온다.
           //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
-          <div key={tweet.id}>
-            <h4>{tweet.text}</h4>
-          </div>
+          <Tweet
+            key={tweet.id}
+            tweetObj={tweet}
+            isOwner={tweet.creatorId === userObj.uid}
+          />
         ))}
       </div>
     </>
