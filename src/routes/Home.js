@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 
 import Tweet from "components/Tweet";
-import { ref, uploadString } from "@firebase/storage";
+import { ref, uploadString, getDownloadURL } from "@firebase/storage";
 
 //App > Router > Home 순으로 보낸 로그인한 유저 정보 prop으로 받기
 const Home = ({ userObj }) => {
@@ -24,7 +24,8 @@ const Home = ({ userObj }) => {
 
   //첨부파일 readAsDataURL로 받은 데이터 넣어 두는 state
   //attachment에 들어온 url은 첨부파일 미리보기 img src로 활용
-  const [attachment, setAttachment] = useState();
+  //null > ""로 수정: 트윗할 때 텍스트만 입력시 이미지 url ""로 비워두기 위함
+  const [attachment, setAttachment] = useState("");
 
   //🔥트윗 가져오기: map으로
   useEffect(() => {
@@ -54,28 +55,47 @@ const Home = ({ userObj }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    //storage에 파일 데이터가 업로드될 위치 가리키는 레퍼런스 생성하기
-    const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+    //if문 안에 있던 거 밖으로 빼주자. 그래야 오류 안남 (lexical scope: 정적 범위)
+    let attachmentUrl = "";
 
-    //레퍼런스(fileRef)가 가리키는 위치에 찐으로 데이터 업로드하기
-    //fileRef가 가리키는 위치에 attachment에 들어있는 첨부파일 url을 넣어라, 포맷data_url
-    const response = await uploadString(fileRef, attachment, "data_url");
-    console.log(response);
+    //이미지 첨부하지 않고 걍 트윗만 올리고 싶을 때도 있기 때문에
+    //attachment가 빈값이 아닌 경우에만 아래 코드 실행되게하자.
+    if (attachment !== "") {
+      //storage에 파일 데이터가 업로드될 위치 가리키는 레퍼런스 생성하기
+      const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
 
-    //트윗하기 누르면 새로운 document 생성하기
-    /* try {
-      await addDoc(collection(dbService, "tweets"), {
-        //트윗 작성자
-        creatorId: userObj.uid,
-        text: tweet, //tweet(value로 tweet state 값)
-        createdAt: serverTimestamp(), //Date.now(),로 해도 되지만 이왕 있는거 함 써보자(타임존 동북아3 = 서울로 설정되어 있음)
-      });
-      //console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-      console.error("Error adding document: ", error);
+      //레퍼런스(attachmentRef)가 가리키는 위치에 찐으로 데이터 업로드하기
+      //attachmentRef가 가리키는 위치에 attachment에 들어있는 첨부파일 url을 넣어라, 포맷data_url
+      const response = await uploadString(
+        attachmentRef,
+        attachment,
+        "data_url"
+      );
+      //console.log(response);
+
+      //response의 ref, 즉 스토리지에 업로드한 파일 위치에 있는 그 파일의 URL을 다운로드해서
+      //attachmentUrl 변수에 넣어서 업데이트
+      attachmentUrl = await getDownloadURL(response.ref);
+      //콘솔에 찍어보자
+      //console.log(attachmentUrl);
     }
+    //빈값인 경우 url에 빈값으로 들어감
+
+    //트윗 오브젝트 형태
+    const tweetObj = {
+      text: tweet, //tweet(value로 tweet state 값)
+      createdAt: serverTimestamp(), //Date.now(),로 해도 되지만 이왕 있는거 함 써보자(타임존 동북아3 = 서울로 설정되어 있음)
+      creatorId: userObj.uid,
+      attachmentUrl,
+    };
+    //트윗하기 누르면 tweetObj 형태로 새로운 document 생성하여 tweets 콜렉션에 넣기
+    await addDoc(collection(dbService, "tweets"), tweetObj);
+    //console.log("Document written with ID: ", docRef.id);
+
     //state 비워서 form 비우기
-    setTweet(""); */
+    setTweet("");
+    //파일 미리보기 img src 비워주기
+    setAttachment("");
   };
 
   const onChange = (event) => {
@@ -117,7 +137,8 @@ const Home = ({ userObj }) => {
   //첨부 사진 취소하는 버튼
   const onClearAttachment = () => {
     //1. 첨부파일 url 넣는 state 비워서 프리뷰 img src 없애기
-    setAttachment(null);
+    //null > ""로 수정: 트윗할 때 텍스트만 입력시 이미지 url ""로 비워두기 위함
+    setAttachment("");
     //2. 선택했던 첨부파일명 없애기
     fileInput.current.value = null;
   };
