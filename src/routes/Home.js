@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { dbService } from "fbase";
 import {
   collection,
@@ -18,6 +18,10 @@ const Home = ({ userObj }) => {
 
   //0. 작성한 트윗 가져오기: 기본 값은 빈 배열
   const [tweets, setTweets] = useState([]);
+
+  //첨부파일 readAsDataURL로 받은 데이터 넣어 두는 state
+  //attachment에 들어온 url은 첨부파일 미리보기 img src로 활용
+  const [attachment, setAttachment] = useState();
 
   //🔥트윗 가져오기: map으로
   useEffect(() => {
@@ -48,7 +52,7 @@ const Home = ({ userObj }) => {
     event.preventDefault();
     //트윗하기 누르면 새로운 document 생성하기
     try {
-      const docRef = await addDoc(collection(dbService, "tweets"), {
+      await addDoc(collection(dbService, "tweets"), {
         //트윗 작성자
         creatorId: userObj.uid,
         text: tweet, //tweet(value로 tweet state 값)
@@ -70,6 +74,41 @@ const Home = ({ userObj }) => {
     //console.log(tweet);
   };
 
+  //file 미리보기 제공
+  const onFileChange = (event) => {
+    //console.log(event);
+    const {
+      target: { files },
+    } = event;
+    //파일은 하나만 넣을 수 있게..^^;;
+    const theFile = files[0];
+    //console.log(theFile);
+    //1. 파일리더 새로 만들고
+    const reader = new FileReader();
+    //3. 파일 읽기 끝나면(reader.onloadend) finishedEvent를 받는다
+    reader.onloadend = (finishedEvent) => {
+      //콘솔에 찍어보면 finishedEvent.target.result에 이미지 url이 생성된 것을 확인할 수 있다.
+      //console.log(finishedEvent);
+      // 첨부한 사진 데이터 들어있는 위치: 이벤트의 현재 타겟의 결과
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
+    };
+    //2. 리더에 dataURL로 읽기 메서드로 theFile 읽기 시작
+    reader.readAsDataURL(theFile);
+  };
+
+  const fileInput = useRef();
+
+  //첨부 사진 취소하는 버튼
+  const onClearAttachment = () => {
+    //1. 첨부파일 url 넣는 state 비워서 프리뷰 img src 없애기
+    setAttachment(null);
+    //2. 선택했던 첨부파일명 없애기
+    fileInput.current.value = null;
+  };
+
   return (
     <>
       <div>
@@ -81,6 +120,18 @@ const Home = ({ userObj }) => {
             value={tweet}
             onChange={onChange}
           />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={onFileChange}
+            ref={fileInput}
+          />
+          {attachment && (
+            <div>
+              <img src={attachment} alt="preview" width="50" height="50" />
+              <button onClick={onClearAttachment}>취소</button>
+            </div>
+          )}
           <input type="submit" value="트윗하기" />
         </form>
       </div>
