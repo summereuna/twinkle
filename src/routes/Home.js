@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { dbService } from "fbase";
+//식별자 자동 생성해주는 uuid
+import { v4 as uuidv4 } from "uuid";
+import { dbService, storageService } from "fbase";
 import {
   collection,
   addDoc,
@@ -10,6 +12,7 @@ import {
 } from "firebase/firestore";
 
 import Tweet from "components/Tweet";
+import { ref, uploadString } from "@firebase/storage";
 
 //App > Router > Home 순으로 보낸 로그인한 유저 정보 prop으로 받기
 const Home = ({ userObj }) => {
@@ -50,8 +53,17 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+
+    //storage에 파일 데이터가 업로드될 위치 가리키는 레퍼런스 생성하기
+    const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+
+    //레퍼런스(fileRef)가 가리키는 위치에 찐으로 데이터 업로드하기
+    //fileRef가 가리키는 위치에 attachment에 들어있는 첨부파일 url을 넣어라, 포맷data_url
+    const response = await uploadString(fileRef, attachment, "data_url");
+    console.log(response);
+
     //트윗하기 누르면 새로운 document 생성하기
-    try {
+    /* try {
       await addDoc(collection(dbService, "tweets"), {
         //트윗 작성자
         creatorId: userObj.uid,
@@ -63,7 +75,7 @@ const Home = ({ userObj }) => {
       console.error("Error adding document: ", error);
     }
     //state 비워서 form 비우기
-    setTweet("");
+    setTweet(""); */
   };
 
   const onChange = (event) => {
@@ -99,6 +111,7 @@ const Home = ({ userObj }) => {
     reader.readAsDataURL(theFile);
   };
 
+  //선택했던 첨부파일명 없애기위해 useRef() 훅 사용
   const fileInput = useRef();
 
   //첨부 사진 취소하는 버튼

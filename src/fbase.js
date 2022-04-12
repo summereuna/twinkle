@@ -9,6 +9,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 //파이어베이스에서 데이터 베이스 가져오기
 import { getFirestore } from "firebase/firestore";
+//파이어베이스에서 스토리지 가져오기
+import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -30,3 +32,6 @@ export const authService = getAuth(app);
 
 //디비 서비스 내보내기
 export const dbService = getFirestore();
+
+//스토리지(사진 업로드)
+export const storageService = getStorage();
