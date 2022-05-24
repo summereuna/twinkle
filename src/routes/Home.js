@@ -63,6 +63,7 @@ const Home = ({ userObj }) => {
     if (attachment !== "") {
       //storage에 파일 데이터가 업로드될 위치 가리키는 레퍼런스 생성하기
       const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+      //console.log(attachmentRef);
 
       //레퍼런스(attachmentRef)가 가리키는 위치에 찐으로 데이터 업로드하기
       //attachmentRef가 가리키는 위치에 attachment에 들어있는 첨부파일 url을 넣어라, 포맷data_url

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 
 const Tweet = ({ tweetObj }, isOwner) => {
   //수정모드인지 아닌지 false/true
@@ -12,15 +13,25 @@ const Tweet = ({ tweetObj }, isOwner) => {
   //디비 > 트윗컬렉션 > 해당하는 id 가진 다큐먼트 찝어오기
   const tweetTextRef = doc(dbService, "tweets", `${tweetObj.id}`);
 
-  //삭제
+  //삭제하려는 이미지 파일 가리키는 ref 생성
+  //tweetObj의 attachmentUrl이 바로 삭제하려는 그 url임
+  const desertRef = ref(storageService, tweetObj.attachmentUrl);
+
+  //트윗 삭제
   const onDeleteClick = async () => {
     const ok = window.confirm("정말 이 트윗을 삭제하시겠습니까?");
     //console.log(ok);  //treu/false 반환함
     if (ok) {
-      //해당하는 트윗 삭제
-      await deleteDoc(tweetTextRef);
-    } else {
-      console.log("삭제하는데 실패!");
+      try {
+        //해당하는 트윗 파이어스토어에서 삭제
+        await deleteDoc(tweetTextRef);
+        //삭제하려는 트윗에 이미지 파일이 있는 경우 이미지 파일 스토리지에서 삭제
+        if (tweetObj.attachmentUrl !== "") {
+          await deleteObject(desertRef);
+        }
+      } catch (error) {
+        window.alert("트윗을 삭제하는 데 실패했습니다!");
+      }
     }
   };
 
