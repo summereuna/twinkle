@@ -1,6 +1,7 @@
 import { authService, dbService } from "fbase";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import { useEffect } from "react";
+import { updateProfile } from "firebase/auth";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //로그인한 유저 정보 prop으로 받기
@@ -35,8 +36,41 @@ const Profile = ({ userObj }) => {
     getMyTweets();
   }, []);
 
+  const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+
+  const onChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNewDisplayName(value);
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    //이름 수정하면 updateProfile() 메서드 사용해 프로필 업데이트하기
+    //firestore에서 users 콜렉션 만들어서 도큐먼트 생성해서 유저에 관한 데이터 모두 관리하는 방법도 있지만 귀찮으니 걍 이걸로 하자구
+    if (userObj.displayName !== newDisplayName) {
+      //console.log(userObj.updateProfile);
+      await updateProfile(userObj, { displayName: newDisplayName });
+    }
+  };
+  //프로필 사진 업데이트 하기(숙제)
+  /*
+1. 프로필 사진 업로드 하는 폼 만들기
+2. profilePhoto 버켓 만들어서 
+3. 다운로드 url 가져와서 위에 photoURL에 넣어주면 됨
+*/
   return (
     <>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          type="text"
+          placeholder="이름"
+          value={newDisplayName}
+        />
+        <input type="submit" value="저장" />
+      </form>
       <button onClick={onLogOutClick}>로그아웃</button>
     </>
   );

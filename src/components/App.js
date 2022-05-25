@@ -25,6 +25,7 @@ function App() {
       setInit(true);
     });
   }, []);
+
   //Router 렌더하기 & AppRouter에 prop 전달하기
   return (
     <>
