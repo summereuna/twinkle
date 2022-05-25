@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //이메일, 비번으로 새로운 계정 생성 및 로그인 하기위해 아래 메서드 임포트하기
 //getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword
@@ -40,7 +40,8 @@ const Auth = () => {
     try {
       if (newAccount) {
         await createUserWithEmailAndPassword(auth, email, password);
-        setNewAccount(false);
+        //⚠️ 에러 발생 지점: 라우터이동 후 state 변경하기 때문, 삭제
+        //setNewAccount(false);
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
@@ -50,6 +51,11 @@ const Auth = () => {
       setError(error.message);
     }
   };
+
+  //클린업 펑션 넣음
+  useEffect(() => {
+    return () => setNewAccount(false);
+  }, []);
 
   //가입해야하는지 로그인해야 하는지 토글하는 함수: newAccount의 이전 값과 반대되는 값 리턴하기
   const toggleAccount = () => setNewAccount((prev) => !prev);
