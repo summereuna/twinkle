@@ -19,7 +19,7 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
   return (
     <Router>
       {/*&&의 의미: <Navigation />이 존재하려면 isLoggedIn이 참이어야 한다*/}
-      {isLoggedIn && <Navigation />}
+      {isLoggedIn && <Navigation userObj={userObj} />}
       <Routes>
         {/* 로그인한 상태면 /으로, 아니면 /login으로 */}
         {isLoggedIn ? (
