@@ -15,7 +15,7 @@ import Profile from "routes/Profile";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 //로그인한 유저 정보 userObj 받기
-const AppRouter = ({ isLoggedIn, userObj }) => {
+const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
   return (
     <Router>
       {/*&&의 의미: <Navigation />이 존재하려면 isLoggedIn이 참이어야 한다*/}
@@ -28,7 +28,7 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
             <Route path="/" element={<Home userObj={userObj} />}></Route>
             <Route
               path="/profile"
-              element={<Profile userObj={userObj} />}
+              element={<Profile userObj={userObj} refreshUser={refreshUser} />}
             ></Route>
             {/*정해진 url외에 다른 url로 접근시 모두 "/"로 리다이렉트하기*/}
             <Route path="*" element={<Navigate replace to="/" />} />

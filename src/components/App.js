@@ -12,6 +12,9 @@ function App() {
   //로그인한 유저 정보 담은 오브젝트 state, 디폴트 값은 일단 아무도 없으니까 null
   const [userObj, setUserObj] = useState(null);
 
+  //refresh 위한 state
+  const [, setNewName] = useState("");
+
   //어떻게 기다릴 수 있을까? useEffect()를 사용하면 된다 ㅇㅇ!
   useEffect(() => {
     const auth = getAuth();
@@ -34,13 +37,23 @@ function App() {
     });
   }, []);
 
+  // user 새로고침하는 기능: firebase의 정보를 가지고 react.js의 userObj 업데이트 하기
+  //으로 하려고 하다가 계속 오류나서 그냥 state 하나 더 만들어서 렌더링만을 위한 state 추가
+  const refreshUser = async () => {
+    setNewName(userObj.displayName);
+  };
+
   //Router 렌더하기 & AppRouter에 prop 전달하기
   return (
     <>
       {/*init이 거짓이면 라우터 숨기고 초기화 중이라고 띄우기*/}
       {/*로그인한 user 정보 AppRouter로 보내기*/}
       {init ? (
-        <AppRouter isLoggedIn={Boolean(userObj)} userObj={userObj} />
+        <AppRouter
+          isLoggedIn={Boolean(userObj)}
+          userObj={userObj}
+          refreshUser={refreshUser}
+        />
       ) : (
         "초기화중..."
       )}

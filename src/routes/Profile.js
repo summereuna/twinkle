@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //로그인한 유저 정보 prop으로 받기
-const Profile = ({ userObj }) => {
+const Profile = ({ refreshUser, userObj }) => {
   const navigate = useNavigate();
   const onLogOutClick = () => {
     authService.signOut();
@@ -49,9 +49,14 @@ const Profile = ({ userObj }) => {
     event.preventDefault();
     //이름 수정하면 updateProfile() 메서드 사용해 프로필 업데이트하기
     //firestore에서 users 콜렉션 만들어서 도큐먼트 생성해서 유저에 관한 데이터 모두 관리하는 방법도 있지만 귀찮으니 걍 이걸로 하자구
+    //1. firebase에 있는 profile 업데이트
     if (userObj.displayName !== newDisplayName) {
       //console.log(userObj.updateProfile);
-      await updateProfile(userObj, { displayName: newDisplayName });
+      await updateProfile(userObj, {
+        displayName: newDisplayName,
+      });
+      //2. react.js에 있는 profile도 새로고침되게 하기
+      refreshUser();
     }
   };
   //프로필 사진 업데이트 하기(숙제)
