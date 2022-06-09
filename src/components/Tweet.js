@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { dbService, storageService } from "fbase";
+import { authService, dbService, storageService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import userEvent from "@testing-library/user-event";
 
-const Tweet = ({ tweetObj }, isOwner) => {
+const Tweet = ({ tweetObj, isOwner }) => {
   //수정모드인지 아닌지 false/true
   const [editing, setEditing] = useState(false);
 
