@@ -80,7 +80,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
           <h4>{tweetObj.text}</h4>
           {/*이미지 업로드 했을 때만 보이게*/}
           {tweetObj.attachmentUrl && (
-            <img src={tweetObj.attachmentUrl} alt="tweetImg" width="500" />
+            <img src={tweetObj.attachmentUrl} alt="tweetImg" width="200" />
           )}
           {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
           {isOwner && (
