@@ -12,6 +12,7 @@ import Home from "routes/Home";
 //Navigation 컴포넌트와 profile 루트를 가져온다.
 import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
+import PropTypes from "prop-types";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 //로그인한 유저 정보 userObj 받기
@@ -43,6 +44,12 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
       </Routes>
     </Router>
   );
+};
+
+AppRouter.propTypes = {
+  refreshUser: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
+  userObj: PropTypes.object,
 };
 
 export default AppRouter;

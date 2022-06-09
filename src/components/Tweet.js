@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { authService, dbService, storageService } from "fbase";
+import { dbService, storageService } from "fbase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import userEvent from "@testing-library/user-event";
+import PropTypes from "prop-types";
 
 const Tweet = ({ tweetObj, isOwner }) => {
   //수정모드인지 아닌지 false/true
@@ -93,6 +93,11 @@ const Tweet = ({ tweetObj, isOwner }) => {
       )}
     </div>
   );
+};
+
+Tweet.propTypes = {
+  tweetObj: PropTypes.object,
+  isOwner: PropTypes.bool,
 };
 
 export default Tweet;

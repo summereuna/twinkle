@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "fbase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import PropTypes from "prop-types";
 
 const TweetFactory = ({ userObj }) => {
   //홈에서 트윗 내용 작성하는 폼
@@ -130,6 +131,10 @@ const TweetFactory = ({ userObj }) => {
       <input type="submit" value="트윗하기" />
     </form>
   );
+};
+
+TweetFactory.propTypes = {
+  userObj: PropTypes.object,
 };
 
 export default TweetFactory;

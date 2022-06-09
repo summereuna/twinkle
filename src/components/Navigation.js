@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Navigation = ({ userObj }) => (
   <nav>
@@ -12,5 +13,9 @@ const Navigation = ({ userObj }) => (
     </ul>
   </nav>
 );
+
+Navigation.propTypes = {
+  userObj: PropTypes.object,
+};
 
 export default Navigation;
