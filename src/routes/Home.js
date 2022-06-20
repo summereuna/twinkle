@@ -19,6 +19,7 @@ const Home = ({ userObj }) => {
       collection(dbService, "tweets"),
       orderBy("createdAt", "desc")
     );
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
       //모든 docs는 {} 오브젝트 반환하도록
       //아이디 가져오고, 그리고 나머지 데이터 전체 가져오기
@@ -30,8 +31,9 @@ const Home = ({ userObj }) => {
       //console.log(tweetArr);
       setTweets(tweetArr);
     });
+
     return () => {
-      unsubscribe();
+      unsubscribe(); //stop listening to changes
     };
   }, []);
 

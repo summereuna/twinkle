@@ -3,7 +3,6 @@ import { authService, dbService } from "fbase";
 import { updateProfile } from "firebase/auth";
 import {
   collection,
-  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -21,32 +20,6 @@ const Profile = ({ refreshUser, userObj }) => {
     navigate("/");
   };
 
-  /*
-  //내 Tweets 얻는 function 생성
-  const getMyTweets = async () => {
-    //트윗 불러오기
-    //dbService의 컬렉션 중 "tweets" Docs 중에서, userObj의 uid와 동일한 creatorID를 가진 모든 문서를 가져오는 쿼리(요청) 생성
-    //트윗한 순서대로 정렬하기
-    const q = query(
-      collection(dbService, "tweets"),
-      where("creatorId", "==", userObj.uid),
-      orderBy("createdAt", "desc")
-    );
-
-    //getDocs()메서드로 쿼리 결과 값 가져오기
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, "=>", doc.data());
-    });
-  };
-
-  //내 Tweets 얻는 function 호출
-  useEffect(() => {
-    getMyTweets();
-  }, []);
-
-  */
-
   const [tweets, setTweets] = useState([]);
   //내 트윗 가져오기: map으로
   useEffect(() => {
@@ -58,6 +31,7 @@ const Profile = ({ refreshUser, userObj }) => {
       where("creatorId", "==", userObj.uid),
       orderBy("createdAt", "desc")
     );
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
       //모든 docs는 {} 오브젝트 반환하도록
       //아이디 가져오고, 그리고 나머지 데이터 전체 가져오기
@@ -69,8 +43,9 @@ const Profile = ({ refreshUser, userObj }) => {
       //console.log(tweetArr);
       setTweets(tweetArr);
     });
+
     return () => {
-      unsubscribe();
+      unsubscribe(); //stop listening to changes
     };
   }, [userObj.uid]);
 

@@ -1,5 +1,3 @@
-import React from "react";
-
 //이메일, 비번으로 새로운 계정 생성 및 로그인 하기위해 아래 메서드 임포트하기
 //getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword
 import {
@@ -9,6 +7,13 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import AuthForm from "components/AuthForm";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faGoogle,
+  faGithub,
+} from "@fortawesome/free-brands-svg-icons";
 
 const Auth = () => {
   const auth = getAuth();
@@ -32,18 +37,34 @@ const Auth = () => {
   };
 
   return (
-    <div>
-      <h1>로그인 페이지</h1>
-      <p>로고 넣기</p>
-      <AuthForm />
-      <div>
+    <div className="auth__container">
+      <div className="auth__title__container">
+        <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" />
+        <h1 className="auth__title">지금 일어나고 있는 일</h1>
+        <h2 className="auth__subtitle">오늘 트윙클을 시작하세요.</h2>
+      </div>
+      <div className="auth__btns">
         {/*🔥 버튼 만들고 onClick 이벤트에 onSocialClick 함수 연결*/}
-        <button name="google" onClick={onSocialClick}>
-          Google 계정으로 계속하기
+        <button
+          className="auth__btn btn--hover"
+          name="google"
+          onClick={onSocialClick}
+        >
+          <FontAwesomeIcon icon={faGoogle} /> Google 계정으로 계속하기
         </button>
-        <button name="github" onClick={onSocialClick}>
-          GitHub 계정으로 계속하기
+        <button
+          className="auth__btn btn--hover"
+          name="github"
+          onClick={onSocialClick}
+        >
+          <FontAwesomeIcon icon={faGithub} /> GitHub 계정으로 계속하기
         </button>
+        <div className="line__box">
+          <div className="line"></div>
+          <span> 또는 </span>
+          <div className="line"></div>
+        </div>
+        <AuthForm />
       </div>
     </div>
   );
