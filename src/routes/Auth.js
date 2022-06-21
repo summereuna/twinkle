@@ -45,18 +45,10 @@ const Auth = () => {
       </div>
       <div className="auth__btns">
         {/*🔥 버튼 만들고 onClick 이벤트에 onSocialClick 함수 연결*/}
-        <button
-          className="auth__btn btn--hover"
-          name="google"
-          onClick={onSocialClick}
-        >
+        <button className="btn btn--grey" name="google" onClick={onSocialClick}>
           <FontAwesomeIcon icon={faGoogle} /> Google 계정으로 계속하기
         </button>
-        <button
-          className="auth__btn btn--hover"
-          name="github"
-          onClick={onSocialClick}
-        >
+        <button className="btn btn--grey" name="github" onClick={onSocialClick}>
           <FontAwesomeIcon icon={faGithub} /> GitHub 계정으로 계속하기
         </button>
         <div className="line__box">

@@ -2,9 +2,12 @@ import React, { useState, useRef } from "react";
 //식별자 자동 생성해주는 uuid
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "fbase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import PropTypes from "prop-types";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 const TweetFactory = ({ userObj }) => {
   //홈에서 트윗 내용 작성하는 폼
@@ -48,10 +51,12 @@ const TweetFactory = ({ userObj }) => {
     //트윗 오브젝트 형태
     const tweetObj = {
       text: tweet, //tweet(value로 tweet state 값)
-      createdAt: serverTimestamp(), //Date.now(),로 해도 되지만 이왕 있는거 함 써보자(타임존 동북아3 = 서울로 설정되어 있음)
+      createdAt: Date.now(), //serverTimestamp(), //Date.now(),로 해도 되지만 이왕 있는거 함 써보자(타임존 동북아3 = 서울로 설정되어 있음)
       creatorId: userObj.uid,
+      creatorName: userObj.displayName,
       attachmentUrl,
     };
+
     //트윗하기 누르면 tweetObj 형태로 새로운 document 생성하여 tweets 콜렉션에 넣기
     await addDoc(collection(dbService, "tweets"), tweetObj);
     //console.log("Document written with ID: ", docRef.id);
@@ -108,28 +113,47 @@ const TweetFactory = ({ userObj }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="무슨 일이 일어나고 있나요?"
-        maxLength={120}
-        value={tweet}
-        onChange={onChange}
-      />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={onFileChange}
-        ref={fileInput}
-      />
-      {attachment && (
-        <div>
-          <img src={attachment} alt="preview" width="50" height="50" />
-          <button onClick={onClearAttachment}>취소</button>
+    <div className="home__tweetSender__writeBox">
+      <form onSubmit={onSubmit}>
+        <div className="home__tweetSender__writeBox__text">
+          <input
+            type="textarea"
+            rows="5"
+            placeholder="무슨 일이 일어나고 있나요?"
+            minLength={1}
+            maxLength={120}
+            value={tweet}
+            onChange={onChange}
+            required
+          />
         </div>
-      )}
-      <input type="submit" value="트윗하기" />
-    </form>
+        <div className="home__tweetSender__writeBox__btn">
+          <input
+            name="file"
+            type="file"
+            accept="image/*"
+            onChange={onFileChange}
+            ref={fileInput}
+            id="files"
+            className="hidden"
+          />
+          <label className="icon" htmlFor="files">
+            <FontAwesomeIcon icon={faImage} size="2x" />
+          </label>
+          {attachment && (
+            <div>
+              <img src={attachment} alt="preview" width="50" height="50" />
+              <button onClick={onClearAttachment}>취소</button>
+            </div>
+          )}
+          <input
+            className="btn btn--blue btn--border-zero"
+            type="submit"
+            value="트윗하기"
+          />
+        </div>
+      </form>
+    </div>
   );
 };
 

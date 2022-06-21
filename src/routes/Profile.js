@@ -80,27 +80,29 @@ const Profile = ({ refreshUser, userObj }) => {
 */
   return (
     <>
-      <form onSubmit={onSubmit}>
-        <input
-          onChange={onChange}
-          type="text"
-          placeholder="이름"
-          value={newDisplayName}
-        />
-        <input type="submit" value="저장" />
-      </form>
-      <button onClick={onLogOutClick}>로그아웃</button>
-      <div>
-        {" "}
-        {tweets.map((tweet) => (
-          //Tweet을 컴포넌트로 만고 props으로 가져온다.
-          //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
-          <Tweet
-            key={tweet.id}
-            tweetObj={tweet}
-            isOwner={tweet.creatorId === userObj.uid}
+      <div id="body-content">
+        <form onSubmit={onSubmit}>
+          <input
+            onChange={onChange}
+            type="text"
+            placeholder="이름"
+            value={newDisplayName}
           />
-        ))}
+          <input type="submit" value="저장" />
+        </form>
+        <button onClick={onLogOutClick}>로그아웃</button>
+        <div>
+          {" "}
+          {tweets.map((tweet) => (
+            //Tweet을 컴포넌트로 만고 props으로 가져온다.
+            //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
+            <Tweet
+              key={tweet.id}
+              tweetObj={tweet}
+              isOwner={tweet.creatorId === userObj.uid}
+            />
+          ))}
+        </div>
       </div>
     </>
   );

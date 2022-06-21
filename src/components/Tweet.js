@@ -4,6 +4,13 @@ import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import PropTypes from "prop-types";
 
+import moment from "moment";
+import "moment/locale/ko";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+
 const Tweet = ({ tweetObj, isOwner }) => {
   //수정모드인지 아닌지 false/true
   const [editing, setEditing] = useState(false);
@@ -58,6 +65,8 @@ const Tweet = ({ tweetObj, isOwner }) => {
     setNewTweet(value);
   };
 
+  const fromNowCreatedAt = moment(tweetObj.createdAt).fromNow();
+
   return (
     <div>
       {/*수정 버튼 클릭된 거면(true) 수정할 폼 보여주고 : 아니면(false) 트윗 내용 보여주기*/}
@@ -77,18 +86,58 @@ const Tweet = ({ tweetObj, isOwner }) => {
         </>
       ) : (
         <>
-          <h4>{tweetObj.text}</h4>
-          {/*이미지 업로드 했을 때만 보이게*/}
-          {tweetObj.attachmentUrl && (
-            <img src={tweetObj.attachmentUrl} alt="tweetImg" width="200" />
-          )}
-          {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
-          {isOwner && (
-            <>
-              <button onClick={onDeleteClick}>삭제</button>
-              <button onClick={toggleEditing}>수정</button>
-            </>
-          )}
+          <div className="home__tweets">
+            <div className="userImg">
+              <div className="userImg_img"></div>
+            </div>
+            <div className="home__tweets__tweet">
+              <div className="home__tweets__tweet__info">
+                <span className="home__tweets__tweet__info__userName">
+                  {tweetObj.creatorName}
+                </span>
+                <span>@{tweetObj.creatorId}</span>
+                <span> · </span>
+                <span>{fromNowCreatedAt}</span>
+              </div>
+              <div className="home__tweets__tweet__content">
+                <div className="home__tweets__tweet__content__text">
+                  <p>{tweetObj.text}</p>
+                </div>
+                {/*이미지 업로드 했을 때만 보이게*/}
+                {tweetObj.attachmentUrl && (
+                  <div className="home__tweets__tweet__content__img">
+                    <img
+                      src={tweetObj.attachmentUrl}
+                      alt="tweetImg"
+                      width="200"
+                    />
+                  </div>
+                )}
+                <div className="home__tweets__tweet__content__btn">
+                  <button className="btn--min--circle">
+                    <FontAwesomeIcon icon={faHeart} />
+                  </button>
+                  {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
+                  {isOwner && (
+                    <div className="home__tweets__tweet__content__btn__modify">
+                      <button
+                        className="btn--min--circle"
+                        onClick={onDeleteClick}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                      <button
+                        className="btn--min--circle"
+                        onClick={toggleEditing}
+                      >
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>

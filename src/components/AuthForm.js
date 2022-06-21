@@ -57,7 +57,7 @@ const AuthForm = () => {
 
   return (
     <>
-      <h3>
+      <h3 className="auth__h3">
         {newAccount
           ? "이메일 주소로 계정을 생성하세요"
           : "이메일 주소로 로그인 하세요"}
@@ -70,7 +70,7 @@ const AuthForm = () => {
           value={email}
           name="email"
           onChange={onChange}
-          className="auth__btn"
+          className="btn btn--skyblue"
         ></input>
         <input
           type="password"
@@ -79,22 +79,22 @@ const AuthForm = () => {
           value={password}
           name="password"
           onChange={onChange}
-          className="auth__btn"
+          className="btn btn--skyblue"
         ></input>
-        <button type="submit" className="auth__btn btn__join">
+        <button type="submit" className="btn btn--blue">
           {newAccount ? "이메일 주소로 가입하기" : "로그인"}
         </button>
         {/*error 보여주기*/}
         {error}
       </form>
 
-      <h3>
+      <h3 className="auth__h3">
         {newAccount
           ? "이미 트윙클에 가입하셨나요?"
           : "아직 트윙클 계정이 없나요?"}
       </h3>
       {/*newAccount(새로운 계정)가 참이면 로그인, 거짓이면 가입하기가 되는 토글 만들기 */}
-      <button className="auth__btn btn__login" onClick={toggleAccount}>
+      <button className="btn btn--skyblue" onClick={toggleAccount}>
         {newAccount ? "로그인" : "가입하기"}
       </button>
     </>

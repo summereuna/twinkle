@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 //fbase에서 authService 가져오기(export로 내보냈기 때문에 {} 중괄호 쳐서 가져와야 함)
 import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
+
 function App() {
   //firebase가 프로그램을 초기화하길 기다리고 나서 isLoggedIn이 바뀌게 해야 한다.
   const [init, setInit] = useState(false);
@@ -48,16 +51,20 @@ function App() {
     <>
       {/*init이 거짓이면 라우터 숨기고 초기화 중이라고 띄우기*/}
       {/*로그인한 user 정보 AppRouter로 보내기*/}
-      {init ? (
-        <AppRouter
-          isLoggedIn={Boolean(userObj)}
-          userObj={userObj}
-          refreshUser={refreshUser}
-        />
-      ) : (
-        "초기화중..."
-      )}
-      <footer>&copy; twinkle {new Date().getFullYear()}</footer>
+      <div id="body-wrapper">
+        {init ? (
+          <AppRouter
+            isLoggedIn={Boolean(userObj)}
+            userObj={userObj}
+            refreshUser={refreshUser}
+          />
+        ) : (
+          <div className="loading__container">
+            <FontAwesomeIcon className="loading" icon={faCog} spin size="3x" />
+          </div>
+        )}
+        <footer>&copy; Twinkle {new Date().getFullYear()}</footer>
+      </div>
     </>
   );
 }
