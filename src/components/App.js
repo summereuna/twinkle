@@ -63,8 +63,8 @@ function App() {
             <FontAwesomeIcon className="loading" icon={faCog} spin size="3x" />
           </div>
         )}
-        <footer>&copy; Twinkle {new Date().getFullYear()}</footer>
       </div>
+      <footer>&copy; Twinkle {new Date().getFullYear()}</footer>
     </>
   );
 }

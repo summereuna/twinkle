@@ -79,7 +79,7 @@ const Profile = ({ refreshUser, userObj }) => {
 3. 다운로드 url 가져와서 위에 photoURL에 넣어주면 됨
 */
   return (
-    <>
+    <main>
       <div id="body-content">
         <form onSubmit={onSubmit}>
           <input
@@ -104,7 +104,7 @@ const Profile = ({ refreshUser, userObj }) => {
           ))}
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

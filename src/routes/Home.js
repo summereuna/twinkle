@@ -38,7 +38,7 @@ const Home = ({ userObj }) => {
   }, []);
 
   return (
-    <>
+    <main>
       <div id="body-content">
         <div className="home__container">
           <div className="home__tile">
@@ -64,7 +64,7 @@ const Home = ({ userObj }) => {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

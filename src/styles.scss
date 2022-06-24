@@ -62,6 +62,28 @@
   transition: 0.3s;
 }
 
+.btn--circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  padding: 12px;
+  color: #b0b6be;
+}
+.btn--circle--blue {
+  color: #0f141a;
+}
+.btn--circle--blue:hover {
+  background-color: #e7e7e8;
+  color: #0f141a;
+  transition: 0.3s;
+}
+
+.btn--circle:active {
+  background-color: #e7e7e8;
+  color: #0f141a;
+  transition: 0.3s;
+}
+
 .icon {
   color: #1c9bef;
 }
@@ -102,6 +124,8 @@ body {
 #body-wrapper {
   height: auto;
   min-height: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
 #body-content {
@@ -201,35 +225,23 @@ footer {
   display: none;
 }
 
-/*nav*/
-nav {
-  position: absolute;
-  left: 0;
-  height: 95vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  .nav__list li {
-    margin: 30px 0;
-  }
-  .nav__user {
-    display: flex;
-    flex-direction: row;
-    .nav__user__userImg {
-      margin-right: 10px;
-    }
-  }
-}
-
 /*home*/
 .home__container {
   padding: 0;
   .home__tile {
     border-left: 1px solid #eff3f4;
     border-right: 1px solid #eff3f4;
-    padding: 20px 16px;
+    padding: 0 16px;
     /*엥 이거 왜 두배 되는거지?*/
     font-size: 10px;
+    position: sticky;
+    position: -webkit-sticky;
+    height: 53px;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
   }
   /*트윗 팩토리*/
   .home__tweetSender {
@@ -271,6 +283,12 @@ nav {
         }
         input {
           cursor: pointer;
+        }
+        .home__tweetSender__writeBox__btn__submit {
+          input:disabled {
+            background-color: #9acdf8;
+            cursor: auto;
+          }
         }
       }
     }
@@ -332,6 +350,61 @@ nav {
     .home__tweets:hover {
       background-color: #f7f7f7;
       transition: 0.3s;
+    }
+  }
+}
+
+/*nav*/
+.header {
+  position: relative;
+  box-sizing: border-box;
+  flex-grow: 1;
+  display: flex;
+  flex-basis: auto;
+  flex-direction: column;
+  .header__container {
+    width: 88px;
+    position: relative;
+    display: flex;
+    flex-basis: auto;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+    .nav {
+      width: 88px;
+      overflow-y: auto;
+      height: 100%;
+      position: fixed;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+      box-sizing: border-box;
+      display: flex;
+      flex-basis: auto;
+      flex-direction: column;
+      .nav__ul {
+        .nav__ul__li {
+          width: 50px;
+        }
+      }
+      .nav__user {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .nav__user__userImg {
+          width: 64px;
+          height: 64px;
+          padding: 12px;
+          .nav__user__userImg_img {
+            background-color: #1c9bef;
+            width: 40px;
+            height: 40px;
+            border-radius: 25px;
+          }
+        }
+      }
     }
   }
 }

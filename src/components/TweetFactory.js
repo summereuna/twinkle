@@ -112,6 +112,17 @@ const TweetFactory = ({ userObj }) => {
     fileInput.current.value = null;
   };
 
+  //엔터키 작동 막기
+  document.addEventListener(
+    "keydown",
+    function (event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+      }
+    },
+    true
+  );
+
   return (
     <div className="home__tweetSender__writeBox">
       <form onSubmit={onSubmit}>
@@ -120,11 +131,9 @@ const TweetFactory = ({ userObj }) => {
             type="textarea"
             rows="5"
             placeholder="무슨 일이 일어나고 있나요?"
-            minLength={1}
-            maxLength={120}
+            maxLength={150}
             value={tweet}
             onChange={onChange}
-            required
           />
         </div>
         <div className="home__tweetSender__writeBox__btn">
@@ -146,11 +155,14 @@ const TweetFactory = ({ userObj }) => {
               <button onClick={onClearAttachment}>취소</button>
             </div>
           )}
-          <input
-            className="btn btn--blue btn--border-zero"
-            type="submit"
-            value="트윗하기"
-          />
+          <div className="home__tweetSender__writeBox__btn__submit">
+            <input
+              className="btn btn--blue btn--border-zero"
+              type="submit"
+              value="트윗하기"
+              disabled={tweet.length > 0 || attachment !== "" ? false : true}
+            />
+          </div>
         </div>
       </form>
     </div>
