@@ -2,6 +2,11 @@
 @import "./normalize.scss";
 @import "./reset.scss";
 
+$color-main: #1c9bef;
+
+.color-main {
+  color: $color-main;
+}
 /*Btns*/
 .btn {
   border: 1px solid #dcdfe2;
@@ -59,28 +64,6 @@
 .btn--min--circle:active {
   background-color: #ffd0e2;
   color: #f9197f;
-  transition: 0.3s;
-}
-
-.btn--circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  padding: 12px;
-  color: #b0b6be;
-}
-.btn--circle--blue {
-  color: #0f141a;
-}
-.btn--circle--blue:hover {
-  background-color: #e7e7e8;
-  color: #0f141a;
-  transition: 0.3s;
-}
-
-.btn--circle:active {
-  background-color: #e7e7e8;
-  color: #0f141a;
   transition: 0.3s;
 }
 
@@ -375,18 +358,25 @@ footer {
       overflow-y: auto;
       height: 100%;
       position: fixed;
-      padding: 0 12px;
+      padding: 0 12px 20px 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      align-items: stretch;
+      align-items: center;
       box-sizing: border-box;
-      display: flex;
       flex-basis: auto;
       flex-direction: column;
       .nav__ul {
         .nav__ul__li {
           width: 50px;
+          .nav__ul__li__btn {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            margin: 4px 0;
+          }
         }
       }
       .nav__user {
@@ -407,4 +397,17 @@ footer {
       }
     }
   }
+}
+
+.nav__btn {
+  width: 50px;
+  height: 50px;
+  padding: 12px;
+}
+.nav__btn--circle {
+  border-radius: 25px;
+}
+.nav__btn--circle:hover {
+  background-color: #e7e7e8;
+  transition: 0.3s;
 }

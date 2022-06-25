@@ -19,52 +19,52 @@ const Navigation = ({ userObj }) => (
     <div className="header__container">
       <nav className="nav">
         <ul className="nav__ul">
-          <button className="btn--circle btn--circle--blue">
+          <div className="nav__ul__li__btn nav__btn color-main">
             <FontAwesomeIcon icon={faTwitter} size="2x" />
-          </button>
+          </div>
           <li className="nav__ul__li">
             <Link to="/">
-              <button className="btn--circle btn--circle--blue">
+              <div className="nav__ul__li__btn nav__btn nav__btn--circle">
                 <FontAwesomeIcon icon={faHome} size="2x" />
-              </button>
+              </div>
             </Link>
           </li>
           <li className="nav__ul__li">
-            <button className="btn--circle btn--circle--blue">
+            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
               <FontAwesomeIcon icon={faHashtag} size="2x" />
-            </button>
+            </div>
           </li>
           <li className="nav__ul__li">
-            <button className="btn--circle btn--circle--blue">
+            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
               <FontAwesomeIcon icon={faBell} size="2x" />
-            </button>
+            </div>
           </li>
           <li className="nav__ul__li">
-            <button className="btn--circle btn--circle--blue">
+            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
               <FontAwesomeIcon icon={faEnvelope} size="2x" />
-            </button>
+            </div>
           </li>
           <li className="nav__ul__li">
-            <button className="btn--circle btn--circle--blue">
+            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
               <FontAwesomeIcon icon={faBookmark} size="2x" />
-            </button>
+            </div>
           </li>
           <li className="nav__ul__li">
-            <button className="btn--circle btn--circle--blue">
+            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
               <FontAwesomeIcon icon={faClipboardList} size="2x" />
-            </button>
+            </div>
           </li>
           <li className="nav__ul__li">
             <Link to="/profile">
-              <button className="btn--circle btn--circle--blue">
+              <div className="nav__ul__li__btn nav__btn nav__btn--circle">
                 <FontAwesomeIcon icon={faUser} size="2x" />
-              </button>
+              </div>
             </Link>
           </li>
           <li className="nav__ul__li">
-            <button className="btn--circle btn--circle--blue">
+            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
               <FontAwesomeIcon icon={faChevronCircleRight} size="2x" />
-            </button>
+            </div>
           </li>
         </ul>
         <div className="nav__user">
