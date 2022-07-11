@@ -237,51 +237,54 @@ footer {
     display: flex;
     align-items: center;
   }
-  /*트윗 팩토리*/
-  .home__tweetSender {
-    border-left: 1px solid $color-border;
-    border-right: 1px solid $color-border;
-    border-bottom: 1px solid $color-border;
-    border-top: 0;
-    padding: 0 16px;
-    display: grid;
-    grid-template-columns: 1fr 8fr;
-    .home__tweetSender__userImg {
-      margin: 0 12px 0 0;
-      padding: 4px 0 0;
-      .home__tweetSender__userImg__img {
-        height: 48px;
-        width: 48px;
-        background-color: $color-main;
-        border-radius: 25px;
-      }
-    }
-    .home__tweetSender__writeBox {
-      max-width: 502px;
-      .home__tweetSender__writeBox__text {
-        padding: 12px 0;
-        font-size: 20px;
-        input {
-          overflow: auto;
-          width: 100%;
+  .home__main-container {
+    max-width: 600px;
+    /*트윗 팩토리*/
+    .home__tweetSender {
+      border-left: 1px solid $color-border;
+      border-right: 1px solid $color-border;
+      border-bottom: 1px solid $color-border;
+      border-top: 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 8fr;
+      .home__tweetSender__userImg {
+        margin: 0 12px 0 0;
+        padding: 4px 0 0;
+        .home__tweetSender__userImg__img {
+          height: 48px;
+          width: 48px;
+          background-color: $color-main;
+          border-radius: 25px;
         }
       }
-      .home__tweetSender__writeBox__btn {
-        margin-bottom: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 12px;
-        label {
-          cursor: pointer;
+      .home__tweetSender__writeBox {
+        max-width: 502px;
+        .home__tweetSender__writeBox__text {
+          padding: 12px 0;
+          font-size: 20px;
+          input {
+            overflow: auto;
+            width: 100%;
+          }
         }
-        input {
-          cursor: pointer;
-        }
-        .home__tweetSender__writeBox__btn__submit {
-          input:disabled {
-            background-color: #9acdf8;
-            cursor: auto;
+        .home__tweetSender__writeBox__btn {
+          margin-bottom: 15px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 12px;
+          label {
+            cursor: pointer;
+          }
+          input {
+            cursor: pointer;
+          }
+          .home__tweetSender__writeBox__btn__submit {
+            input:disabled {
+              background-color: #9acdf8;
+              cursor: auto;
+            }
           }
         }
       }
