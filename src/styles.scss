@@ -3,6 +3,8 @@
 @import "./reset.scss";
 
 $color-main: #1c9bef;
+$color-text: #0f141a;
+$color-border: #eff3f4;
 
 .color-main {
   color: $color-main;
@@ -30,7 +32,7 @@ $color-main: #1c9bef;
 }
 
 .btn--blue {
-  background-color: #1c9bef;
+  background-color: $color-main;
   color: white;
   font-weight: 800;
 }
@@ -42,7 +44,7 @@ $color-main: #1c9bef;
 
 .btn--skyblue {
   font-weight: 800;
-  color: #1c9bef;
+  color: $color-main;
 }
 .btn--skyblue:hover,
 .btn--skyblue:focus {
@@ -68,7 +70,16 @@ $color-main: #1c9bef;
 }
 
 .icon {
-  color: #1c9bef;
+  color: $color-main;
+}
+
+.tab-on {
+  width: 100%;
+  height: 4px;
+  background-color: #188cd8;
+}
+.tab-off {
+  display: none;
 }
 
 * {
@@ -179,7 +190,7 @@ footer {
         width: 130px;
         height: 1px;
         box-sizing: border-box;
-        background-color: #eff3f4;
+        background-color: $color-border;
       }
     }
     .auth-form {
@@ -212,8 +223,8 @@ footer {
 .home__container {
   padding: 0;
   .home__tile {
-    border-left: 1px solid #eff3f4;
-    border-right: 1px solid #eff3f4;
+    border-left: 1px solid $color-border;
+    border-right: 1px solid $color-border;
     padding: 0 16px;
     /*엥 이거 왜 두배 되는거지?*/
     font-size: 10px;
@@ -228,9 +239,9 @@ footer {
   }
   /*트윗 팩토리*/
   .home__tweetSender {
-    border-left: 1px solid #eff3f4;
-    border-right: 1px solid #eff3f4;
-    border-bottom: 1px solid #eff3f4;
+    border-left: 1px solid $color-border;
+    border-right: 1px solid $color-border;
+    border-bottom: 1px solid $color-border;
     border-top: 0;
     padding: 0 16px;
     display: grid;
@@ -241,7 +252,7 @@ footer {
       .home__tweetSender__userImg__img {
         height: 48px;
         width: 48px;
-        background-color: #1c9bef;
+        background-color: $color-main;
         border-radius: 25px;
       }
     }
@@ -276,64 +287,152 @@ footer {
       }
     }
   }
-  .home__tweetList {
-    border-left: 1px solid #eff3f4;
-    border-right: 1px solid #eff3f4;
-    .home__tweets {
-      padding: 12px 16px;
-      border-bottom: 1px solid #eff3f4;
-      display: grid;
-      grid-template-columns: 1fr 8fr;
-      .userImg {
-        margin: 0 12px 0 0;
-        padding: 4px 0 0;
-        .userImg_img {
-          height: 48px;
-          width: 48px;
-          background-color: #1c9bef;
-          border-radius: 25px;
-        }
+}
+
+.profile__container {
+  .profile__title {
+    z-index: 3;
+    border-left: 1px solid $color-border;
+    border-right: 1px solid $color-border;
+    padding: 0 16px;
+    /*엥 이거 왜 두배 되는거지?*/
+    font-size: 10px;
+    position: sticky;
+    position: -webkit-sticky;
+    height: 53px;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+  }
+  .profile__main-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    .profile__user {
+      border-left: 1px solid $color-border;
+      border-right: 1px solid $color-border;
+      .profile__user__header {
+        width: 598px;
+        height: 200px;
+        background-color: grey;
       }
-      .home__tweets__tweet {
+      .profile__user__info {
+        padding: 12px 16px 0;
+        margin-bottom: 16px;
         display: flex;
         flex-direction: column;
-        .home__tweets__tweet__info {
+        color: $color-text;
+        .profile__user__btns {
           display: flex;
           flex-direction: row;
-          font-size: 15px;
-          span {
-            padding-right: 5px;
-          }
-          .home__tweets__tweet__info__userName {
-            font-weight: 700;
-            color: #0f141a;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          position: relative;
+          height: 80px;
+          .profile__user__userImg {
+            position: relative;
+            .profile__user__userImg__file {
+              width: 140px;
+              height: 140px;
+              border-radius: 100px;
+              position: absolute;
+              top: -82px;
+              background-color: red;
+            }
           }
         }
-        .home__tweets__tweet__content {
-          .home__tweets__tweet__content__text {
-            padding-top: 10px;
-            font-size: 15px;
-            color: #0f141a;
+        .profile__user__info__userName {
+          margin-bottom: 12px;
+          display: flex;
+          flex-direction: column;
+          .profile__user__info__userName__name {
+            font-size: 20px;
+            font-weight: 800;
+            color: black;
           }
-          .home__tweets__tweet__content__img {
-            padding-top: 20px;
-          }
-          .home__tweets__tweet__content__btn {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
+          .profile__user__info__userName__id {
             font-size: 15px;
-            margin-top: 12px;
-            margin-left: -10px;
+            color: #536471;
+          }
+        }
+        .profile__user__info__userInfo {
+          margin-bottom: 12px;
+          font-size: 15px;
+        }
+        .profile__user__info__userMeta {
+          margin-bottom: 12px;
+          display: flex;
+          flex-direction: row;
+          align-items: stretch;
+          span {
+            margin-right: 10px;
           }
         }
       }
     }
-    .home__tweets:hover {
-      background-color: #f7f7f7;
-      transition: 0.3s;
+  }
+}
+
+/*Tweet List Component: Home & Profile*/
+.tweetList {
+  border-left: 1px solid $color-border;
+  border-right: 1px solid $color-border;
+  .tweetList__tweets {
+    padding: 12px 16px;
+    border-bottom: 1px solid $color-border;
+    display: grid;
+    grid-template-columns: 1fr 8fr;
+    .userImg {
+      margin: 0 12px 0 0;
+      padding: 4px 0 0;
+      .userImg_img {
+        height: 48px;
+        width: 48px;
+        background-color: $color-main;
+        border-radius: 25px;
+      }
     }
+    .tweetList__tweets__tweet {
+      display: flex;
+      flex-direction: column;
+      .tweetList__tweets__tweet__info {
+        display: flex;
+        flex-direction: row;
+        font-size: 15px;
+        span {
+          padding-right: 5px;
+        }
+        .tweetList__tweets__tweet__info__userName {
+          font-weight: 700;
+          color: $color-text;
+        }
+      }
+      .tweetList__tweets__tweet__content {
+        .tweetList__tweets__tweet__content__text {
+          padding-top: 10px;
+          font-size: 15px;
+          color: $color-text;
+        }
+        .tweetList__tweets__tweet__content__img {
+          padding-top: 20px;
+        }
+        .tweetList__tweets__tweet__content__btn {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 15px;
+          margin-top: 12px;
+          margin-left: -10px;
+        }
+      }
+    }
+  }
+  .tweetList__tweets:hover {
+    background-color: #f7f7f7;
+    transition: 0.3s;
   }
 }
 
@@ -388,7 +487,7 @@ footer {
           height: 64px;
           padding: 12px;
           .nav__user__userImg_img {
-            background-color: #1c9bef;
+            background-color: $color-main;
             width: 40px;
             height: 40px;
             border-radius: 25px;
@@ -407,7 +506,118 @@ footer {
 .nav__btn--circle {
   border-radius: 25px;
 }
+
 .nav__btn--circle:hover {
   background-color: #e7e7e8;
   transition: 0.3s;
+}
+
+/*tab nav*/
+.tab-nav {
+  box-sizing: border-box;
+  display: block;
+  .tab-nav__box {
+    .tab-nav__list {
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      .tab-nav__list__presentation {
+        align-items: stretch;
+        padding: 14px 0;
+        .tab-nav__list__presentation__name {
+          span {
+            padding: 0 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.nav-tab {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-basis: auto;
+  box-sizing: border-box;
+  font-size: 15px;
+
+  .nav-tab__div {
+    border-left: 1px solid $color-border;
+    border-right: 1px solid $color-border;
+    border-bottom: 1px solid $color-border;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+
+    .nav-tab__div__div {
+      flex-shrink: 1;
+      height: 100%;
+      flex-grow: 1;
+      display: block;
+      flex-direction: column;
+      align-items: stretch;
+      flex-basis: auto;
+
+      .nav-tab__list {
+        flex-shrink: 1;
+        height: 100%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        flex-basis: auto;
+
+        .nav-tab__list__presentation {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          flex-basis: auto;
+
+          .nav-tab__list__presentation__a {
+            padding: 0 16px;
+            min-width: 56px;
+            height: 53px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            flex-basis: auto;
+            flex-shrink: 0;
+
+            text-align: inherit;
+            cursor: pointer;
+
+            .nav-tab__list__presentation__a__text-box {
+              padding: 16px 0;
+              font-weight: 500;
+              overflow-wrap: break-word;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              height: 100%;
+              position: relative;
+              .nav-tab__list__presentation__a__text-box__name {
+                overflow-wrap: break-word;
+              }
+              .nav-tab__list__presentation__a__text-box__line {
+                display: inline-flex;
+                align-items: stretch;
+                flex-basis: auto;
+                flex-direction: column;
+                flex-shrink: 0;
+                position: absolute;
+                bottom: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

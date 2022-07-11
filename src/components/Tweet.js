@@ -86,26 +86,26 @@ const Tweet = ({ tweetObj, isOwner }) => {
         </>
       ) : (
         <>
-          <div className="home__tweets">
+          <div className="tweetList__tweets">
             <div className="userImg">
               <div className="userImg_img"></div>
             </div>
-            <div className="home__tweets__tweet">
-              <div className="home__tweets__tweet__info">
-                <span className="home__tweets__tweet__info__userName">
+            <div className="tweetList__tweets__tweet">
+              <div className="tweetList__tweets__tweet__info">
+                <span className="tweetList__tweets__tweet__info__userName">
                   {tweetObj.creatorName}
                 </span>
                 <span>@{tweetObj.creatorId}</span>
                 <span> · </span>
                 <span>{fromNowCreatedAt}</span>
               </div>
-              <div className="home__tweets__tweet__content">
-                <div className="home__tweets__tweet__content__text">
+              <div className="tweetList__tweets__tweet__content">
+                <div className="tweetList__tweets__tweet__content__text">
                   <p>{tweetObj.text}</p>
                 </div>
                 {/*이미지 업로드 했을 때만 보이게*/}
                 {tweetObj.attachmentUrl && (
-                  <div className="home__tweets__tweet__content__img">
+                  <div className="tweetList__tweets__tweet__content__img">
                     <img
                       src={tweetObj.attachmentUrl}
                       alt="tweetImg"
@@ -113,13 +113,13 @@ const Tweet = ({ tweetObj, isOwner }) => {
                     />
                   </div>
                 )}
-                <div className="home__tweets__tweet__content__btn">
+                <div className="tweetList__tweets__tweet__content__btn">
                   <button className="btn--min--circle">
                     <FontAwesomeIcon icon={faHeart} />
                   </button>
                   {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
                   {isOwner && (
-                    <div className="home__tweets__tweet__content__btn__modify">
+                    <div className="tweetList__tweets__tweet__content__btn__modify">
                       <button
                         className="btn--min--circle"
                         onClick={onDeleteClick}

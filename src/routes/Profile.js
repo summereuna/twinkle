@@ -11,6 +11,9 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
   const navigate = useNavigate();
@@ -81,27 +84,110 @@ const Profile = ({ refreshUser, userObj }) => {
   return (
     <main>
       <div id="body-content">
-        <form onSubmit={onSubmit}>
-          <input
-            onChange={onChange}
-            type="text"
-            placeholder="이름"
-            value={newDisplayName}
-          />
-          <input type="submit" value="저장" />
-        </form>
-        <button onClick={onLogOutClick}>로그아웃</button>
-        <div>
-          {" "}
-          {tweets.map((tweet) => (
-            //Tweet을 컴포넌트로 만고 props으로 가져온다.
-            //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
-            <Tweet
-              key={tweet.id}
-              tweetObj={tweet}
-              isOwner={tweet.creatorId === userObj.uid}
-            />
-          ))}
+        <div className="profile__container">
+          <div className="profile__title">
+            <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+            <h1>{userObj.displayName}</h1>
+          </div>
+          <div className="profile__main-container">
+            <div className="profile__user">
+              <div className="profile__user__header">헤더 이미지 598*200</div>
+              <div className="profile__user__info">
+                <div className="profile__user__btns">
+                  <div className="profile__user__userImg">
+                    <div className="profile__user__userImg__file"></div>
+                  </div>
+                  <button className="btn btn--grey">프로필 수정</button>
+                </div>
+                <div className="profile__user__info__userName">
+                  <span className="profile__user__info__userName__name">
+                    유저 이름 20px 검정
+                  </span>
+                  <span className="profile__user__info__userName__id">
+                    @유저 아이디 15px 회색
+                  </span>
+                </div>
+                <div className="profile__user__info__userInfo">
+                  <span>자기소개 15px $main-text</span>
+                </div>
+                <div className="profile__user__info__userMeta">
+                  <span>8 팔로우 중</span>
+                  <span>0 팔로워</span>
+                </div>
+              </div>
+            </div>
+
+            <nav className="nav-tab">
+              <div className="nav-tab__div">
+                <div className="nav-tab__div__div">
+                  <div className="nav-tab__list">
+                    <div className="nav-tab__list__presentation">
+                      <a href="/" className="nav-tab__list__presentation__a">
+                        <div className="nav-tab__list__presentation__a__text-box">
+                          <span className="nav-tab__list__presentation__a__text-box__name">
+                            트윗
+                          </span>
+                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="nav-tab__list__presentation">
+                      <a href="/" className="nav-tab__list__presentation__a">
+                        <div className="nav-tab__list__presentation__a__text-box">
+                          <span className="nav-tab__list__presentation__a__text-box__name">
+                            트윗 및 답글
+                          </span>
+                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="nav-tab__list__presentation">
+                      <a href="/" className="nav-tab__list__presentation__a">
+                        <div className="nav-tab__list__presentation__a__text-box">
+                          <span className="nav-tab__list__presentation__a__text-box__name">
+                            미디어
+                          </span>
+                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
+                        </div>
+                      </a>
+                    </div>
+                    <div className="nav-tab__list__presentation">
+                      <a href="/" className="nav-tab__list__presentation__a">
+                        <div className="nav-tab__list__presentation__a__text-box">
+                          <span className="nav-tab__list__presentation__a__text-box__name">
+                            마음에 들어요
+                          </span>
+                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </nav>
+
+            <div className="tweetList">
+              {tweets.map((tweet) => (
+                //Tweet을 컴포넌트로 만고 props으로 가져온다.
+                //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
+                <Tweet
+                  key={tweet.id}
+                  tweetObj={tweet}
+                  isOwner={tweet.creatorId === userObj.uid}
+                />
+              ))}
+            </div>
+            <form onSubmit={onSubmit}>
+              <input
+                onChange={onChange}
+                type="text"
+                placeholder="이름"
+                value={newDisplayName}
+              />
+              <input type="submit" value="저장" />
+            </form>
+            <button onClick={onLogOutClick}>로그아웃</button>
+          </div>
         </div>
       </div>
     </main>

@@ -2,16 +2,15 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHashtag, faHome } from "@fortawesome/free-solid-svg-icons";
 import {
   faBell,
-  faBookmark,
-  faChevronCircleRight,
-  faClipboardList,
-  faEnvelope,
-  faHashtag,
-  faHome,
   faUser,
-} from "@fortawesome/free-solid-svg-icons";
+  faListAlt,
+  faBookmark,
+  faEnvelope,
+  faCaretSquareRight,
+} from "@fortawesome/free-regular-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const Navigation = ({ userObj }) => (
@@ -51,7 +50,7 @@ const Navigation = ({ userObj }) => (
           </li>
           <li className="nav__ul__li">
             <div className="nav__ul__li__btn nav__btn nav__btn--circle">
-              <FontAwesomeIcon icon={faClipboardList} size="2x" />
+              <FontAwesomeIcon icon={faListAlt} size="2x" />
             </div>
           </li>
           <li className="nav__ul__li">
@@ -63,7 +62,7 @@ const Navigation = ({ userObj }) => (
           </li>
           <li className="nav__ul__li">
             <div className="nav__ul__li__btn nav__btn nav__btn--circle">
-              <FontAwesomeIcon icon={faChevronCircleRight} size="2x" />
+              <FontAwesomeIcon icon={faCaretSquareRight} size="2x" />
             </div>
           </li>
         </ul>
