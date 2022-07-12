@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import EditProfileModal from "../components/Modal/EditProfileModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -95,9 +96,10 @@ const Profile = ({ refreshUser, userObj }) => {
               <div className="profile__user__info">
                 <div className="profile__user__btns">
                   <div className="profile__user__userImg">
-                    <div className="profile__user__userImg__file"></div>
+                    <div className="profile__user__userImg__file userImg--lg"></div>
                   </div>
                   <button className="btn btn--grey">프로필 수정</button>
+                  <EditProfileModal userObj={userObj} />
                 </div>
                 <div className="profile__user__info__userName">
                   <span className="profile__user__info__userName__name">

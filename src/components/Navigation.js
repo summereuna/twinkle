@@ -23,45 +23,45 @@ const Navigation = ({ userObj }) => (
           </div>
           <li className="nav__ul__li">
             <Link to="/">
-              <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+              <div className="nav__ul__li__btn nav__btn btn--circle">
                 <FontAwesomeIcon icon={faHome} size="2x" />
               </div>
             </Link>
           </li>
           <li className="nav__ul__li">
-            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+            <div className="nav__ul__li__btn nav__btn btn--circle">
               <FontAwesomeIcon icon={faHashtag} size="2x" />
             </div>
           </li>
           <li className="nav__ul__li">
-            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+            <div className="nav__ul__li__btn nav__btn btn--circle">
               <FontAwesomeIcon icon={faBell} size="2x" />
             </div>
           </li>
           <li className="nav__ul__li">
-            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+            <div className="nav__ul__li__btn nav__btn btn--circle">
               <FontAwesomeIcon icon={faEnvelope} size="2x" />
             </div>
           </li>
           <li className="nav__ul__li">
-            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+            <div className="nav__ul__li__btn nav__btn btn--circle">
               <FontAwesomeIcon icon={faBookmark} size="2x" />
             </div>
           </li>
           <li className="nav__ul__li">
-            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+            <div className="nav__ul__li__btn nav__btn btn--circle">
               <FontAwesomeIcon icon={faListAlt} size="2x" />
             </div>
           </li>
           <li className="nav__ul__li">
             <Link to="/profile">
-              <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+              <div className="nav__ul__li__btn nav__btn btn--circle">
                 <FontAwesomeIcon icon={faUser} size="2x" />
               </div>
             </Link>
           </li>
           <li className="nav__ul__li">
-            <div className="nav__ul__li__btn nav__btn nav__btn--circle">
+            <div className="nav__ul__li__btn nav__btn btn--circle">
               <FontAwesomeIcon icon={faCaretSquareRight} size="2x" />
             </div>
           </li>
