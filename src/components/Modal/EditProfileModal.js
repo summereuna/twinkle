@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const EditProfileModal = ({ userObj }) => {
+const EditProfileModal = ({ userObj, isModalOpen, onClose }) => {
+  //이벤트 전달 막기: modal 전체 화면 클리 시 onClose 이벤트 발생하나 modal-content 영역 클릭시 작동되지 않도록 이벤트 전달 막음
+  const handleStopPropagation = (event) => {
+    event.stopPropagation();
+  };
+
+  const onEscapeKeyDown = (event) => {
+    if ((event.charCode || event.keyCode) === 27) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    document.body.addEventListener("keydown", onEscapeKeyDown);
+    return function cleanup() {
+      document.body.addEventListener("keydown", onEscapeKeyDown);
+    };
+  }, []);
+
   console.log(userObj);
+
   return (
-    <div className="modal">
-      <div className="modal-content">
+    <div className={`modal ${isModalOpen ? "show" : ""}`} onClick={onClose}>
+      <div className="modal-content" onClick={handleStopPropagation}>
         <div className="modal-header">
           <div className="modal-header__box">
             <div className="modal-x-btn">
-              <button className="btn--min btn--circle">
+              <button className="btn--min btn--circle" onClick={onClose}>
                 <FontAwesomeIcon icon={faTimes} />
               </button>
             </div>
@@ -64,7 +83,7 @@ const EditProfileModal = ({ userObj }) => {
                 type="text"
                 placeholder="이름"
                 className="btn btn--skyblue"
-                value={userObj.displayName}
+                //value={userObj.displayName}
               />
               <label htmlFor="self-introduction"> 자기 소개 </label>
               <input

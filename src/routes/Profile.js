@@ -82,6 +82,17 @@ const Profile = ({ refreshUser, userObj }) => {
 2. profilePhoto 버켓 만들어서 
 3. 다운로드 url 가져와서 위에 photoURL에 넣어주면 됨
 */
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleEditModalOpen = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  const handleEditModalClose = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
     <main>
       <div id="body-content">
@@ -98,8 +109,17 @@ const Profile = ({ refreshUser, userObj }) => {
                   <div className="profile__user__userImg">
                     <div className="profile__user__userImg__file userImg--lg"></div>
                   </div>
-                  <button className="btn btn--grey">프로필 수정</button>
-                  <EditProfileModal userObj={userObj} />
+                  <button
+                    className="btn btn--grey"
+                    onClick={handleEditModalOpen}
+                  >
+                    프로필 수정
+                  </button>
+                  <EditProfileModal
+                    userObj={userObj}
+                    isModalOpen={isModalOpen}
+                    onClose={handleEditModalClose}
+                  />
                 </div>
                 <div className="profile__user__info__userName">
                   <span className="profile__user__info__userName__name">
