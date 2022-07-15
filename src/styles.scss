@@ -151,6 +151,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+main {
+  max-width: 600px;
+}
 
 /*✅ footer 정렬*/
 #body-wrapper {
@@ -162,6 +165,7 @@ body {
 
 #body-content {
   padding-bottom: 14px;
+  width: 600px;
 }
 
 footer {
@@ -334,6 +338,7 @@ footer {
   }
   .home__main-container {
     max-width: 600px;
+    width: 100%;
     /*트윗 팩토리*/
     .home__tweetSender {
       border-left: 1px solid $color-border;
@@ -410,6 +415,7 @@ footer {
     display: flex;
     flex-direction: column;
     max-width: 600px;
+    width: 100%;
     .profile__user {
       border-left: 1px solid $color-border;
       border-right: 1px solid $color-border;
