@@ -1,5 +1,5 @@
 import Tweet from "components/Tweet";
-import { authService, dbService } from "fbase";
+import { dbService } from "fbase";
 import { updateProfile } from "firebase/auth";
 import {
   collection,
@@ -9,7 +9,6 @@ import {
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import EditProfileModal from "../components/Modal/EditProfileModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,13 +16,6 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
-  const navigate = useNavigate();
-  const onLogOutClick = () => {
-    authService.signOut();
-    //home으로 돌아가기 위해 react router dom의 useNavigate() 메서드 사용
-    navigate("/");
-  };
-
   const [tweets, setTweets] = useState([]);
   //내 트윗 가져오기: map으로
   useEffect(() => {
@@ -123,10 +115,10 @@ const Profile = ({ refreshUser, userObj }) => {
                 </div>
                 <div className="profile__user__info__userName">
                   <span className="profile__user__info__userName__name">
-                    유저 이름 20px 검정
+                    {userObj.displayName}
                   </span>
                   <span className="profile__user__info__userName__id">
-                    @유저 아이디 15px 회색
+                    @{userObj.email.substring(0, userObj.email.indexOf("@"))}
                   </span>
                 </div>
                 <div className="profile__user__info__userInfo">
@@ -208,7 +200,6 @@ const Profile = ({ refreshUser, userObj }) => {
               />
               <input type="submit" value="저장" />
             </form>
-            <button onClick={onLogOutClick}>로그아웃</button>
           </div>
         </div>
       </div>

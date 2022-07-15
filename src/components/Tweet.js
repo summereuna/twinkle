@@ -95,7 +95,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
                 <span className="tweetList__tweets__tweet__info__userName">
                   {tweetObj.creatorName}
                 </span>
-                <span>@{tweetObj.creatorId}</span>
+                <span>@{tweetObj.creatorEmailId}</span>
                 <span> · </span>
                 <span>{fromNowCreatedAt}</span>
               </div>

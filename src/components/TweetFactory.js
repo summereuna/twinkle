@@ -54,6 +54,7 @@ const TweetFactory = ({ userObj }) => {
       createdAt: Date.now(), //serverTimestamp(), //Date.now(),로 해도 되지만 이왕 있는거 함 써보자(타임존 동북아3 = 서울로 설정되어 있음)
       creatorId: userObj.uid,
       creatorName: userObj.displayName,
+      creatorEmailId: userObj.email.substring(0, userObj.email.indexOf("@")),
       attachmentUrl,
     };
 
