@@ -15,35 +15,37 @@ const LogOutModal = ({ show, userObj, onClose }) => {
 
   return (
     <div className={`modal-layout ${show ? "show" : ""}`} onClick={onClose}>
-      <div className="modal-logout">
-        <div
-          className="modal-logout-content-1"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="modal-logout-header">
-            <div className="modal-logout-header__container">
-              <div className="modal-logout-header__container__userImg"></div>
-              <div className="modal-logout-header__container__userInfo">
-                <div className="modal-logout-header__container__userInfo__userName">
-                  {userObj.displayName}
+      <div className="modal-layout-inside">
+        <div className="modal-logout">
+          <div
+            className="modal-logout-content-1"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-logout-header">
+              <div className="modal-logout-header__container">
+                <div className="modal-logout-header__container__userImg"></div>
+                <div className="modal-logout-header__container__userInfo">
+                  <div className="modal-logout-header__container__userInfo__userName">
+                    {userObj.displayName}
+                  </div>
+                  <div className="modal-logout-header__container__userInfo__userId">
+                    @{userObj.email.substring(0, userObj.email.indexOf("@"))}
+                  </div>
                 </div>
-                <div className="modal-logout-header__container__userInfo__userId">
-                  @{userObj.email.substring(0, userObj.email.indexOf("@"))}
+                <div className="modal-logout-header__container__userInfo__check">
+                  <FontAwesomeIcon icon={faCheck} />
                 </div>
-              </div>
-              <div className="modal-logout-header__container__userInfo__check">
-                <FontAwesomeIcon icon={faCheck} />
               </div>
             </div>
+            <div className="modal-logout-body">
+              <button onClick={onLogOutClick}>
+                @{userObj.email.substring(0, userObj.email.indexOf("@"))}{" "}
+                계정에서 로그아웃
+              </button>
+            </div>
           </div>
-          <div className="modal-logout-body">
-            <button onClick={onLogOutClick}>
-              @{userObj.email.substring(0, userObj.email.indexOf("@"))} 계정에서
-              로그아웃
-            </button>
-          </div>
+          <div className="modal-logout-content-2"></div>
         </div>
-        <div className="modal-logout-content-2"></div>
       </div>
     </div>
   );

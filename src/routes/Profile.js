@@ -92,7 +92,9 @@ const Profile = ({ refreshUser, userObj }) => {
       <div id="body-content">
         <div className="profile__container">
           <div className="profile__title">
-            <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+            <a href="/">
+              <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+            </a>
             <h1>{userObj.displayName}</h1>
           </div>
           <div className="profile__main-container">
