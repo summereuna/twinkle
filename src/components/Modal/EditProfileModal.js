@@ -2,7 +2,14 @@ import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const EditProfileModal = ({ userObj, isModalOpen, onClose }) => {
+const EditProfileModal = ({
+  userObj,
+  isModalOpen,
+  onClose,
+  onChange,
+  newDisplayName,
+  onSubmit,
+}) => {
   //이벤트 전달 막기: modal 전체 화면 클리 시 onClose 이벤트 발생하나 modal-content 영역 클릭시 작동되지 않도록 이벤트 전달 막음
   const handleStopPropagation = (event) => {
     event.stopPropagation();
@@ -34,7 +41,13 @@ const EditProfileModal = ({ userObj, isModalOpen, onClose }) => {
               </button>
             </div>
             <h4 className="modal-title">프로필 수정</h4>
-            <button className="btn btn--blue btn--border-zero">저장</button>
+            <button
+              className="btn btn--blue btn--border-zero"
+              type="submit"
+              form="edit-form"
+            >
+              저장
+            </button>
           </div>
         </div>
         <div className="modal-body">
@@ -74,7 +87,7 @@ const EditProfileModal = ({ userObj, isModalOpen, onClose }) => {
             </div>
           </div>
           <div className="modal-edit">
-            <form className="edit-form">
+            <form id="edit-form" className="edit-form" onSubmit={onSubmit}>
               <label htmlFor="user-name"> 이름 </label>
               <input
                 id="user-name"
@@ -83,7 +96,8 @@ const EditProfileModal = ({ userObj, isModalOpen, onClose }) => {
                 type="text"
                 placeholder="이름"
                 className="btn btn--skyblue"
-                //value={userObj.displayName}
+                onChange={onChange}
+                value={newDisplayName}
               />
               <label htmlFor="self-introduction"> 자기 소개 </label>
               <input

@@ -66,6 +66,8 @@ const Profile = ({ refreshUser, userObj }) => {
       });
       //2. react.js에 있는 profile도 새로고침되게 하기
       refreshUser();
+
+      setIsModalOpen((prev) => !prev);
     }
   };
   //프로필 사진 업데이트 하기(숙제)
@@ -111,6 +113,9 @@ const Profile = ({ refreshUser, userObj }) => {
                     userObj={userObj}
                     isModalOpen={isModalOpen}
                     onClose={handleEditModalClose}
+                    onChange={onChange}
+                    newDisplayName={newDisplayName}
+                    onSubmit={onSubmit}
                   />
                 </div>
                 <div className="profile__user__info__userName">
@@ -191,15 +196,6 @@ const Profile = ({ refreshUser, userObj }) => {
                 />
               ))}
             </div>
-            <form onSubmit={onSubmit}>
-              <input
-                onChange={onChange}
-                type="text"
-                placeholder="이름"
-                value={newDisplayName}
-              />
-              <input type="submit" value="저장" />
-            </form>
           </div>
         </div>
       </div>
