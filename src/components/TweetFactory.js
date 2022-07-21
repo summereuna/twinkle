@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 //식별자 자동 생성해주는 uuid
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "fbase";
@@ -9,8 +9,17 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 
-const TweetFactory = ({ userObj }) => {
+const TweetFactory = ({ userObj, setIsModalOpen }) => {
+  //input에 데이터 입력될 때 마다 ref 가져와서 textarea의 height에 scrollHeight 높이만큼 더해주기
+  const textRef = useRef();
+
+  const autoResizeTextarea = useCallback(() => {
+    textRef.current.style.height = "auto";
+    textRef.current.style.height = textRef.current.scrollHeight + "px";
+  }, []);
+
   //홈에서 트윗 내용 작성하는 폼
+
   const [tweet, setTweet] = useState("");
 
   //첨부파일 readAsDataURL로 받은 데이터 넣어 두는 state
@@ -66,6 +75,12 @@ const TweetFactory = ({ userObj }) => {
     setTweet("");
     //파일 미리보기 img src 비워주기
     setAttachment("");
+
+    textRef.current.style.height = "auto";
+    //모달로 열린 경우 setIsModalOpen false로 변경하여 창 닫기
+    if (setIsModalOpen) {
+      setIsModalOpen(false);
+    }
   };
 
   const onChange = (event) => {
@@ -125,47 +140,60 @@ const TweetFactory = ({ userObj }) => {
   );
 
   return (
-    <div className="home__tweetSender__writeBox">
-      <form onSubmit={onSubmit}>
-        <div className="home__tweetSender__writeBox__text">
-          <input
-            type="textarea"
-            rows="5"
-            placeholder="무슨 일이 일어나고 있나요?"
-            maxLength={150}
-            value={tweet}
-            onChange={onChange}
-          />
+    <div className="modal-body-inside">
+      <div className="tweetSender">
+        <div className="tweetSender__userImg">
+          <div className="tweetSender__userImg__img"></div>
         </div>
-        <div className="home__tweetSender__writeBox__btn">
-          <input
-            name="file"
-            type="file"
-            accept="image/*"
-            onChange={onFileChange}
-            ref={fileInput}
-            id="files"
-            className="hidden"
-          />
-          <label className="icon" htmlFor="files">
-            <FontAwesomeIcon icon={faImage} size="2x" />
-          </label>
-          {attachment && (
-            <div>
-              <img src={attachment} alt="preview" width="50" height="50" />
-              <button onClick={onClearAttachment}>취소</button>
+        <div className="tweetSender__writeBox">
+          <form onSubmit={onSubmit}>
+            <div className="tweetSender__writeBox__text">
+              <textarea
+                className="tweetSender__writeBox__text__textarea"
+                type="text"
+                wrap="on"
+                placeholder="무슨 일이 일어나고 있나요?"
+                maxLength={150}
+                value={tweet}
+                onChange={onChange}
+                ref={textRef}
+                onInput={autoResizeTextarea}
+              />
             </div>
-          )}
-          <div className="home__tweetSender__writeBox__btn__submit">
-            <input
-              className="btn btn--blue btn--border-zero"
-              type="submit"
-              value="트윗하기"
-              disabled={tweet.length > 0 || attachment !== "" ? false : true}
-            />
-          </div>
+
+            <div className="tweetSender__writeBox__btn">
+              <input
+                name="file"
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+                ref={fileInput}
+                id="files"
+                className="hidden"
+              />
+              <label className="icon" htmlFor="files">
+                <FontAwesomeIcon icon={faImage} size="2x" />
+              </label>
+              {attachment && (
+                <div>
+                  <img src={attachment} alt="preview" width="50" height="50" />
+                  <button onClick={onClearAttachment}>취소</button>
+                </div>
+              )}
+              <div className="tweetSender__writeBox__btn__submit">
+                <input
+                  className="btn btn--blue btn--border-zero"
+                  type="submit"
+                  value="트윗하기"
+                  disabled={
+                    tweet.length > 0 || attachment !== "" ? false : true
+                  }
+                />
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

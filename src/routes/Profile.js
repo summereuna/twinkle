@@ -67,7 +67,7 @@ const Profile = ({ refreshUser, userObj }) => {
       //2. react.js에 있는 profile도 새로고침되게 하기
       refreshUser();
 
-      setIsModalOpen((prev) => !prev);
+      setIsEditProfileModalOpen((prev) => !prev);
     }
   };
   //프로필 사진 업데이트 하기(숙제)
@@ -77,14 +77,14 @@ const Profile = ({ refreshUser, userObj }) => {
 3. 다운로드 url 가져와서 위에 photoURL에 넣어주면 됨
 */
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
   const handleEditModalOpen = () => {
-    setIsModalOpen((prev) => !prev);
+    setIsEditProfileModalOpen((prev) => !prev);
   };
 
   const handleEditModalClose = () => {
-    setIsModalOpen((prev) => !prev);
+    setIsEditProfileModalOpen(false);
   };
 
   return (
@@ -113,8 +113,8 @@ const Profile = ({ refreshUser, userObj }) => {
                   </button>
                   <EditProfileModal
                     userObj={userObj}
-                    isModalOpen={isModalOpen}
-                    onClose={handleEditModalClose}
+                    isEditProfileModalOpen={isEditProfileModalOpen}
+                    handleEditModalClose={handleEditModalClose}
                     onChange={onChange}
                     newDisplayName={newDisplayName}
                     onSubmit={onSubmit}

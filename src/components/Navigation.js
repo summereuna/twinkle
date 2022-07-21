@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHashtag, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHashtag,
+  faHome,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faBell,
   faUser,
@@ -13,9 +17,12 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import LogOutModal from "./Modal/LogOutModal";
+import Modal from "./Modal/Modal";
 import { useState } from "react";
+import TweetFactory from "./TweetFactory";
 
 const Navigation = ({ userObj }) => {
+  //Log Out Modal
   const [isOpenLogOutModal, setIsOpenLogOutModal] = useState(false);
 
   const handleOpenLogOutModal = () => {
@@ -23,7 +30,18 @@ const Navigation = ({ userObj }) => {
   };
 
   const handleCloseLogOutModal = () => {
-    setIsOpenLogOutModal((prev) => !prev);
+    setIsOpenLogOutModal(false);
+  };
+
+  //Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -76,6 +94,24 @@ const Navigation = ({ userObj }) => {
             <li className="nav__ul__li">
               <div className="nav__ul__li__btn nav__btn btn--circle">
                 <FontAwesomeIcon icon={faCaretSquareRight} size="2x" />
+              </div>
+            </li>
+            <li className="nav__ul__li">
+              <div
+                className="nav__ul__li__btn nav__btn btn--blue--circle"
+                onClick={handleModalOpen}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} size="2x" />
+                <Modal
+                  userObj={userObj}
+                  handleModalClose={handleModalClose}
+                  isModalOpen={isModalOpen}
+                >
+                  <TweetFactory
+                    setIsModalOpen={setIsModalOpen}
+                    userObj={userObj}
+                  />
+                </Modal>
               </div>
             </li>
           </ul>

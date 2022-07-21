@@ -4,23 +4,17 @@ import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const EditProfileModal = ({
   userObj,
-  isModalOpen,
-  onClose,
+  isEditProfileModalOpen,
+  handleEditModalClose,
   onChange,
   newDisplayName,
   onSubmit,
 }) => {
-  //이벤트 전달 막기: modal 전체 화면 클리 시 onClose 이벤트 발생하나 modal-content 영역 클릭시 작동되지 않도록 이벤트 전달 막음
-  const handleStopPropagation = (event) => {
-    event.stopPropagation();
-  };
-
   const onEscapeKeyDown = (event) => {
     if ((event.charCode || event.keyCode) === 27) {
-      onClose();
+      handleEditModalClose();
     }
   };
-
   useEffect(() => {
     document.body.addEventListener("keydown", onEscapeKeyDown);
     return function cleanup() {
@@ -28,15 +22,21 @@ const EditProfileModal = ({
     };
   }, []);
 
-  console.log(userObj);
+  //console.log(userObj);
 
   return (
-    <div className={`modal ${isModalOpen ? "show" : ""}`} onClick={onClose}>
-      <div className="modal-content" onClick={handleStopPropagation}>
+    <div
+      className={`modal ${isEditProfileModalOpen ? "show" : ""}`}
+      onClick={handleEditModalClose}
+    >
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div className="modal-header__box">
             <div className="modal-x-btn">
-              <button className="btn--min btn--circle" onClick={onClose}>
+              <button
+                className="btn--min btn--circle"
+                onClick={handleEditModalClose}
+              >
                 <FontAwesomeIcon icon={faTimes} />
               </button>
             </div>

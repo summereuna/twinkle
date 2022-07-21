@@ -45,10 +45,7 @@ const Home = ({ userObj }) => {
             <h1>최신 트윗</h1>
           </div>
           <div className="home__main-container">
-            <div className="home__tweetSender">
-              <div className="home__tweetSender__userImg">
-                <div className="home__tweetSender__userImg__img"></div>
-              </div>
+            <div className="home__main-container__write">
               <TweetFactory userObj={userObj} />
             </div>
             {/*DB에서 가져온 트위터 나열*/}

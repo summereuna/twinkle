@@ -340,53 +340,71 @@ footer {
   .home__main-container {
     max-width: 600px;
     width: 100%;
-    /*트윗 팩토리*/
-    .home__tweetSender {
+    .home__main-container__write {
       border-left: 1px solid $color-border;
       border-right: 1px solid $color-border;
       border-bottom: 1px solid $color-border;
-      border-top: 0;
-      padding: 0 16px;
-      display: grid;
-      grid-template-columns: 1fr 8fr;
-      .home__tweetSender__userImg {
-        margin: 0 12px 0 0;
-        padding: 4px 0 0;
-        .home__tweetSender__userImg__img {
-          height: 48px;
-          width: 48px;
-          background-color: $color-main;
-          border-radius: 25px;
+    }
+  }
+}
+
+//TweetFactory
+/*트윗 팩토리*/
+.tweetSender {
+  border-top: 0;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+  .tweetSender__userImg {
+    margin: 0 12px 0 0;
+    padding: 4px 0 0;
+    .tweetSender__userImg__img {
+      height: 48px;
+      width: 48px;
+      background-color: $color-main;
+      border-radius: 25px;
+    }
+  }
+  .tweetSender__writeBox {
+    max-width: 502px;
+    .tweetSender__writeBox__text {
+      padding: 12px 0;
+      font-size: 20px;
+      .tweetSender__writeBox__text__textarea {
+        cursor: text;
+        line-height: 24px;
+        pointer-events: auto;
+        width: 100%;
+        display: block;
+        resize: none;
+        overflow-y: hidden;
+        min-height: 52px;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        height: auto;
+        &::placeholder {
+          font-size: inherit;
         }
       }
-      .home__tweetSender__writeBox {
-        max-width: 502px;
-        .home__tweetSender__writeBox__text {
-          padding: 12px 0;
-          font-size: 20px;
-          input {
-            overflow: auto;
-            width: 100%;
-          }
-        }
-        .home__tweetSender__writeBox__btn {
-          margin-bottom: 15px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 12px;
-          label {
-            cursor: pointer;
-          }
-          input {
-            cursor: pointer;
-          }
-          .home__tweetSender__writeBox__btn__submit {
-            input:disabled {
-              background-color: #9acdf8;
-              cursor: auto;
-            }
-          }
+    }
+    .tweetSender__writeBox__btn {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+
+      border-top: 1px solid $color-border;
+      label {
+        cursor: pointer;
+      }
+      input {
+        cursor: pointer;
+      }
+      .tweetSender__writeBox__btn__submit {
+        input:disabled {
+          background-color: #9acdf8;
+          cursor: auto;
         }
       }
     }
@@ -526,9 +544,16 @@ footer {
       }
       .tweetList__tweets__tweet__content {
         .tweetList__tweets__tweet__content__text {
+          box-sizing: border-box;
           padding-top: 10px;
           font-size: 15px;
           color: $color-text;
+          width: 100%;
+          overflow-wrap: break-word;
+          white-space: pre-wrap;
+          word-break: break-word;
+          word-wrap: break-word;
+          line-height: 20px;
         }
         .tweetList__tweets__tweet__content__img {
           padding-top: 20px;
@@ -642,7 +667,7 @@ footer {
   }
 }
 
-/*💬  EditProfileModal*/
+/*💬  Modal*/
 .modal {
   z-index: 99;
   position: fixed;
@@ -662,7 +687,8 @@ footer {
   pointer-events: none;
   .modal-content {
     width: 598px;
-    height: 70%;
+    height: auto;
+    //height: 70%;
     background-color: white;
     border-radius: 20px;
     .modal-header {
@@ -704,96 +730,98 @@ footer {
         }
       }
     }
-    .modal-body {
-      .profile__user__header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        .btn--edit--container {
-          position: absolute;
-          display: flex;
-          flex-direction: row;
-          .btn--edit--container--btn {
-            border-radius: 50px;
-            width: 45px;
-            height: 45px;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-content: center;
-            box-sizing: border-box;
-            font-size: 20px;
-            button {
-              color: white;
-            }
-          }
-          .btn--edit--container--btn:last-child {
-            margin-left: 20px;
-          }
-        }
-      }
-
-      .profile__user__info {
-        .userImg-sm {
-          width: 200px;
-          height: 200px;
-          background-color: black;
-        }
-        .profile__user__userImg {
-          position: relative;
-          .img--edit--container {
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .img--edit--container--btn {
-              border-radius: 50px;
-              width: 45px;
-              height: 45px;
-              background-color: rgba(0, 0, 0, 0.5);
-              display: flex;
-              justify-content: center;
-              align-content: center;
-              box-sizing: border-box;
-              font-size: 20px;
-              button {
-                color: white;
-              }
-            }
-          }
-        }
-      }
-      .modal-edit {
-        margin-top: 50px;
-        .edit-form {
-          display: flex;
-          flex-direction: column;
-          padding: 16px;
-          label {
-            padding-left: 15px;
-          }
-          input {
-            font-size: 13px;
-            font-weight: 500;
-            width: 300px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            cursor: auto;
-          }
-          input:focus {
-            background-color: #ebf5fe;
-            transition: 0.3s;
-          }
-        }
-      }
-    }
   }
 }
 
 .modal.show {
   opacity: 1;
   pointer-events: visible;
+}
+
+//💬 EditProfileModal
+.modal-body {
+  .profile__user__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    .btn--edit--container {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      .btn--edit--container--btn {
+        border-radius: 50px;
+        width: 45px;
+        height: 45px;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        box-sizing: border-box;
+        font-size: 20px;
+        button {
+          color: white;
+        }
+      }
+      .btn--edit--container--btn:last-child {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .profile__user__info {
+    .userImg-sm {
+      width: 200px;
+      height: 200px;
+      background-color: black;
+    }
+    .profile__user__userImg {
+      position: relative;
+      .img--edit--container {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .img--edit--container--btn {
+          border-radius: 50px;
+          width: 45px;
+          height: 45px;
+          background-color: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-content: center;
+          box-sizing: border-box;
+          font-size: 20px;
+          button {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+  .modal-edit {
+    margin-top: 50px;
+    .edit-form {
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      label {
+        padding-left: 15px;
+      }
+      input {
+        font-size: 13px;
+        font-weight: 500;
+        width: 300px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        cursor: auto;
+      }
+      input:focus {
+        background-color: #ebf5fe;
+        transition: 0.3s;
+      }
+    }
+  }
 }
 
 //💬 Log Out Modal Component
@@ -817,7 +845,6 @@ footer {
     .modal-logout {
       position: sticky;
       left: -13px;
-      background-color: rgba(0, 0, 0, 0.3);
       .modal-logout-content-1 {
         width: 300px;
         padding: 12px 0;
@@ -878,4 +905,16 @@ footer {
 .modal-layout.show {
   opacity: 1;
   pointer-events: visible;
+}
+
+//💬 Write Box Modal
+
+.btn--blue--circle {
+  color: $color-main;
+  font-weight: 800;
+}
+.btn--blue--circle:hover,
+.btn--blue--circle:focus {
+  color: #188cd8;
+  transition: 0.3s;
 }
