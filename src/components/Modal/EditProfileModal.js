@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const EditProfileModal = ({
-  userObj,
   isEditProfileModalOpen,
   handleEditModalClose,
-  onChange,
+  onChangeDisplayName,
+  onChangeBio,
   newDisplayName,
+  newBio,
   onSubmit,
 }) => {
   const onEscapeKeyDown = (event) => {
@@ -96,17 +97,19 @@ const EditProfileModal = ({
                 type="text"
                 placeholder="이름"
                 className="btn btn--skyblue"
-                onChange={onChange}
+                onChange={onChangeDisplayName}
                 value={newDisplayName}
               />
-              <label htmlFor="self-introduction"> 자기 소개 </label>
+              <label htmlFor="bio"> 자기 소개 </label>
               <input
-                id="self-introduction"
-                aria-describedby="self-introduction"
-                name="self-introduction"
+                id="bio"
+                aria-describedby="bio"
+                name="bio"
                 type="text"
                 placeholder="자기 소개"
                 className="btn btn--skyblue"
+                onChange={onChangeBio}
+                value={newBio}
               />
             </form>
           </div>

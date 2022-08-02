@@ -5,8 +5,11 @@ import { useEffect, useState } from "react";
 //fbase에서 authService 가져오기(export로 내보냈기 때문에 {} 중괄호 쳐서 가져와야 함)
 import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
 
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
+import { authService, dbService } from "fbase";
 
 function App() {
   //firebase가 프로그램을 초기화하길 기다리고 나서 isLoggedIn이 바뀌게 해야 한다.
@@ -28,13 +31,28 @@ function App() {
       //user가 있다면 로그인한 유저 정보 userObj에 업데이트, 로그아웃하면 null
       //user ? setUserObj(user) : setUserObj(null);
       if (user) {
+        //auth에 유저 이름 넣기
         if (user.displayName === null) {
           await updateProfile(user, { displayName: "유저" });
         }
-        setUserObj(user);
+        console.log("❗️user", user);
+        //users 컬렉션 문서 가져오기
+        const docRef = doc(dbService, "users", `${user.uid}`);
+        const docSnap = await getDoc(docRef);
+
+        const userCollectionDocObj = docSnap.data();
+        const authCurrentUserObj = user;
+
+        const mergeUserObj = { ...authCurrentUserObj, ...userCollectionDocObj };
+
+        setUserObj(mergeUserObj);
+
+        console.log("❗️userObj", userObj);
+        console.log("❗️mergeUserObj", mergeUserObj);
       } else {
         setUserObj(null);
       }
+
       //그러고 나서 초기화 시켜라
       setInit(true);
     });
@@ -43,7 +61,25 @@ function App() {
   // user 새로고침하는 기능: firebase의 정보를 가지고 react.js의 userObj 업데이트 하기
   //으로 하려고 하다가 계속 오류나서 그냥 state 하나 더 만들어서 렌더링만을 위한 state 추가
   const refreshUser = async () => {
-    setNewName(userObj.displayName);
+    const newAuthServiceCurrentUser = authService.currentUser;
+    const newDocRef = doc(dbService, "users", `${userObj.uid}`);
+    const newDocSnap = await getDoc(newDocRef);
+
+    const newUserCollectionDocObj = newDocSnap.data();
+    const newMergeUserObj = {
+      ...newAuthServiceCurrentUser,
+      ...newUserCollectionDocObj,
+    };
+    await setUserObj(newMergeUserObj);
+
+    setNewName(newMergeUserObj.displayName);
+
+    console.log(
+      "🔥refresh: authService.currentUser",
+      authService.currentUser.displayName
+    );
+    console.log("🔥refresh: newMergeUserObj", newMergeUserObj.displayName);
+    console.log("🔥refresh: userObj", userObj.displayName);
   };
 
   console.log("✅ refresh");

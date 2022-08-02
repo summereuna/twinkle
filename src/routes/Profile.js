@@ -1,23 +1,26 @@
 import Tweet from "components/Tweet";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { updateProfile } from "firebase/auth";
 import {
   collection,
+  doc,
   onSnapshot,
   orderBy,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import EditProfileModal from "../components/Modal/EditProfileModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
-  const [tweets, setTweets] = useState([]);
   //내 트윗 가져오기: map으로
+  const [tweets, setTweets] = useState([]);
+
   useEffect(() => {
     //snapshot은 쿼리 같은 건데 docs를 가지고 있다.
     //tweets은 페이지를 불러올 때 snapshot에서 나오는 거다.
@@ -45,31 +48,58 @@ const Profile = ({ refreshUser, userObj }) => {
     };
   }, [userObj.uid]);
 
+  //닉네임 수정
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
-  const onChange = (event) => {
+  const onChangeDisplayName = (event) => {
     const {
       target: { value },
     } = event;
     setNewDisplayName(value);
   };
 
+  //자기소개 수정
+  const [newBio, setNewBio] = useState(userObj.bio);
+
+  const onChangeBio = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNewBio(value);
+  };
+
   const onSubmit = async (event) => {
     event.preventDefault();
     //이름 수정하면 updateProfile() 메서드 사용해 프로필 업데이트하기
     //firestore에서 users 콜렉션 만들어서 도큐먼트 생성해서 유저에 관한 데이터 모두 관리하는 방법도 있지만 귀찮으니 걍 이걸로 하자구
-    //1. firebase에 있는 profile 업데이트
-    if (userObj.displayName !== newDisplayName) {
-      //console.log(userObj.updateProfile);
-      await updateProfile(userObj, {
-        displayName: newDisplayName,
-      });
+    //1. firebase에 있는 profile 업데이트\
+    if (
+      `${userObj.displayName !== newDisplayName}` ||
+      `${userObj.bio !== newBio}`
+    ) {
+      if (userObj.displayName !== newDisplayName) {
+        //console.log(userObj.updateProfile);
+        //authService 업데이트
+        await updateProfile(authService.currentUser, {
+          displayName: newDisplayName,
+        });
+        //user collection 업데이트
+        const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
+        await updateDoc(userCollectionRef, {
+          displayName: newDisplayName,
+        });
+      }
+      if (userObj.bio !== newBio) {
+        const userBioRef = doc(dbService, "users", `${userObj.uid}`);
+        await updateDoc(userBioRef, { bio: newBio });
+      }
       //2. react.js에 있는 profile도 새로고침되게 하기
       refreshUser();
 
       setIsEditProfileModalOpen((prev) => !prev);
     }
   };
+
   //프로필 사진 업데이트 하기(숙제)
   /*
 1. 프로필 사진 업로드 하는 폼 만들기
@@ -77,6 +107,7 @@ const Profile = ({ refreshUser, userObj }) => {
 3. 다운로드 url 가져와서 위에 photoURL에 넣어주면 됨
 */
 
+  //프로필 수정 모달
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
   const handleEditModalOpen = () => {
@@ -87,6 +118,15 @@ const Profile = ({ refreshUser, userObj }) => {
     setIsEditProfileModalOpen(false);
   };
 
+  //유저 가입일
+  const userCreatedAtTimestamp = Number(userObj.metadata.createdAt);
+  //타입이 string이어서 number로 바꿔줌
+  const date = new Date(userCreatedAtTimestamp);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const userCreatedAt = `${year}년 ${month}월 ${day}일`;
+
   return (
     <main>
       <div id="body-content">
@@ -95,7 +135,7 @@ const Profile = ({ refreshUser, userObj }) => {
             <a href="/">
               <FontAwesomeIcon icon={faArrowLeft} size="2x" />
             </a>
-            <h1>{userObj.displayName}</h1>
+            <h1 className="profile__title__username">{userObj.displayName}</h1>
           </div>
           <div className="profile__main-container">
             <div className="profile__user">
@@ -115,8 +155,10 @@ const Profile = ({ refreshUser, userObj }) => {
                     userObj={userObj}
                     isEditProfileModalOpen={isEditProfileModalOpen}
                     handleEditModalClose={handleEditModalClose}
-                    onChange={onChange}
+                    onChangeDisplayName={onChangeDisplayName}
+                    onChangeBio={onChangeBio}
                     newDisplayName={newDisplayName}
+                    newBio={newBio}
                     onSubmit={onSubmit}
                   />
                 </div>
@@ -129,7 +171,11 @@ const Profile = ({ refreshUser, userObj }) => {
                   </span>
                 </div>
                 <div className="profile__user__info__userInfo">
-                  <span>자기소개 15px $main-text</span>
+                  <p>자기 소개: {userObj.bio}</p>
+                  <span>
+                    <FontAwesomeIcon icon={faCalendarAlt} />
+                  </span>
+                  <span> 가입일: {userCreatedAt}</span>
                 </div>
                 <div className="profile__user__info__userMeta">
                   <span>8 팔로우 중</span>

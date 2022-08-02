@@ -5,6 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { dbService } from "fbase";
+import { doc, setDoc } from "firebase/firestore";
 
 const AuthForm = () => {
   const auth = getAuth();
@@ -37,6 +39,13 @@ const AuthForm = () => {
         await createUserWithEmailAndPassword(auth, email, password);
         //⚠️ 에러 발생 지점: 라우터이동 후 state 변경하기 때문, 삭제
         //setNewAccount(false);
+        const user = auth.currentUser;
+        return setDoc(doc(dbService, "users", `${user.uid}`), {
+          uid: user.uid,
+          headerURL: "",
+          bio: "",
+          like: [],
+        });
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }

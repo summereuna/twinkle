@@ -429,6 +429,9 @@ footer {
     backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
+    .profile__title__username {
+      margin-left: 10px;
+    }
   }
   .profile__main-container {
     display: flex;

@@ -14,6 +14,8 @@ import {
   faGoogle,
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
+import { doc, setDoc } from "firebase/firestore";
+import { dbService } from "fbase";
 
 const Auth = () => {
   const auth = getAuth();
@@ -34,6 +36,14 @@ const Auth = () => {
       provider = new GithubAuthProvider();
     }
     await signInWithPopup(auth, provider);
+
+    const user = auth.currentUser;
+    return setDoc(doc(dbService, "users", `${user.uid}`), {
+      uid: user.uid,
+      headerURL: "",
+      bio: "",
+      like: [],
+    });
   };
 
   return (
