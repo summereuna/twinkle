@@ -4,11 +4,13 @@ import { updateProfile } from "firebase/auth";
 import {
   collection,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   updateDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import EditProfileModal from "../components/Modal/EditProfileModal";
@@ -83,11 +85,33 @@ const Profile = ({ refreshUser, userObj }) => {
         await updateProfile(authService.currentUser, {
           displayName: newDisplayName,
         });
+
         //user collection 업데이트
         const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
         await updateDoc(userCollectionRef, {
           displayName: newDisplayName,
         });
+
+        //트윗 작성자명 일괄 변경 (batch: 500개 문서 제한)
+        const updateAllMyTweets = async () => {
+          const batch = writeBatch(dbService);
+
+          const myTweetsQ = query(
+            collection(dbService, "tweets"),
+            where("creatorId", "==", userObj.uid)
+          );
+
+          const myTweetsQuerySnapshot = await getDocs(myTweetsQ);
+
+          myTweetsQuerySnapshot.forEach((tweet) => {
+            const myTweetsDocRef = doc(dbService, "tweets", `${tweet.id}`);
+            batch.update(myTweetsDocRef, {
+              creatorName: newDisplayName,
+            });
+          });
+          await batch.commit();
+        };
+        updateAllMyTweets();
       }
       if (userObj.bio !== newBio) {
         const userBioRef = doc(dbService, "users", `${userObj.uid}`);

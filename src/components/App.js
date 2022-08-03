@@ -3,9 +3,9 @@ import AppRouter from "components/Router";
 import { useEffect, useState } from "react";
 //절대 경로(absolute import)
 //fbase에서 authService 가져오기(export로 내보냈기 때문에 {} 중괄호 쳐서 가져와야 함)
-import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
@@ -19,14 +19,13 @@ function App() {
   const [userObj, setUserObj] = useState(null);
 
   //refresh 위한 state
-  const [, setNewName] = useState("");
+  //const [, setNewName] = useState("");
 
   //어떻게 기다릴 수 있을까? useEffect()를 사용하면 된다 ㅇㅇ!
   useEffect(() => {
-    const auth = getAuth();
     //유저 변화가 있는지 listen하기: onAuthStateChanged관찰자 사용
     //onAuthStateChanged은 콜백이 필요한데, 콜백은 user이다.
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(authService, async (user) => {
       //console.log(user);
       //user가 있다면 로그인한 유저 정보 userObj에 업데이트, 로그아웃하면 null
       //user ? setUserObj(user) : setUserObj(null);
@@ -70,9 +69,9 @@ function App() {
       ...newAuthServiceCurrentUser,
       ...newUserCollectionDocObj,
     };
-    await setUserObj(newMergeUserObj);
+    setUserObj(newMergeUserObj);
 
-    setNewName(newMergeUserObj.displayName);
+    //setNewName(newMergeUserObj.displayName);
 
     console.log(
       "🔥refresh: authService.currentUser",

@@ -42,9 +42,13 @@ const AuthForm = () => {
         const user = auth.currentUser;
         return setDoc(doc(dbService, "users", `${user.uid}`), {
           uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
           headerURL: "",
           bio: "",
           like: [],
+          follower: [],
+          following: [],
         });
       } else {
         await signInWithEmailAndPassword(auth, email, password);
