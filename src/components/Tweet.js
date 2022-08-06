@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { dbService, storageService } from "fbase";
-import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  runTransaction,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import PropTypes from "prop-types";
 
@@ -11,7 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const Tweet = ({ tweetObj, isOwner }) => {
+const Tweet = ({ tweetObj, isOwner, userObj }) => {
   //수정모드인지 아닌지 false/true
   const [editing, setEditing] = useState(false);
 
@@ -67,6 +74,85 @@ const Tweet = ({ tweetObj, isOwner }) => {
 
   const fromNowCreatedAt = moment(tweetObj.createdAt).fromNow();
 
+  //💗
+  const [isClickedHeart, setIsClickedHeart] = useState(false);
+
+  //하트 +1
+  const increaseLikeInTweetObj = async () => {
+    const tweetDocRef = doc(dbService, "tweets", `${tweetObj.id}`);
+
+    try {
+      const plusHeart = await runTransaction(dbService, async (transaction) => {
+        const tweetDoc = await transaction.get(tweetDocRef);
+        const increaseLike = tweetDoc.data().like + 1;
+        if (increaseLike <= 1) {
+          transaction.update(tweetDocRef, { like: increaseLike });
+          return increaseLike;
+        } else {
+          return Promise.reject("Sorry! X_X");
+        }
+      });
+      console.log("like is increased to ", plusHeart);
+    } catch (e) {
+      // This will be a "increase like X_X" error.
+      console.error(e);
+    }
+  };
+
+  //하트를 누른 유저의 user 문서의 like 필드([])에 해당 tweet의 doc.id를 추가
+  // Atomically add a new region to the "like" array field.
+  const addUserLike = async () => {
+    const userRef = doc(dbService, "users", `${userObj.uid}`);
+
+    await updateDoc(userRef, {
+      like: arrayUnion(`${tweetObj.id}`),
+    });
+  };
+
+  //하트 -1
+  const decreaseLikeInTweetObj = async () => {
+    const tweetDocRef = doc(dbService, "tweets", `${tweetObj.id}`);
+
+    try {
+      const plusHeart = await runTransaction(dbService, async (transaction) => {
+        const tweetDoc = await transaction.get(tweetDocRef);
+        const decreaseLike = tweetDoc.data().like - 1;
+        if (decreaseLike === 0) {
+          transaction.update(tweetDocRef, { like: decreaseLike });
+          return decreaseLike;
+        } else {
+          return Promise.reject("Sorry! X_X");
+        }
+      });
+      console.log("like is decreased to ", plusHeart);
+    } catch (e) {
+      // This will be a "decrease like" error.
+      console.error(e);
+    }
+  };
+
+  //Atomically remove a region from the "like" array field.
+  const removeUserLike = async () => {
+    const userRef = doc(dbService, "users", `${userObj.uid}`);
+
+    await updateDoc(userRef, {
+      like: arrayRemove(`${tweetObj.id}`),
+    });
+  };
+
+  //하트 토글
+  const toggleHeartCounter = async () => {
+    if (!isClickedHeart) {
+      increaseLikeInTweetObj();
+      addUserLike();
+      setIsClickedHeart((prev) => !prev);
+    } else {
+      decreaseLikeInTweetObj();
+      removeUserLike();
+      setIsClickedHeart((prev) => !prev);
+    }
+  };
+
   return (
     <div>
       {/*수정 버튼 클릭된 거면(true) 수정할 폼 보여주고 : 아니면(false) 트윗 내용 보여주기*/}
@@ -114,9 +200,15 @@ const Tweet = ({ tweetObj, isOwner }) => {
                   </div>
                 )}
                 <div className="tweetList__tweets__tweet__content__btn">
-                  <button className="btn--min--circle">
+                  <button
+                    className={`btn--min--circle ${
+                      isClickedHeart ? "clicked-heart" : ""
+                    }`}
+                    onClick={toggleHeartCounter}
+                  >
                     <FontAwesomeIcon icon={faHeart} />
                   </button>
+                  <span>{tweetObj.like}</span>
                   {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
                   {isOwner && (
                     <div className="tweetList__tweets__tweet__content__btn__modify">

@@ -44,7 +44,6 @@ const Profile = ({ refreshUser, userObj }) => {
       //console.log(tweetArr);
       setTweets(tweetArr);
     });
-
     return () => {
       unsubscribe(); //stop listening to changes
     };
@@ -265,6 +264,7 @@ const Profile = ({ refreshUser, userObj }) => {
                   key={tweet.id}
                   tweetObj={tweet}
                   isOwner={tweet.creatorId === userObj.uid}
+                  userObj={userObj}
                 />
               ))}
             </div>
