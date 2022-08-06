@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { doc, setDoc } from "firebase/firestore";
 
 const AuthForm = () => {
-  const auth = getAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
@@ -36,13 +33,13 @@ const AuthForm = () => {
     //newAccount가 참이면 계정 새로 만들고, 거짓이면 로그인하기
     try {
       if (newAccount) {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(authService, email, password);
         //⚠️ 에러 발생 지점: 라우터이동 후 state 변경하기 때문, 삭제
         //setNewAccount(false);
-        const user = auth.currentUser;
+        const user = authService.currentUser;
         return setDoc(doc(dbService, "users", `${user.uid}`), {
           uid: user.uid,
-          displayName: user.displayName,
+          displayName: `${user.email.substring(0, user.email.indexOf("@"))}`,
           email: user.email,
           headerURL: "",
           bio: "",
@@ -51,7 +48,7 @@ const AuthForm = () => {
           following: [],
         });
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(authService, email, password);
       }
     } catch (error) {
       //에러가 생기면 error 스테이트에 넣어서 에러 메세지 띄우기

@@ -194,11 +194,15 @@ const Profile = ({ refreshUser, userObj }) => {
                   </span>
                 </div>
                 <div className="profile__user__info__userInfo">
-                  <p>자기 소개: {userObj.bio}</p>
-                  <span>
-                    <FontAwesomeIcon icon={faCalendarAlt} />
-                  </span>
-                  <span> 가입일: {userCreatedAt}</span>
+                  <div className="profile__user__info__userInfo__bio">
+                    <span>{userObj.bio}</span>
+                  </div>
+                  <div className="profile__user__info__userInfo__createdAt">
+                    <span>
+                      <FontAwesomeIcon icon={faCalendarAlt} />
+                    </span>
+                    <span> 가입일: {userCreatedAt}</span>
+                  </div>
                 </div>
                 <div className="profile__user__info__userMeta">
                   <span>8 팔로우 중</span>

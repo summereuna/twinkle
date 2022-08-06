@@ -496,6 +496,14 @@ footer {
         .profile__user__info__userInfo {
           margin-bottom: 12px;
           font-size: 15px;
+          display: flex;
+          flex-direction: column;
+          .profile__user__info__userInfo__bio {
+            margin-bottom: 12px;
+          }
+          .profile__user__info__userInfo__createdAt {
+            color: $color-id;
+          }
         }
         .profile__user__info__userMeta {
           margin-bottom: 12px;
