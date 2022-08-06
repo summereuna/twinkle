@@ -86,7 +86,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
       const plusHeart = await runTransaction(dbService, async (transaction) => {
         const tweetDoc = await transaction.get(tweetDocRef);
         const increaseLike = tweetDoc.data().like + 1;
-        if (increaseLike <= 1) {
+        if (!isClickedHeart) {
           transaction.update(tweetDocRef, { like: increaseLike });
           return increaseLike;
         } else {
@@ -118,7 +118,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
       const plusHeart = await runTransaction(dbService, async (transaction) => {
         const tweetDoc = await transaction.get(tweetDocRef);
         const decreaseLike = tweetDoc.data().like - 1;
-        if (decreaseLike === 0) {
+        if (isClickedHeart) {
           transaction.update(tweetDocRef, { like: decreaseLike });
           return decreaseLike;
         } else {
