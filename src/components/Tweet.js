@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { dbService, storageService } from "fbase";
 import {
   doc,
@@ -7,6 +7,7 @@ import {
   runTransaction,
   arrayUnion,
   arrayRemove,
+  getDoc,
 } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import PropTypes from "prop-types";
@@ -152,6 +153,22 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
       setIsClickedHeart((prev) => !prev);
     }
   };
+
+  //useEffect 사용해서 좋아요한 트윗 하트 색깔 유지
+  useEffect(() => {
+    async function fetchData() {
+      const usersLikeRef = doc(dbService, "users", `${userObj.uid}`);
+      const usersLikeSnap = await getDoc(usersLikeRef);
+      const userLikedTweetArr = usersLikeSnap.data().like;
+
+      if (userLikedTweetArr.includes(tweetObj.id)) {
+        setIsClickedHeart(true);
+      } else {
+        setIsClickedHeart(false);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <div>
