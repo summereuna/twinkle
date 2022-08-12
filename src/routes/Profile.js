@@ -1,5 +1,5 @@
 import Tweet from "components/Tweet";
-import { authService, dbService } from "fbase";
+import { authService, dbService, storageService } from "fbase";
 import { updateProfile } from "firebase/auth";
 import {
   collection,
@@ -12,15 +12,25 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+import { v4 as uuidv4 } from "uuid";
+
 import EditProfileModal from "../components/Modal/EditProfileModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from "firebase/storage";
+import ProfilePhoto from "components/ProfilePhoto";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
-  //내 트윗 가져오기: map으로
+  //✅ 내 트윗 가져오기: map으로
   const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
@@ -49,7 +59,7 @@ const Profile = ({ refreshUser, userObj }) => {
     };
   }, [userObj.uid]);
 
-  //닉네임 수정
+  //✅ 닉네임 수정
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
   const onChangeDisplayName = (event) => {
@@ -59,7 +69,7 @@ const Profile = ({ refreshUser, userObj }) => {
     setNewDisplayName(value);
   };
 
-  //자기소개 수정
+  //✅ 자기소개 수정
   const [newBio, setNewBio] = useState(userObj.bio);
 
   const onChangeBio = (event) => {
@@ -69,27 +79,62 @@ const Profile = ({ refreshUser, userObj }) => {
     setNewBio(value);
   };
 
+  //✅ 파일 미리보기
+  //FileReader API로 읽은 파일의 url 상태관리
+  const [profileAttachment, setProfileAttachment] = useState(userObj.photoURL);
+
+  const onProfileFileChange = (event) => {
+    //업로드할 프로필 파일 인풋으로 선택
+    const {
+      target: { files },
+    } = event;
+    const profileFile = files[0];
+
+    //FileReader API로 파일 읽기
+    const reader = new FileReader();
+    reader.onload = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setProfileAttachment(result);
+    };
+    reader.readAsDataURL(profileFile);
+  };
+
+  //profileAttachment 비우기 (🌟 모달 닫힐 때 onClearProfileAttachment() 실행시키기)
+  const fileInput = useRef();
+  const onClearProfileAttachment = () => {
+    //setProfileAttachment(null);
+    fileInput.current.value = null;
+  };
+
+  //✅ 프로필 수정 submit
   const onSubmit = async (event) => {
     event.preventDefault();
+    //🔥 이름 업데이트
     //이름 수정하면 updateProfile() 메서드 사용해 프로필 업데이트하기
     //firestore에서 users 콜렉션 만들어서 도큐먼트 생성해서 유저에 관한 데이터 모두 관리하는 방법도 있지만 귀찮으니 걍 이걸로 하자구
     //1. firebase에 있는 profile 업데이트\
     if (
       `${userObj.displayName !== newDisplayName}` ||
-      `${userObj.bio !== newBio}`
+      `${userObj.bio !== newBio}` ||
+      profileAttachment
     ) {
+      const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
       if (userObj.displayName !== newDisplayName) {
         //console.log(userObj.updateProfile);
         //authService 업데이트
         await updateProfile(authService.currentUser, {
           displayName: newDisplayName,
         });
+        console.log("✅ 이름 auth 업데이트");
 
         //user collection 업데이트
-        const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
         await updateDoc(userCollectionRef, {
           displayName: newDisplayName,
         });
+
+        console.log("✅ 이름 users collection 업데이트");
 
         //트윗 작성자명 일괄 변경 (batch: 500개 문서 제한)
         const updateAllMyTweets = async () => {
@@ -111,10 +156,43 @@ const Profile = ({ refreshUser, userObj }) => {
           await batch.commit();
         };
         updateAllMyTweets();
+        console.log("✅ 모든 트윗에 있는 이름 업데이트");
       }
+
+      //🔥 자기소개 업데이트
       if (userObj.bio !== newBio) {
-        const userBioRef = doc(dbService, "users", `${userObj.uid}`);
-        await updateDoc(userBioRef, { bio: newBio });
+        await updateDoc(userCollectionRef, { bio: newBio });
+        console.log("✅ 자기소개 업데이트");
+      }
+
+      //🔥 프로필 사진 업데이트
+      if (userObj.photoURL === "" || userObj.photoURL !== profileAttachment) {
+        //프로필 사진 업데이트 시 이미 프로필 사진이 있다면 기존 사진 파일은 스토리지에서 삭제
+        const desertRef = ref(storageService, userObj.photoURL);
+        if (userObj.photoURL !== "") {
+          await deleteObject(desertRef);
+        }
+        //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
+        const profileFileRef = ref(
+          storageService,
+          `${userObj.uid}/profile/${uuidv4()}`
+        );
+        //ref 위치에 파일 업로드
+        const response = await uploadString(
+          profileFileRef,
+          profileAttachment,
+          "data_url"
+        );
+        //console.log(response);
+        //버킷에 업로드된 파일 url 다운로드
+        let profileAttachmentUrl;
+        profileAttachmentUrl = await getDownloadURL(response.ref);
+
+        await updateProfile(authService.currentUser, {
+          photoURL: profileAttachmentUrl,
+        });
+
+        await updateDoc(userCollectionRef, { photoURL: profileAttachmentUrl });
       }
       //2. react.js에 있는 profile도 새로고침되게 하기
       refreshUser();
@@ -122,13 +200,6 @@ const Profile = ({ refreshUser, userObj }) => {
       setIsEditProfileModalOpen((prev) => !prev);
     }
   };
-
-  //프로필 사진 업데이트 하기(숙제)
-  /*
-1. 프로필 사진 업로드 하는 폼 만들기
-2. profilePhoto 버켓 만들어서 
-3. 다운로드 url 가져와서 위에 photoURL에 넣어주면 됨
-*/
 
   //프로필 수정 모달
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
@@ -139,6 +210,7 @@ const Profile = ({ refreshUser, userObj }) => {
 
   const handleEditModalClose = () => {
     setIsEditProfileModalOpen(false);
+    onClearProfileAttachment();
   };
 
   //유저 가입일
@@ -166,7 +238,12 @@ const Profile = ({ refreshUser, userObj }) => {
               <div className="profile__user__info">
                 <div className="profile__user__btns">
                   <div className="profile__user__userImg">
-                    <div className="profile__user__userImg__file userImg--lg"></div>
+                    <div className="userImg--lg">
+                      <div className="profile__user__userImg__file">
+                        {/*{userObj.photoURL || ()}*/}
+                        <ProfilePhoto photoURL={userObj.photoURL} />
+                      </div>
+                    </div>
                   </div>
                   <button
                     className="btn btn--grey"
@@ -182,6 +259,9 @@ const Profile = ({ refreshUser, userObj }) => {
                     onChangeBio={onChangeBio}
                     newDisplayName={newDisplayName}
                     newBio={newBio}
+                    profileAttachment={profileAttachment}
+                    onProfileFileChange={onProfileFileChange}
+                    fileInput={fileInput}
                     onSubmit={onSubmit}
                   />
                 </div>

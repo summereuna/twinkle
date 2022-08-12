@@ -3,12 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const EditProfileModal = ({
+  userObj,
   isEditProfileModalOpen,
   handleEditModalClose,
   onChangeDisplayName,
   onChangeBio,
   newDisplayName,
   newBio,
+  onProfileFileChange,
+  profileAttachment,
+  fileInput,
   onSubmit,
 }) => {
   const onEscapeKeyDown = (event) => {
@@ -52,43 +56,62 @@ const EditProfileModal = ({
           </div>
         </div>
         <div className="modal-body">
-          <div className="profile__user__header">
-            헤더 이미지 598*200
-            <div className="btn--edit--container">
-              <div
-                aria-label="헤더 사진 추가하기"
-                className="btn--edit--container--btn"
-              >
-                <button className="btn--change">
-                  <FontAwesomeIcon icon={faCamera} />
-                </button>
-              </div>
-              <div
-                aria-label="헤더 사진 삭제하기"
-                className="btn--edit--container--btn"
-              >
-                <button className="btn--delete">
-                  <FontAwesomeIcon icon={faTimes} />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="profile__user__info">
-            <div className="profile__user__userImg">
-              <div className="profile__user__userImg__file userImg--sm img--edit--container">
+          <form id="edit-form" className="edit-form" onSubmit={onSubmit}>
+            <div className="profile__user__header">
+              헤더 이미지 598*200
+              <div className="btn--edit--container">
                 <div
-                  aria-label="프로필 사진 추가하기"
-                  className="img--edit--container--btn"
+                  aria-label="헤더 사진 추가하기"
+                  className="btn--edit--container--btn"
                 >
                   <button className="btn--change">
                     <FontAwesomeIcon icon={faCamera} />
                   </button>
                 </div>
+                <div
+                  aria-label="헤더 사진 삭제하기"
+                  className="btn--edit--container--btn"
+                >
+                  <button className="btn--delete">
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="modal-edit">
-            <form id="edit-form" className="edit-form" onSubmit={onSubmit}>
+            <div className="profile__user__info">
+              <div className="profile__user__userImg">
+                <div className="userImg--sm img--edit--container">
+                  {profileAttachment && (
+                    <img
+                      src={profileAttachment}
+                      alt="preview"
+                      className="profile__user__userImg__file__preview"
+                    />
+                  )}
+                  <input
+                    name="file"
+                    type="file"
+                    accept="image/*"
+                    onChange={onProfileFileChange}
+                    ref={fileInput}
+                    id="user-profile-file"
+                    className="hidden"
+                  />
+                  <label htmlFor="user-profile-file">
+                    <div
+                      aria-label="프로필 사진 추가하기"
+                      className="img--edit--container--btn"
+                    >
+                      <FontAwesomeIcon
+                        icon={faCamera}
+                        className="img--edit--container--btn--icon"
+                      />
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="modal-edit">
               <label htmlFor="user-name"> 이름 </label>
               <input
                 id="user-name"
@@ -111,8 +134,8 @@ const EditProfileModal = ({
                 onChange={onChangeBio}
                 value={newBio}
               />
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

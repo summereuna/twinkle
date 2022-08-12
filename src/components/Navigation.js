@@ -20,6 +20,7 @@ import LogOutModal from "./Modal/LogOutModal";
 import Modal from "./Modal/Modal";
 import { useState } from "react";
 import TweetFactory from "./TweetFactory";
+import ProfilePhoto from "./ProfilePhoto";
 
 const Navigation = ({ userObj }) => {
   //Log Out Modal
@@ -120,7 +121,9 @@ const Navigation = ({ userObj }) => {
               className="nav__user__userImg nav__btn btn--circle"
               onClick={handleOpenLogOutModal}
             >
-              <div className="nav__user__userImg_img"></div>
+              <div className="nav__user__userImg_img">
+                <ProfilePhoto photoURL={userObj.photoURL} />
+              </div>
             </div>
             <LogOutModal
               userObj={userObj}

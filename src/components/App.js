@@ -75,10 +75,10 @@ function App() {
 
     console.log(
       "🔥refresh: authService.currentUser",
-      authService.currentUser.displayName
+      authService.currentUser.photoURL
     );
-    console.log("🔥refresh: newMergeUserObj", newMergeUserObj.displayName);
-    console.log("🔥refresh: userObj", userObj.displayName);
+    console.log("🔥refresh: newMergeUserObj", newMergeUserObj.photoURL);
+    console.log("🔥refresh: userObj", userObj.photoURL);
   };
 
   console.log("✅ refresh");

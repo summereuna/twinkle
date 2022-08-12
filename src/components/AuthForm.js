@@ -41,6 +41,7 @@ const AuthForm = () => {
           uid: user.uid,
           displayName: `${user.email.substring(0, user.email.indexOf("@"))}`,
           email: user.email,
+          photoURL: "",
           headerURL: "",
           bio: "",
           like: [],

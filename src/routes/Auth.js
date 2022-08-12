@@ -42,6 +42,7 @@ const Auth = () => {
       uid: user.uid,
       displayName: user.displayName,
       email: user.email,
+      photoURL: user.photoURL,
       headerURL: "",
       bio: "",
       like: [],

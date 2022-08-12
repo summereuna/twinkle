@@ -37,7 +37,10 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
     //attachment가 빈값이 아닌 경우에만 아래 코드 실행되게하자.
     if (attachment !== "") {
       //storage에 파일 데이터가 업로드될 위치 가리키는 레퍼런스 생성하기
-      const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+      const attachmentRef = ref(
+        storageService,
+        `${userObj.uid}/tweets/${uuidv4()}`
+      );
       //console.log(attachmentRef);
 
       //레퍼런스(attachmentRef)가 가리키는 위치에 찐으로 데이터 업로드하기
