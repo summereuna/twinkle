@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import ProfilePhoto from "./ProfilePhoto";
 
 const TweetFactory = ({ userObj, setIsModalOpen }) => {
   //input에 데이터 입력될 때 마다 ref 가져와서 textarea의 height에 scrollHeight 높이만큼 더해주기
@@ -147,7 +148,9 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
     <div className="modal-body-inside">
       <div className="tweetSender">
         <div className="tweetSender__userImg">
-          <div className="tweetSender__userImg__img"></div>
+          <div className="tweetSender__userImg__img">
+            <ProfilePhoto photoURL={userObj.photoURL} />
+          </div>
         </div>
         <div className="tweetSender__writeBox">
           <form onSubmit={onSubmit}>

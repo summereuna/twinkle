@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { authService } from "fbase";
+import ProfilePhoto from "components/ProfilePhoto";
 
 const LogOutModal = ({ show, userObj, onClose }) => {
   const navigate = useNavigate();
@@ -23,7 +24,9 @@ const LogOutModal = ({ show, userObj, onClose }) => {
           >
             <div className="modal-logout-header">
               <div className="modal-logout-header__container">
-                <div className="modal-logout-header__container__userImg"></div>
+                <div className="modal-logout-header__container__userImg">
+                  <ProfilePhoto photoURL={userObj.photoURL} />
+                </div>
                 <div className="modal-logout-header__container__userInfo">
                   <div className="modal-logout-header__container__userInfo__userName">
                     {userObj.displayName}
