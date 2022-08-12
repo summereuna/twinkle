@@ -18,6 +18,7 @@ import "moment/locale/ko";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import ProfilePhoto from "./ProfilePhoto";
 
 const Tweet = ({ tweetObj, isOwner, userObj }) => {
   //수정모드인지 아닌지 false/true
@@ -74,6 +75,17 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
   };
 
   const fromNowCreatedAt = moment(tweetObj.createdAt).fromNow();
+
+  //유저 사진 얻기
+  const [usersPhotoUrl, setUsersPhotoUrl] = useState("");
+  const getUsersPhotoUrl = async () => {
+    const tweetOwnerRef = doc(dbService, "users", `${tweetObj.creatorId}`);
+    const tweetOwnerSnap = await getDoc(tweetOwnerRef);
+    const tweetOwnerPhotoUrl = tweetOwnerSnap.data().photoURL;
+    setUsersPhotoUrl(tweetOwnerPhotoUrl);
+  };
+
+  getUsersPhotoUrl();
 
   //💗
   const [isClickedHeart, setIsClickedHeart] = useState(false);
@@ -191,7 +203,9 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
         <>
           <div className="tweetList__tweets">
             <div className="userImg">
-              <div className="userImg_img"></div>
+              <div className="userImg_img">
+                <ProfilePhoto photoURL={usersPhotoUrl} />
+              </div>
             </div>
             <div className="tweetList__tweets__tweet">
               <div className="tweetList__tweets__tweet__info">

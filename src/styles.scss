@@ -322,6 +322,7 @@ footer {
 .home__container {
   padding: 0;
   .home__tile {
+    z-index: 2;
     border-left: 1px solid $color-border;
     border-right: 1px solid $color-border;
     padding: 0 16px;
