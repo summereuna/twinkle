@@ -27,6 +27,7 @@ import {
   uploadString,
 } from "firebase/storage";
 import ProfilePhoto from "components/ProfilePhoto";
+import Header from "components/Header";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
@@ -79,7 +80,7 @@ const Profile = ({ refreshUser, userObj }) => {
     setNewBio(value);
   };
 
-  //✅ 파일 미리보기
+  //✅ 프로필 파일 미리보기
   //FileReader API로 읽은 파일의 url 상태관리
   const [profileAttachment, setProfileAttachment] = useState(userObj.photoURL);
 
@@ -102,11 +103,70 @@ const Profile = ({ refreshUser, userObj }) => {
   };
 
   //profileAttachment 비우기 (🌟 모달 닫힐 때 onClearProfileAttachment() 실행시키기)
-  const fileInput = useRef();
+  const profileFileInput = useRef();
   const onClearProfileAttachment = () => {
     //setProfileAttachment(null);
-    fileInput.current.value = null;
+    profileFileInput.current.value = null;
   };
+
+  //✅ 헤더 파일 미리보기
+  const [headerAttachment, setHeaderAttachment] = useState(userObj.headerURL);
+
+  const onHeaderFileChange = (event) => {
+    //업로드할 프로필 파일 인풋으로 선택
+    const {
+      target: { files },
+    } = event;
+    const headerFile = files[0];
+
+    //FileReader API로 파일 읽기
+    const reader = new FileReader();
+    reader.onload = (finishedEvent) => {
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setHeaderAttachment(result);
+    };
+    reader.readAsDataURL(headerFile);
+  };
+
+  //headerAttachment 비우기 (🌟 모달 닫힐 때 onClearProfileAttachment() 실행시키기)
+  const headerFileInput = useRef();
+  const onClearHeaderAttachment = () => {
+    //setHeaderAttachment(null);
+    headerFileInput.current.value = null;
+  };
+
+  /*✅파일 업데이트 함수
+  //함수로 파라미터 보내서 사용하니까 한 박자 느려서 일단 뺌
+  const fileUpdate = async (fileURL, foldername, attachment) => {
+    console.log(userObj[fileURL]);
+    const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
+    const desertRef = ref(storageService, userObj[fileURL]);
+    if (userObj[fileURL] !== "") {
+      await deleteObject(desertRef);
+    }
+    //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
+    const theFileRef = ref(
+      storageService,
+      `${userObj.uid}/${foldername}/${uuidv4()}`
+    );
+    //ref 위치에 파일 업로드
+    const response = await uploadString(theFileRef, attachment, "data_url");
+    //console.log(response);
+    //버킷에 업로드된 파일 url 다운로드
+    let attachmentUrl;
+    attachmentUrl = await getDownloadURL(response.ref);
+
+    if (fileURL === "photoURL") {
+      await updateProfile(authService.currentUser, {
+        photoURL: attachmentUrl,
+      });
+    }
+
+    await updateDoc(userCollectionRef, { [fileURL]: attachmentUrl });
+  };
+*/
 
   //✅ 프로필 수정 submit
   const onSubmit = async (event) => {
@@ -194,6 +254,32 @@ const Profile = ({ refreshUser, userObj }) => {
 
         await updateDoc(userCollectionRef, { photoURL: profileAttachmentUrl });
       }
+
+      //✅아 왜 함수로 만드니까 한 박자 느리냐
+      if (userObj.headerURL === "" || userObj.headerURL !== headerAttachment) {
+        //fileUpdate("headerURL", "header", headerAttachment);
+        const desertRef = ref(storageService, userObj.headerURL);
+        if (userObj.headerURL !== "") {
+          await deleteObject(desertRef);
+        }
+        //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
+        const theFileRef = ref(
+          storageService,
+          `${userObj.uid}/header/${uuidv4()}`
+        );
+        //ref 위치에 파일 업로드
+        const response = await uploadString(
+          theFileRef,
+          headerAttachment,
+          "data_url"
+        );
+        //console.log(response);
+        //버킷에 업로드된 파일 url 다운로드
+        let attachmentUrl;
+        attachmentUrl = await getDownloadURL(response.ref);
+
+        await updateDoc(userCollectionRef, { headerURL: attachmentUrl });
+      }
       //2. react.js에 있는 profile도 새로고침되게 하기
       refreshUser();
 
@@ -211,6 +297,7 @@ const Profile = ({ refreshUser, userObj }) => {
   const handleEditModalClose = () => {
     setIsEditProfileModalOpen(false);
     onClearProfileAttachment();
+    onClearHeaderAttachment();
   };
 
   //유저 가입일
@@ -234,7 +321,9 @@ const Profile = ({ refreshUser, userObj }) => {
           </div>
           <div className="profile__main-container">
             <div className="profile__user">
-              <div className="profile__user__header">헤더 이미지 598*200</div>
+              <div className="profile__user__header">
+                <Header headerURL={userObj.headerURL} />
+              </div>
               <div className="profile__user__info">
                 <div className="profile__user__btns">
                   <div className="profile__user__userImg">
@@ -261,7 +350,10 @@ const Profile = ({ refreshUser, userObj }) => {
                     newBio={newBio}
                     profileAttachment={profileAttachment}
                     onProfileFileChange={onProfileFileChange}
-                    fileInput={fileInput}
+                    profileFileInput={profileFileInput}
+                    headerAttachment={headerAttachment}
+                    onHeaderFileChange={onHeaderFileChange}
+                    headerFileInput={headerFileInput}
                     onSubmit={onSubmit}
                   />
                 </div>

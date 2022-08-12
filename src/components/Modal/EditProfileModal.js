@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const EditProfileModal = ({
-  userObj,
   isEditProfileModalOpen,
   handleEditModalClose,
   onChangeDisplayName,
@@ -12,7 +11,10 @@ const EditProfileModal = ({
   newBio,
   onProfileFileChange,
   profileAttachment,
-  fileInput,
+  profileFileInput,
+  headerAttachment,
+  onHeaderFileChange,
+  headerFileInput,
   onSubmit,
 }) => {
   const onEscapeKeyDown = (event) => {
@@ -58,23 +60,38 @@ const EditProfileModal = ({
         <div className="modal-body">
           <form id="edit-form" className="edit-form" onSubmit={onSubmit}>
             <div className="profile__user__header">
-              헤더 이미지 598*200
+              <div className="header-photo">
+                {headerAttachment && (
+                  <img
+                    src={headerAttachment}
+                    alt="header-preview"
+                    className="header-photo__img"
+                  />
+                )}
+              </div>
               <div className="btn--edit--container">
-                <div
-                  aria-label="헤더 사진 추가하기"
-                  className="btn--edit--container--btn"
-                >
-                  <button className="btn--change">
+                <input
+                  name="file"
+                  type="file"
+                  accept="image/*"
+                  onChange={onHeaderFileChange}
+                  ref={headerFileInput}
+                  id="user-header-file"
+                  className="hidden"
+                />
+                <label htmlFor="user-header-file">
+                  <div
+                    aria-label="헤더 사진 추가하기"
+                    className="btn--edit--container--btn"
+                  >
                     <FontAwesomeIcon icon={faCamera} />
-                  </button>
-                </div>
+                  </div>
+                </label>
                 <div
                   aria-label="헤더 사진 삭제하기"
                   className="btn--edit--container--btn"
                 >
-                  <button className="btn--delete">
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
+                  <FontAwesomeIcon icon={faTimes} />
                 </div>
               </div>
             </div>
@@ -84,7 +101,7 @@ const EditProfileModal = ({
                   {profileAttachment && (
                     <img
                       src={profileAttachment}
-                      alt="preview"
+                      alt="profile-preview"
                       className="profile__user__userImg__file__preview"
                     />
                   )}
@@ -93,7 +110,7 @@ const EditProfileModal = ({
                     type="file"
                     accept="image/*"
                     onChange={onProfileFileChange}
-                    ref={fileInput}
+                    ref={profileFileInput}
                     id="user-profile-file"
                     className="hidden"
                   />
