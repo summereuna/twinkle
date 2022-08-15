@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCamera,
+  faTimes,
+  faUserAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 const EditProfileModal = ({
   isEditProfileModalOpen,
@@ -61,12 +65,14 @@ const EditProfileModal = ({
           <form id="edit-form" className="edit-form" onSubmit={onSubmit}>
             <div className="profile__user__header">
               <div className="header-photo">
-                {headerAttachment && (
+                {headerAttachment ? (
                   <img
                     src={headerAttachment}
                     alt="header-preview"
                     className="header-photo__img"
                   />
+                ) : (
+                  <div className="header-photo__default"></div>
                 )}
               </div>
               <div className="btn--edit--container">
@@ -98,11 +104,17 @@ const EditProfileModal = ({
             <div className="profile__user__info">
               <div className="profile__user__userImg">
                 <div className="userImg--sm img--edit--container">
-                  {profileAttachment && (
+                  {profileAttachment ? (
                     <img
                       src={profileAttachment}
                       alt="profile-preview"
                       className="profile__user__userImg__file__preview"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faUserAlt}
+                      size="2x"
+                      className="profile-photo__default"
                     />
                   )}
                   <input

@@ -229,7 +229,7 @@ const Profile = ({ refreshUser, userObj }) => {
       if (userObj.photoURL === "" || userObj.photoURL !== profileAttachment) {
         //프로필 사진 업데이트 시 이미 프로필 사진이 있다면 기존 사진 파일은 스토리지에서 삭제
         const desertRef = ref(storageService, userObj.photoURL);
-        if (userObj.photoURL !== "") {
+        if (userObj.photoURL !== null && userObj.photoURL !== "") {
           await deleteObject(desertRef);
         }
         //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
@@ -259,7 +259,7 @@ const Profile = ({ refreshUser, userObj }) => {
       if (userObj.headerURL === "" || userObj.headerURL !== headerAttachment) {
         //fileUpdate("headerURL", "header", headerAttachment);
         const desertRef = ref(storageService, userObj.headerURL);
-        if (userObj.headerURL !== "") {
+        if (userObj.headerURL !== null && userObj.headerURL !== "") {
           await deleteObject(desertRef);
         }
         //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
@@ -329,7 +329,6 @@ const Profile = ({ refreshUser, userObj }) => {
                   <div className="profile__user__userImg">
                     <div className="userImg--lg">
                       <div className="profile__user__userImg__file">
-                        {/*{userObj.photoURL || ()}*/}
                         <ProfilePhoto photoURL={userObj.photoURL} />
                       </div>
                     </div>

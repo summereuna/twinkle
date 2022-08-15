@@ -50,9 +50,15 @@ const Navigation = ({ userObj }) => {
       <div className="header__container">
         <nav className="nav">
           <ul className="nav__ul">
-            <div className="nav__ul__li__btn nav__btn color-main">
-              <FontAwesomeIcon icon={faTwitter} size="2x" />
-            </div>
+            <Link to="/">
+              <div className="nav__ul__li__btn nav__btn color-main">
+                <FontAwesomeIcon
+                  icon={faTwitter}
+                  size="2x"
+                  className="cursor--pointer"
+                />
+              </div>{" "}
+            </Link>
             <li className="nav__ul__li">
               <Link to="/">
                 <div className="nav__ul__li__btn nav__btn btn--circle">
@@ -102,7 +108,11 @@ const Navigation = ({ userObj }) => {
                 className="nav__ul__li__btn nav__btn btn--blue--circle"
                 onClick={handleModalOpen}
               >
-                <FontAwesomeIcon icon={faPlusCircle} size="2x" />
+                <FontAwesomeIcon
+                  icon={faPlusCircle}
+                  size="2x"
+                  className="cursor--pointer"
+                />
                 <Modal
                   userObj={userObj}
                   handleModalClose={handleModalClose}
