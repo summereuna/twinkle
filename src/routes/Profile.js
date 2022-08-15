@@ -37,7 +37,6 @@ const Profile = ({ refreshUser, userObj }) => {
   useEffect(() => {
     //snapshot은 쿼리 같은 건데 docs를 가지고 있다.
     //tweets은 페이지를 불러올 때 snapshot에서 나오는 거다.
-    //따라서 setTweets()을
     const q = query(
       collection(dbService, "tweets"),
       where("creatorId", "==", userObj.uid),
@@ -167,22 +166,34 @@ const Profile = ({ refreshUser, userObj }) => {
     await updateDoc(userCollectionRef, { [fileURL]: attachmentUrl });
   };
 */
-
   //✅ 프로필 수정 submit
   const onSubmit = async (event) => {
     event.preventDefault();
-    //🔥 이름 업데이트
-    //이름 수정하면 updateProfile() 메서드 사용해 프로필 업데이트하기
-    //firestore에서 users 콜렉션 만들어서 도큐먼트 생성해서 유저에 관한 데이터 모두 관리하는 방법도 있지만 귀찮으니 걍 이걸로 하자구
-    //1. firebase에 있는 profile 업데이트\
     if (
-      `${userObj.displayName !== newDisplayName}` ||
-      `${userObj.bio !== newBio}` ||
-      profileAttachment
+      userObj.displayName !== newDisplayName ||
+      userObj.bio !== newBio ||
+      userObj.photoURL !== profileAttachment ||
+      userObj.headerURL !== headerAttachment
     ) {
+      console.log(
+        "💗displayName: is updated?",
+        newDisplayName !== userObj.displayName
+      );
+      console.log("💗bio: is updated?", newBio !== userObj.bio);
+      console.log(
+        "💗photoURL: is updated?",
+        profileAttachment !== userObj.photoURL
+      );
+      console.log(
+        "💗headerURL: is updated?",
+        headerAttachment !== userObj.headerURL
+      );
+
+      //공통으로 읽어 올 userCollectionRef
       const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
+
+      //이름 업데이트
       if (userObj.displayName !== newDisplayName) {
-        //console.log(userObj.updateProfile);
         //authService 업데이트
         await updateProfile(authService.currentUser, {
           displayName: newDisplayName,
@@ -193,7 +204,6 @@ const Profile = ({ refreshUser, userObj }) => {
         await updateDoc(userCollectionRef, {
           displayName: newDisplayName,
         });
-
         console.log("✅ 이름 users collection 업데이트");
 
         //트윗 작성자명 일괄 변경 (batch: 500개 문서 제한)
@@ -219,19 +229,21 @@ const Profile = ({ refreshUser, userObj }) => {
         console.log("✅ 모든 트윗에 있는 이름 업데이트");
       }
 
-      //🔥 자기소개 업데이트
+      //자기소개 업데이트
       if (userObj.bio !== newBio) {
         await updateDoc(userCollectionRef, { bio: newBio });
         console.log("✅ 자기소개 업데이트");
       }
 
-      //🔥 프로필 사진 업데이트
-      if (userObj.photoURL === "" || userObj.photoURL !== profileAttachment) {
+      //프로필 사진 업데이트
+      if (userObj.photoURL !== profileAttachment) {
         //프로필 사진 업데이트 시 이미 프로필 사진이 있다면 기존 사진 파일은 스토리지에서 삭제
         const desertRef = ref(storageService, userObj.photoURL);
-        if (userObj.photoURL !== null && userObj.photoURL !== "") {
+        if (userObj.photoURL) {
           await deleteObject(desertRef);
+          console.log("❌ 기존 프로필 사진 삭제");
         }
+
         //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
         const profileFileRef = ref(
           storageService,
@@ -243,7 +255,7 @@ const Profile = ({ refreshUser, userObj }) => {
           profileAttachment,
           "data_url"
         );
-        //console.log(response);
+
         //버킷에 업로드된 파일 url 다운로드
         let profileAttachmentUrl;
         profileAttachmentUrl = await getDownloadURL(response.ref);
@@ -253,16 +265,22 @@ const Profile = ({ refreshUser, userObj }) => {
         });
 
         await updateDoc(userCollectionRef, { photoURL: profileAttachmentUrl });
+        console.log("✅ 프로필 사진 업데이트");
       }
 
-      //✅아 왜 함수로 만드니까 한 박자 느리냐
-      if (userObj.headerURL === "" || userObj.headerURL !== headerAttachment) {
+      //헤더 업데이트
+      if (userObj.headerURL !== headerAttachment) {
+        //함수 만든걸로 하니까 렌더링이 한 박자 느려서 일단 패스
         //fileUpdate("headerURL", "header", headerAttachment);
+
+        //기존 헤더 있는 경우 스토리지에서 헤더 파일 삭제
         const desertRef = ref(storageService, userObj.headerURL);
-        if (userObj.headerURL !== null && userObj.headerURL !== "") {
+        if (userObj.headerURL) {
           await deleteObject(desertRef);
+
+          console.log("❌ 기존 헤더 삭제");
         }
-        //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
+        //새로운 헤더 사진 업데이트: 버킷에 파일 업로드
         const theFileRef = ref(
           storageService,
           `${userObj.uid}/header/${uuidv4()}`
@@ -273,18 +291,21 @@ const Profile = ({ refreshUser, userObj }) => {
           headerAttachment,
           "data_url"
         );
-        //console.log(response);
+
         //버킷에 업로드된 파일 url 다운로드
         let attachmentUrl;
         attachmentUrl = await getDownloadURL(response.ref);
 
         await updateDoc(userCollectionRef, { headerURL: attachmentUrl });
+        console.log("✅ 헤더 업데이트");
       }
-      //2. react.js에 있는 profile도 새로고침되게 하기
-      refreshUser();
 
-      setIsEditProfileModalOpen((prev) => !prev);
+      //프로필 수정 사항 있을 때만 react.js에 있는 profile도 새로고침되게 하기
+      refreshUser();
     }
+
+    //모달 닫기
+    handleEditModalClose();
   };
 
   //프로필 수정 모달
@@ -292,12 +313,16 @@ const Profile = ({ refreshUser, userObj }) => {
 
   const handleEditModalOpen = () => {
     setIsEditProfileModalOpen((prev) => !prev);
+    setProfileAttachment(userObj.photoURL);
+    setHeaderAttachment(userObj.headerURL);
+    console.log("모달 오픈");
   };
 
   const handleEditModalClose = () => {
     setIsEditProfileModalOpen(false);
     onClearProfileAttachment();
     onClearHeaderAttachment();
+    console.log("모달 클로즈");
   };
 
   //유저 가입일

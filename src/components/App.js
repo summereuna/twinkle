@@ -80,8 +80,9 @@ function App() {
     console.log("🔥refresh: newMergeUserObj", newMergeUserObj.photoURL);
     console.log("🔥refresh: userObj", userObj.photoURL);
   };
-
   console.log("✅ refresh");
+  console.log("✅userObj✅", userObj);
+
   //Router 렌더하기 & AppRouter에 prop 전달하기
   return (
     <>
