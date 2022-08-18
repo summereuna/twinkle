@@ -1,18 +1,15 @@
-import Tweet from "components/Tweet";
 import { authService, dbService, storageService } from "fbase";
 import { updateProfile } from "firebase/auth";
 import {
   collection,
   doc,
   getDocs,
-  onSnapshot,
-  orderBy,
   query,
   updateDoc,
   where,
   writeBatch,
 } from "firebase/firestore";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -28,37 +25,12 @@ import {
 } from "firebase/storage";
 import ProfilePhoto from "components/ProfilePhoto";
 import Header from "components/Header";
+import ProfileTab from "components/ProfileTab";
+import ProfileSection from "components/ProfileSection";
+import { Route, Routes } from "react-router-dom";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
-  //✅ 내 트윗 가져오기: map으로
-  const [tweets, setTweets] = useState([]);
-
-  useEffect(() => {
-    //snapshot은 쿼리 같은 건데 docs를 가지고 있다.
-    //tweets은 페이지를 불러올 때 snapshot에서 나오는 거다.
-    const q = query(
-      collection(dbService, "tweets"),
-      where("creatorId", "==", userObj.uid),
-      orderBy("createdAt", "desc")
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      //모든 docs는 {} 오브젝트 반환하도록
-      //아이디 가져오고, 그리고 나머지 데이터 전체 가져오기
-      const tweetArr = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      //트윗어레이 확인해보자. 오케이 원하는대로 포맷된것을 확인할 수 있다!
-      //console.log(tweetArr);
-      setTweets(tweetArr);
-    });
-    return () => {
-      unsubscribe(); //stop listening to changes
-    };
-  }, [userObj.uid]);
-
   //✅ 닉네임 수정
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
@@ -406,68 +378,14 @@ const Profile = ({ refreshUser, userObj }) => {
                 </div>
               </div>
             </div>
-
-            <nav className="nav-tab">
-              <div className="nav-tab__div">
-                <div className="nav-tab__div__div">
-                  <div className="nav-tab__list">
-                    <div className="nav-tab__list__presentation">
-                      <a href="/" className="nav-tab__list__presentation__a">
-                        <div className="nav-tab__list__presentation__a__text-box">
-                          <span className="nav-tab__list__presentation__a__text-box__name">
-                            트윗
-                          </span>
-                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="nav-tab__list__presentation">
-                      <a href="/" className="nav-tab__list__presentation__a">
-                        <div className="nav-tab__list__presentation__a__text-box">
-                          <span className="nav-tab__list__presentation__a__text-box__name">
-                            트윗 및 답글
-                          </span>
-                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="nav-tab__list__presentation">
-                      <a href="/" className="nav-tab__list__presentation__a">
-                        <div className="nav-tab__list__presentation__a__text-box">
-                          <span className="nav-tab__list__presentation__a__text-box__name">
-                            미디어
-                          </span>
-                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="nav-tab__list__presentation">
-                      <a href="/" className="nav-tab__list__presentation__a">
-                        <div className="nav-tab__list__presentation__a__text-box">
-                          <span className="nav-tab__list__presentation__a__text-box__name">
-                            마음에 들어요
-                          </span>
-                          <div className="nav-tab__list__presentation__a__text-box__line tab-on"></div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </nav>
-
-            <div className="tweetList">
-              {tweets.map((tweet) => (
-                //Tweet을 컴포넌트로 만고 props으로 가져온다.
-                //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
-                <Tweet
-                  key={tweet.id}
-                  tweetObj={tweet}
-                  isOwner={tweet.creatorId === userObj.uid}
-                  userObj={userObj}
-                />
-              ))}
-            </div>
+            <ProfileTab />
+            <Routes>
+              <Route path="" element={<ProfileSection userObj={userObj} />} />
+              <Route
+                path="likes"
+                element={<ProfileSection userObj={userObj} />}
+              />
+            </Routes>
           </div>
         </div>
       </div>

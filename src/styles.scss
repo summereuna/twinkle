@@ -103,17 +103,6 @@ $color-id: #536471;
   color: $color-main;
 }
 
-/*✅ fn*/
-
-.tab-on {
-  width: 100%;
-  height: 4px;
-  background-color: #188cd8;
-}
-.tab-off {
-  display: none;
-}
-
 .cursor--pointer {
   cursor: pointer;
 }
@@ -560,6 +549,8 @@ footer {
         }
       }
       .tweetList__tweets__tweet__content {
+        display: flex;
+        flex-direction: column;
         .tweetList__tweets__tweet__content__text {
           box-sizing: border-box;
           padding-top: 10px;
@@ -575,14 +566,17 @@ footer {
         .tweetList__tweets__tweet__content__img {
           padding-top: 20px;
         }
-        .tweetList__tweets__tweet__content__btn {
+        .tweetList__tweets__tweet__content__btns {
           display: flex;
           flex-direction: row;
-          justify-content: space-between;
           align-items: center;
+          justify-content: space-between;
           font-size: 15px;
           margin-top: 12px;
           margin-left: -10px;
+          span {
+            padding: 0 12px;
+          }
         }
       }
     }
@@ -598,7 +592,6 @@ footer {
 
 /*💬 tab nav*/
 .nav-tab {
-  z-index: -1;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -670,20 +663,16 @@ footer {
               .nav-tab__list__presentation__a__text-box__name {
                 overflow-wrap: break-word;
               }
-              .nav-tab__list__presentation__a__text-box__line {
-                display: inline-flex;
-                align-items: stretch;
-                flex-basis: auto;
-                flex-direction: column;
-                flex-shrink: 0;
-                position: absolute;
-                bottom: 0;
-              }
             }
           }
         }
       }
     }
+  }
+
+  .tab-on {
+    box-sizing: border-box;
+    border-bottom: 4px solid #188cd8;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { dbService, storageService } from "fbase";
 import {
   doc,
@@ -16,8 +16,12 @@ import moment from "moment";
 import "moment/locale/ko";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as solidHeart,
+  faPencilAlt,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import ProfilePhoto from "./ProfilePhoto";
 
 const Tweet = ({ tweetObj, isOwner, userObj }) => {
@@ -52,8 +56,18 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
     }
   };
 
+  const textRef = useRef();
+
+  const autoResizeTextarea = useCallback(() => {
+    textRef.current.style.height = "auto";
+    textRef.current.style.height = textRef.current.scrollHeight + "px";
+  }, []);
+
   //수정모드 토글 (토글 버튼 누르면 현재 상태(기본 false) 반대로 바뀜
-  const toggleEditing = () => setEditing((prev) => !prev);
+  const toggleEditing = () => {
+    setEditing((prev) => !prev);
+    setNewTweet(tweetObj.text);
+  };
 
   //수정모드에서 트윗 수정 후 폼 서밋해서 트윗 내용 업데이트하기
   const onSubmit = async (event) => {
@@ -187,17 +201,53 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
       {/*수정 버튼 클릭된 거면(true) 수정할 폼 보여주고 : 아니면(false) 트윗 내용 보여주기*/}
       {editing ? (
         <>
-          <form onSubmit={onSubmit}>
-            <input
-              value={newTweet}
-              required
-              type="text"
-              placeholder="수정할 내용을 입력하세요."
-              onChange={onChange}
-            ></input>
-            <input type="submit" value="수정" />
-          </form>
-          <button onClick={toggleEditing}>취소</button>
+          <div className="tweetSender">
+            <div className="tweetSender__userImg">
+              <div className="tweetSender__userImg__img">
+                <ProfilePhoto photoURL={userObj.photoURL} />
+              </div>
+            </div>
+            <div className="tweetSender__writeBox">
+              <form onSubmit={onSubmit}>
+                <div className="tweetSender__writeBox__text">
+                  <textarea
+                    className="tweetSender__writeBox__text__textarea"
+                    type="text"
+                    wrap="on"
+                    placeholder="수정할 내용을 입력하세요."
+                    maxLength={150}
+                    value={newTweet}
+                    required
+                    onChange={onChange}
+                    ref={textRef}
+                    onInput={autoResizeTextarea}
+                  />
+                </div>
+                {tweetObj.attachmentUrl && (
+                  <div className="tweetList__tweets__tweet__content__img">
+                    <img
+                      src={tweetObj.attachmentUrl}
+                      alt="tweetImg"
+                      width="200"
+                    />
+                  </div>
+                )}
+                <div className="tweetSender__writeBox__btn">
+                  <div className="tweetSender__writeBox__btn__submit">
+                    <input
+                      className="btn btn--blue btn--border-zero"
+                      type="submit"
+                      value="수정"
+                      disabled={
+                        newTweet.length === 0 || tweetObj.text === newTweet
+                      }
+                    />
+                  </div>
+                  <button onClick={toggleEditing}>취소</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </>
       ) : (
         <>
@@ -230,30 +280,36 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                     />
                   </div>
                 )}
-                <div className="tweetList__tweets__tweet__content__btn">
-                  <button
-                    className={`btn--min--circle ${
-                      isClickedHeart ? "clicked-heart" : ""
-                    }`}
-                    onClick={toggleHeartCounter}
-                  >
-                    <FontAwesomeIcon icon={faHeart} />
-                  </button>
-                  <span>{tweetObj.like}</span>
-                  {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
+                <div className="tweetList__tweets__tweet__content__btns">
+                  <div className="tweetList__tweets__tweet__content__btns__btn">
+                    <button
+                      className={`btn--min--circle ${
+                        isClickedHeart ? "clicked-heart" : ""
+                      }`}
+                      onClick={toggleHeartCounter}
+                    >
+                      {isClickedHeart ? (
+                        <FontAwesomeIcon icon={solidHeart} />
+                      ) : (
+                        <FontAwesomeIcon icon={regularHeart} />
+                      )}
+                    </button>
+                    <span>{tweetObj.like}</span>
+                    {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
+                  </div>
                   {isOwner && (
                     <div className="tweetList__tweets__tweet__content__btn__modify">
-                      <button
-                        className="btn--min--circle"
-                        onClick={onDeleteClick}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
                       <button
                         className="btn--min--circle"
                         onClick={toggleEditing}
                       >
                         <FontAwesomeIcon icon={faPencilAlt} />
+                      </button>
+                      <button
+                        className="btn--min--circle"
+                        onClick={onDeleteClick}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </div>
                   )}

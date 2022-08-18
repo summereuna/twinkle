@@ -57,7 +57,7 @@ const Navigation = ({ userObj }) => {
                   size="2x"
                   className="cursor--pointer"
                 />
-              </div>{" "}
+              </div>
             </Link>
             <li className="nav__ul__li">
               <Link to="/">

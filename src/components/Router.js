@@ -28,9 +28,10 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
             {/*로그인한 유저정보(userObj)를 prop으로 Home컴포넌트에 보내기*/}
             <Route path="/" element={<Home userObj={userObj} />}></Route>
             <Route
-              path="/profile"
+              path="/profile/*"
               element={<Profile userObj={userObj} refreshUser={refreshUser} />}
             ></Route>
+            {/*중첩 라우팅*/}
             {/*정해진 url외에 다른 url로 접근시 모두 "/"로 리다이렉트하기*/}
             <Route path="*" element={<Navigate replace to="/" />} />
           </>
