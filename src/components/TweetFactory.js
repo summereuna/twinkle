@@ -69,7 +69,7 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
       creatorName: userObj.displayName,
       creatorEmailId: userObj.email.substring(0, userObj.email.indexOf("@")),
       attachmentUrl,
-      like: 0,
+      like: [],
     };
 
     //트윗하기 누르면 tweetObj 형태로 새로운 document 생성하여 tweets 콜렉션에 넣기

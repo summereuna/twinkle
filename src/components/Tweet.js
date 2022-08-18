@@ -106,24 +106,11 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
 
   //하트 +1
   const increaseLikeInTweetObj = async () => {
-    const tweetDocRef = doc(dbService, "tweets", `${tweetObj.id}`);
+    const tweetDocRef = doc(dbService, "tweets", tweetObj.id);
 
-    try {
-      const plusHeart = await runTransaction(dbService, async (transaction) => {
-        const tweetDoc = await transaction.get(tweetDocRef);
-        const increaseLike = tweetDoc.data().like + 1;
-        if (!isClickedHeart) {
-          transaction.update(tweetDocRef, { like: increaseLike });
-          return increaseLike;
-        } else {
-          return Promise.reject("Sorry! X_X");
-        }
-      });
-      console.log("like is increased to ", plusHeart);
-    } catch (e) {
-      // This will be a "increase like X_X" error.
-      console.error(e);
-    }
+    await updateDoc(tweetDocRef, {
+      like: arrayUnion(`${userObj.uid}`),
+    });
   };
 
   //하트를 누른 유저의 user 문서의 like 필드([])에 해당 tweet의 doc.id를 추가
@@ -138,24 +125,11 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
 
   //하트 -1
   const decreaseLikeInTweetObj = async () => {
-    const tweetDocRef = doc(dbService, "tweets", `${tweetObj.id}`);
+    const tweetDocRef = doc(dbService, "tweets", tweetObj.id);
 
-    try {
-      const plusHeart = await runTransaction(dbService, async (transaction) => {
-        const tweetDoc = await transaction.get(tweetDocRef);
-        const decreaseLike = tweetDoc.data().like - 1;
-        if (isClickedHeart) {
-          transaction.update(tweetDocRef, { like: decreaseLike });
-          return decreaseLike;
-        } else {
-          return Promise.reject("Sorry! X_X");
-        }
-      });
-      console.log("like is decreased to ", plusHeart);
-    } catch (e) {
-      // This will be a "decrease like" error.
-      console.error(e);
-    }
+    await updateDoc(tweetDocRef, {
+      like: arrayRemove(`${userObj.uid}`),
+    });
   };
 
   //Atomically remove a region from the "like" array field.
@@ -294,7 +268,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                         <FontAwesomeIcon icon={regularHeart} />
                       )}
                     </button>
-                    <span>{tweetObj.like}</span>
+                    <span>{tweetObj.like.length}</span>
                     {/*트윗 주인인 경우만 삭제/수정 버튼 보이게*/}
                   </div>
                   {isOwner && (

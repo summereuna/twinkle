@@ -10,12 +10,9 @@ import { useEffect, useState } from "react";
 import Tweet from "../components/Tweet";
 
 const ProfileSection = ({ userObj }) => {
-  //✅ 내 트윗 가져오기: map으로
+  //✅트윗 가져오기
   const [tweets, setTweets] = useState([]);
 
-  //const likedTweets = userObj.like;
-
-  console.log("아아아테스트중");
   useEffect(() => {
     //snapshot은 쿼리 같은 건데 docs를 가지고 있다.
     //tweets은 페이지를 불러올 때 snapshot에서 나오는 거다.
