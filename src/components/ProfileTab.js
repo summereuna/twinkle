@@ -32,14 +32,19 @@ const ProfileTab = () => {
               </a>
             </li>
             <li className="nav-tab__list__presentation">
-              <a href="/" className="nav-tab__list__presentation__a">
-                <div className="nav-tab__list__presentation__a__text-box">
-                  <span className="nav-tab__list__presentation__a__text-box__name">
-                    미디어
-                  </span>
-                  <div className="nav-tab__list__presentation__a__text-box__line"></div>
+              <NavLink
+                to="media"
+                className={({ isActive }) => (isActive ? "tab-on" : undefined)}
+              >
+                <div className="nav-tab__list__presentation__a">
+                  <div className="nav-tab__list__presentation__a__text-box">
+                    <span className="nav-tab__list__presentation__a__text-box__name">
+                      미디어
+                    </span>
+                    <div className="nav-tab__list__presentation__a__text-box__line"></div>
+                  </div>
                 </div>
-              </a>
+              </NavLink>
             </li>
             <li className="nav-tab__list__presentation">
               <NavLink
