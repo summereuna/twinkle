@@ -9,6 +9,7 @@ const ProfileTab = () => {
             <li className="nav-tab__list__presentation">
               <NavLink
                 to=""
+                end
                 className={({ isActive }) => (isActive ? "tab-on" : undefined)}
               >
                 <div className="nav-tab__list__presentation__a">

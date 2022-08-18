@@ -28,6 +28,7 @@ import Header from "components/Header";
 import ProfileTab from "components/ProfileTab";
 import ProfileSection from "components/ProfileSection";
 import { Route, Routes } from "react-router-dom";
+import ProfileSectionLikes from "components/ProfileSectionLikes";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
@@ -383,7 +384,7 @@ const Profile = ({ refreshUser, userObj }) => {
               <Route path="" element={<ProfileSection userObj={userObj} />} />
               <Route
                 path="likes"
-                element={<ProfileSection userObj={userObj} />}
+                element={<ProfileSectionLikes userObj={userObj} />}
               />
             </Routes>
           </div>
