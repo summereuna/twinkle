@@ -143,7 +143,7 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
     },
     true
   );
-
+  console.log("🎨", attachment);
   return (
     <div className="modal-body-inside">
       <div className="tweetSender">

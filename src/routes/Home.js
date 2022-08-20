@@ -4,6 +4,7 @@ import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 
 import Tweet from "components/Tweet";
 import TweetFactory from "components/TweetFactory";
+import SideSection from "components/SideSection";
 
 //App > Router > Home 순으로 보낸 로그인한 유저 정보 prop으로 받기
 const Home = ({ userObj }) => {
