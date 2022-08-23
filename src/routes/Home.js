@@ -64,6 +64,7 @@ const Home = ({ userObj }) => {
           </div>
         </div>
       </div>
+      <SideSection />
     </main>
   );
 };

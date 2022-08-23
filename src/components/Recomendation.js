@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import ProfilePhoto from "./ProfilePhoto";
 
-const Recommendation = ({ userList }) => {
+const Recommendation = ({ userList, hover }) => {
   return (
     <div>
       {userList.map((user) => (
-        <div key={user.id} className="recommendation">
+        <div key={user.id} className={`recommendation ${hover}`}>
           <div className="recommendation__userImg">
             <ProfilePhoto photoURL={user.photoURL} />
           </div>

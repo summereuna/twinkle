@@ -13,7 +13,6 @@ import Home from "routes/Home";
 import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
 import PropTypes from "prop-types";
-import SideSection from "./SideSection";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 //로그인한 유저 정보 userObj 받기
@@ -44,7 +43,6 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
           </>
         )}
       </Routes>
-      {isLoggedIn && <SideSection />}
     </Router>
   );
 };
