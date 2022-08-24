@@ -1,5 +1,4 @@
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FollowBtn from "./FollowBtn";
 
 import ProfilePhoto from "./ProfilePhoto";
 
@@ -20,7 +19,7 @@ const Recommendation = ({ userList, hover }) => {
             </div>
           </div>
           <div className="recommendation__btn">
-            <FontAwesomeIcon icon={faUserPlus} />
+            <FollowBtn />
           </div>
         </div>
       ))}

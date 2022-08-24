@@ -45,8 +45,8 @@ const AuthForm = () => {
           headerURL: "",
           bio: "",
           like: [],
-          follower: [],
-          following: [],
+          follower: 0,
+          following: 0,
         });
       } else {
         await signInWithEmailAndPassword(authService, email, password);

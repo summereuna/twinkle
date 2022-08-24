@@ -99,6 +99,38 @@ $color-id: #536471;
   transition: 0.3s;
 }
 
+.follow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 0 16px;
+  border-radius: 25px;
+  cursor: point;
+  pointer-events: auto;
+}
+
+.follow-btn--black {
+  color: white;
+  background-color: rgb(15, 20, 25);
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.follow-btn--white {
+  color: rgba(0, 0, 0, 1);
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid rgb(207, 217, 222);
+}
+
+.follow-btn--red {
+  color: #f4212d;
+  background-color: #fdc9ce;
+  border: 1px solid #ff9ea8;
+}
+
 .icon {
   color: $color-main;
 }

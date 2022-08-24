@@ -46,8 +46,8 @@ const Auth = () => {
       headerURL: "",
       bio: "",
       like: [],
-      follower: [],
-      following: [],
+      follower: 0,
+      following: 0,
     });
   };
 
