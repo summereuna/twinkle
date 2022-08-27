@@ -2,10 +2,9 @@ import { authService, dbService } from "fbase";
 import { doc, getDoc, increment, writeBatch } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-const FollowBtn = ({ props }) => {
+//아직 데이터 못 받아 오는 중
+const FollowBtn = ({ otherUser }) => {
   const user = authService.currentUser;
-  const otherUser = props;
-
   const batch = writeBatch(dbService);
 
   const followUser = async () => {

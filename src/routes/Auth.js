@@ -38,16 +38,17 @@ const Auth = () => {
     await signInWithPopup(auth, provider);
 
     const user = auth.currentUser;
-    return setDoc(doc(dbService, "users", `${user.uid}`), {
+    setDoc(doc(dbService, "users", `${user.uid}`), {
       uid: user.uid,
       displayName: user.displayName,
       email: user.email,
-      photoURL: user.photoURL,
+      photoURL: "",
       headerURL: "",
       bio: "",
       like: [],
-      follower: 0,
-      following: 0,
+      follower: [],
+      following: [],
+      createdAt: user.metadata.createdAt,
     });
   };
 

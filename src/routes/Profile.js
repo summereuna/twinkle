@@ -3,20 +3,25 @@ import { updateProfile } from "firebase/auth";
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   updateDoc,
   where,
   writeBatch,
 } from "firebase/firestore";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
 import EditProfileModal from "../components/Modal/EditProfileModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faCalendarAlt,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   deleteObject,
   getDownloadURL,
@@ -26,13 +31,40 @@ import {
 import ProfilePhoto from "components/ProfilePhoto";
 import Header from "components/Header";
 import ProfileTab from "components/ProfileTab";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import ProfileSection from "./pages/ProfileSection";
 import ProfileSectionLikes from "./pages/ProfileSectionLikes";
 import ProfileSectionMedia from "./pages/ProfileSectionMedia";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
+  //✅ 사용자 정보 받아오기
+  const userId = useParams().id;
+
+  const [init, setInit] = useState(false);
+  //state에 어떤 타입의 데이터가 들어올지 디폴트를 작성해 두면 state가 업데이트 되기전 에러를 출력하지 않음
+  //그리고 && 연산자 적극 사용하자
+  const [userData, setUserData] = useState({});
+
+  const getProfiles = useCallback(async () => {
+    const usersRef = doc(dbService, "users", userId);
+    const usersSnap = await getDoc(usersRef);
+    const userDataObj = usersSnap.data();
+    setUserData(userDataObj);
+  }, [userId]);
+
+  //  if (userData !== undefined) {
+
+  useEffect(() => {
+    setInit(true);
+    getProfiles();
+    console.log("🔥유즈이펙트", userData);
+    return () => {
+      setInit(false);
+    };
+  }, []);
+
+  console.log("🍎밖", userData);
   //✅ 닉네임 수정
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
@@ -213,6 +245,9 @@ const Profile = ({ refreshUser, userObj }) => {
       if (userObj.photoURL !== profileAttachment) {
         //프로필 사진 업데이트 시 이미 프로필 사진이 있다면 기존 사진 파일은 스토리지에서 삭제
         const desertRef = ref(storageService, userObj.photoURL);
+
+        //소셜로그인시 스토리지에 사진 따로 저장 안되기 때문에 오류 발생해서 그냥 소셜로그인시 사진 안 받아오게 바꿈
+        //이건 뭐 방법을 모르겠음 일단 자잘한건 드랍하고 다른거 먼저 하자고
         if (userObj.photoURL) {
           await deleteObject(desertRef);
           console.log("❌ 기존 프로필 사진 삭제");
@@ -224,6 +259,7 @@ const Profile = ({ refreshUser, userObj }) => {
           `${userObj.uid}/profile/${uuidv4()}`
         );
         //ref 위치에 파일 업로드
+        console.log("✅", profileAttachment);
         const response = await uploadString(
           profileFileRef,
           profileAttachment,
@@ -311,89 +347,120 @@ const Profile = ({ refreshUser, userObj }) => {
   return (
     <main>
       <div id="body-content">
-        <div className="profile__container">
-          <div className="profile__title">
-            <a href="/">
-              <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-            </a>
-            <h1 className="profile__title__username">{userObj.displayName}</h1>
-          </div>
-          <div className="profile__main-container">
-            <div className="profile__user">
-              <div className="profile__user__header">
-                <Header headerURL={userObj.headerURL} />
+        {init ? (
+          userData && (
+            <div className="profile__container">
+              <div className="profile__title">
+                <a href="/">
+                  <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+                </a>
+                <h1 className="profile__title__username">
+                  {userData.displayName}
+                </h1>
               </div>
-              <div className="profile__user__info">
-                <div className="profile__user__btns">
-                  <div className="profile__user__userImg">
-                    <div className="userImg--lg">
-                      <div className="profile__user__userImg__file">
-                        <ProfilePhoto photoURL={userObj.photoURL} />
+              <div className="profile__main-container">
+                <div className="profile__user">
+                  <div className="profile__user__header">
+                    <Header headerURL={userData.headerURL} />
+                  </div>
+                  <div className="profile__user__info">
+                    <div className="profile__user__btns">
+                      <div className="profile__user__userImg">
+                        <div className="userImg--lg">
+                          <div className="profile__user__userImg__file">
+                            <ProfilePhoto photoURL={userData.photoURL} />
+                          </div>
+                        </div>
+                      </div>
+                      {userData.uid === userObj.uid ? (
+                        <>
+                          <button
+                            className="btn btn--grey"
+                            onClick={handleEditModalOpen}
+                          >
+                            프로필 수정
+                          </button>
+                          <EditProfileModal
+                            userObj={userObj}
+                            isEditProfileModalOpen={isEditProfileModalOpen}
+                            handleEditModalClose={handleEditModalClose}
+                            onChangeDisplayName={onChangeDisplayName}
+                            onChangeBio={onChangeBio}
+                            newDisplayName={newDisplayName}
+                            newBio={newBio}
+                            profileAttachment={profileAttachment}
+                            onProfileFileChange={onProfileFileChange}
+                            profileFileInput={profileFileInput}
+                            headerAttachment={headerAttachment}
+                            onHeaderFileChange={onHeaderFileChange}
+                            headerFileInput={headerFileInput}
+                            onSubmit={onSubmit}
+                          />
+                        </>
+                      ) : (
+                        <button className="btn btn--blue">팔로우</button>
+                      )}
+                    </div>
+                    <div className="profile__user__info__userName">
+                      <span className="profile__user__info__userName__name">
+                        {userData.displayName}
+                      </span>
+                      <span className="profile__user__info__userName__id">
+                        @
+                        {userData.email?.substring(
+                          0,
+                          userData.email?.indexOf("@")
+                        )}
+                      </span>
+                    </div>
+                    <div className="profile__user__info__userInfo">
+                      <div className="profile__user__info__userInfo__bio">
+                        <span>{userData.bio}</span>
+                      </div>
+                      <div className="profile__user__info__userInfo__createdAt">
+                        <span>
+                          <FontAwesomeIcon icon={faCalendarAlt} />
+                        </span>
+                        <span> 가입일: {userCreatedAt}</span>
                       </div>
                     </div>
+                    <div className="profile__user__info__userMeta">
+                      <span>
+                        <b>{userData.following?.length}</b>
+                        {userData.following?.length > 0
+                          ? " 팔로우 중"
+                          : " 팔로우"}
+                      </span>
+                      <span>
+                        <b>{userData.follower?.length}</b>
+                        팔로워
+                      </span>
+                    </div>
                   </div>
-                  <button
-                    className="btn btn--grey"
-                    onClick={handleEditModalOpen}
-                  >
-                    프로필 수정
-                  </button>
-                  <EditProfileModal
-                    userObj={userObj}
-                    isEditProfileModalOpen={isEditProfileModalOpen}
-                    handleEditModalClose={handleEditModalClose}
-                    onChangeDisplayName={onChangeDisplayName}
-                    onChangeBio={onChangeBio}
-                    newDisplayName={newDisplayName}
-                    newBio={newBio}
-                    profileAttachment={profileAttachment}
-                    onProfileFileChange={onProfileFileChange}
-                    profileFileInput={profileFileInput}
-                    headerAttachment={headerAttachment}
-                    onHeaderFileChange={onHeaderFileChange}
-                    headerFileInput={headerFileInput}
-                    onSubmit={onSubmit}
+                </div>
+                <ProfileTab />
+                <Routes>
+                  <Route
+                    path=""
+                    element={<ProfileSection userObj={userObj} />}
                   />
-                </div>
-                <div className="profile__user__info__userName">
-                  <span className="profile__user__info__userName__name">
-                    {userObj.displayName}
-                  </span>
-                  <span className="profile__user__info__userName__id">
-                    @{userObj.email.substring(0, userObj.email.indexOf("@"))}
-                  </span>
-                </div>
-                <div className="profile__user__info__userInfo">
-                  <div className="profile__user__info__userInfo__bio">
-                    <span>{userObj.bio}</span>
-                  </div>
-                  <div className="profile__user__info__userInfo__createdAt">
-                    <span>
-                      <FontAwesomeIcon icon={faCalendarAlt} />
-                    </span>
-                    <span> 가입일: {userCreatedAt}</span>
-                  </div>
-                </div>
-                <div className="profile__user__info__userMeta">
-                  <span>8 팔로우 중</span>
-                  <span>0 팔로워</span>
-                </div>
+                  <Route
+                    path="media"
+                    element={<ProfileSectionMedia userObj={userObj} />}
+                  />
+                  <Route
+                    path="likes"
+                    element={<ProfileSectionLikes userObj={userObj} />}
+                  />
+                </Routes>
               </div>
             </div>
-            <ProfileTab />
-            <Routes>
-              <Route path="" element={<ProfileSection userObj={userObj} />} />
-              <Route
-                path="media"
-                element={<ProfileSectionMedia userObj={userObj} />}
-              />
-              <Route
-                path="likes"
-                element={<ProfileSectionLikes userObj={userObj} />}
-              />
-            </Routes>
+          )
+        ) : (
+          <div className="loading__container">
+            <FontAwesomeIcon className="loading" icon={faCog} spin size="3x" />
           </div>
-        </div>
+        )}
       </div>
     </main>
   );

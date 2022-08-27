@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 
 import Tweet from "components/Tweet";
@@ -64,7 +64,6 @@ const Home = ({ userObj }) => {
           </div>
         </div>
       </div>
-      <SideSection />
     </main>
   );
 };

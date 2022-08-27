@@ -22,6 +22,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ProfilePhoto from "./ProfilePhoto";
+import { NavLink } from "react-router-dom";
 
 const Tweet = ({ tweetObj, isOwner, userObj }) => {
   //수정모드인지 아닌지 false/true
@@ -226,16 +227,20 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
         <>
           <div className="tweetList__tweets">
             <div className="userImg">
-              <div className="userImg_img">
-                <ProfilePhoto photoURL={usersPhotoUrl} />
-              </div>
+              <NavLink to={tweetObj.creatorId} end>
+                <div className="userImg_img">
+                  <ProfilePhoto photoURL={usersPhotoUrl} />
+                </div>
+              </NavLink>
             </div>
             <div className="tweetList__tweets__tweet">
               <div className="tweetList__tweets__tweet__info">
-                <span className="tweetList__tweets__tweet__info__userName">
-                  {tweetObj.creatorName}
-                </span>
-                <span>@{tweetObj.creatorEmailId}</span>
+                <NavLink to={tweetObj.creatorId} end>
+                  <span className="tweetList__tweets__tweet__info__userName">
+                    {tweetObj.creatorName}
+                  </span>
+                  <span>@{tweetObj.creatorEmailId}</span>
+                </NavLink>
                 <span> · </span>
                 <span>{fromNowCreatedAt}</span>
               </div>
