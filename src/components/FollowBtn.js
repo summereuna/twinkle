@@ -1,113 +1,67 @@
 import { authService, dbService } from "fbase";
-import { doc, getDoc, increment, writeBatch } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 //아직 데이터 못 받아 오는 중
-const FollowBtn = ({ otherUser }) => {
-  const user = authService.currentUser;
-  const batch = writeBatch(dbService);
+const FollowBtn = ({ thisUserId }) => {
+  const myId = authService.currentUser.uid;
 
-  const followUser = async () => {
-    const followingRef = doc(
-      dbService,
-      "follow",
-      user.uid,
-      "following",
-      otherUser.id
-    );
-    batch.setDoc(followingRef, {
-      displayName: otherUser.displayName,
-      photoURL: otherUser.photoURL,
-      uid: otherUser.id,
+  //팔로우 버튼 토글
+  const [isFollow, setIsFollow] = useState(false);
+
+  //팔로우
+  //상대방 팔로워 목록에 내 아이디 추가 (상대방 팔로워 +1)
+  const increaseFollowerInOther = async () => {
+    const userDocRef = doc(dbService, "users", thisUserId);
+
+    await updateDoc(userDocRef, {
+      follower: arrayUnion(`${myId}`),
     });
-
-    const followerRef = doc(
-      dbService,
-      "follow",
-      otherUser.id,
-      "follower",
-      user.uid
-    );
-    batch.setDoc(followerRef, {
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      uid: user.uid,
-    });
-
-    const usersRef = doc(dbService, "users", user.uid);
-    batch.update(usersRef, { following: increment(1) });
-
-    const otherUsersRef = doc(dbService, "users", otherUser.id);
-    batch.update(otherUsersRef, { follower: increment(1) });
-
-    await batch.commit();
-
-    /*
-    await setDoc(
-      doc(dbService, "follow", user.uid, "following", otherUser.id),
-      {
-        displayName: otherUser.displayName,
-        photoURL: otherUser.photoURL,
-        uid: otherUser.id,
-      }
-    );
-
-    await setDoc(doc(dbService, "follow", otherUser.id, "follower", user.uid), {
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      uid: user.uid,
-    });
-
-    const usersRef = doc(dbService, "users", user.uid);
-
-    await updateDoc(usersRef, {
-      following: increment(1),
-    });
-    const otherUsersRef = doc(dbService, "users", otherUser.id);
-
-    await updateDoc(otherUsersRef, {
-      follower: increment(1),
-    });
-    */
   };
 
-  const unFollowUser = async () => {
-    const followingRef = doc(
-      dbService,
-      "follow",
-      user.uid,
-      "following",
-      otherUser.id
-    );
-    batch.delete(followingRef);
+  //내 팔로잉 목록에 내가 추가한 상대 아이디 추가 (내 팔로잉 +1)
+  const addFollow = async () => {
+    const userRef = doc(dbService, "users", myId);
 
-    const followerRef = doc(
-      dbService,
-      "follow",
-      otherUser.id,
-      "follower",
-      user.uid
-    );
-    batch.delete(followerRef);
+    await updateDoc(userRef, {
+      following: arrayUnion(`${thisUserId}`),
+    });
+  };
 
-    const usersRef = doc(dbService, "users", user.uid);
-    batch.update(usersRef, { following: increment(-1) });
+  //팔로우 취소
+  //상대방 팔로워 목록에 내 아이디 빼기 (상대방 팔로워 -1)
+  const decreaseFollowerInOther = async () => {
+    const userDocRef = doc(dbService, "users", thisUserId);
 
-    const otherUsersRef = doc(dbService, "users", otherUser.id);
-    batch.update(otherUsersRef, { follower: increment(-1) });
+    await updateDoc(userDocRef, {
+      follower: arrayRemove(`${myId}`),
+    });
+  };
 
-    await batch.commit();
+  //내 팔로잉 목록에 팔로우 취소한 상대 아이디 빼기 (내 팔로잉 -1)
+  const removeFollow = async () => {
+    const userRef = doc(dbService, "users", myId);
+
+    await updateDoc(userRef, {
+      following: arrayRemove(`${thisUserId}`),
+    });
   };
 
   //팔로우 버튼 토글
-  const [isFollow, setIsFollow] = useState();
-
   const toggleFollowBtn = async () => {
     if (!isFollow) {
-      followUser();
+      increaseFollowerInOther();
+      addFollow();
       setIsFollow((prev) => !prev);
     } else {
-      unFollowUser();
+      decreaseFollowerInOther();
+      removeFollow();
       setIsFollow((prev) => !prev);
     }
   };
@@ -115,11 +69,11 @@ const FollowBtn = ({ otherUser }) => {
   //useEffect 사용해서 팔로우 버튼 색깔 유지
   useEffect(() => {
     async function fetchData() {
-      const usersFollowingRef = doc(dbService, "follow", user.uid, "following");
+      const usersFollowingRef = doc(dbService, "users", thisUserId);
       const usersFollowingSnap = await getDoc(usersFollowingRef);
-      const usersFollowingUsers = usersFollowingSnap.data().uid;
+      const usersFollowingUsers = usersFollowingSnap.data().follower;
 
-      if (usersFollowingUsers.includes(otherUser.id)) {
+      if (usersFollowingUsers.includes(myId)) {
         setIsFollow(true);
       } else {
         setIsFollow(false);

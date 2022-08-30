@@ -36,10 +36,14 @@ import ProfileSection from "./pages/ProfileSection";
 import ProfileSectionLikes from "./pages/ProfileSectionLikes";
 import ProfileSectionMedia from "./pages/ProfileSectionMedia";
 import SideSection from "components/SideSection";
+import FollowBtn from "components/FollowBtn";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
-  //✅ 사용자 정보 받아오기
+  //prop으로 받은 userObj는 currentUser의 user Collection data
+  //아래 userData state에 있는 유저 오브젝트는 param에 따른 유저 데이터로 유저별 프로필 정보
+
+  //✅ 프로필 사용자 정보 받아오기
   const userId = useParams().id;
 
   const [init, setInit] = useState(false);
@@ -52,9 +56,9 @@ const Profile = ({ refreshUser, userObj }) => {
     const usersSnap = await getDoc(usersRef);
     const userDataObj = usersSnap.data();
     setUserData(userDataObj);
+    console.log("괜찮니");
   }, [userId]);
-
-  //  if (userData !== undefined) {
+  //userId 파람 디펜던시에 넣으면 다른 유저 선택시 페이지 리렌더링 된다.
 
   useEffect(() => {
     setInit(true);
@@ -63,7 +67,8 @@ const Profile = ({ refreshUser, userObj }) => {
     return () => {
       setInit(false);
     };
-  }, [userId]);
+  }, [getProfiles]);
+  //param 바뀌는거에 따라 getProfiles에서 유저 프로필 데이터를 구해오니까 getProfiles 함수를 디펜던시에 넣으면 다른 유저 선택시 페이지 리렌더링 된다.
 
   console.log("🍎밖", userData.uid);
   //✅ 닉네임 수정
@@ -310,6 +315,7 @@ const Profile = ({ refreshUser, userObj }) => {
         await updateDoc(userCollectionRef, { headerURL: attachmentUrl });
         console.log("✅ 헤더 업데이트");
       }
+      //프로필 페이지에 있는 userData 새로고침
 
       //프로필 수정 사항 있을 때만 react.js에 있는 profile도 새로고침되게 하기
       refreshUser();
@@ -399,7 +405,9 @@ const Profile = ({ refreshUser, userObj }) => {
                           />
                         </>
                       ) : (
-                        <button className="btn btn--blue">팔로우</button>
+                        <div>
+                          <FollowBtn thisUserId={userData.uid} />
+                        </div>
                       )}
                     </div>
                     <div className="profile__user__info__userName">

@@ -22,7 +22,7 @@ const Recommendation = ({ userList, hover }) => {
                 </div>
               </div>
               <div className="recommendation__btn">
-                <FollowBtn otherUser={user} />
+                <FollowBtn thisUserId={user.id} />
               </div>
             </div>
           </NavLink>
