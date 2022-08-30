@@ -175,15 +175,26 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 main {
-  width: 990px;
+  //width: 990px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
   flex-shrink: 1;
   flex-grow: 1;
+  @media (max-width: 920px) {
+    .mobile {
+      display: none;
+    }
+  }
+  @media (min-width: 990px) {
+    .mobile {
+      display: flex;
+    }
+  }
 }
 
 /*✅ footer 정렬*/
@@ -1058,6 +1069,7 @@ footer {
   font-size: 15px;
   padding-top: 12px;
   padding-bottom: 64px;
+  margin-left: 20px;
   .side-box {
     margin-bottom: 16px;
     background-color: rgb(247, 249, 249);
@@ -1152,7 +1164,7 @@ footer {
   pointer-events: none;
   .modal-search-layout-inside {
     top: 51px;
-    left: 62.7%;
+    left: 61.5%;
     position: fixed;
     //display: flex;
     .modal-search {

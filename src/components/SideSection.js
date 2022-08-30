@@ -33,7 +33,7 @@ const SideSection = () => {
       photoURL: doc.data().photoURL,
     }));
 
-    setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
+    /*setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
     //console.log(allUserWithoutCurrentUserList);
     //유저 3명 무작위 추첨
     let randomUsersArr = [];
@@ -51,12 +51,14 @@ const SideSection = () => {
         i--;
       }
     }
-    setRandomUserList(randomUsersArr);
+    setRandomUserList(randomUsersArr);*/
+    setRandomUserList(allUserWithoutCurrentUserList);
   };
-
+  console.log("밖");
   useEffect(() => {
     setLoading(true);
     getUsers();
+    console.log("dhoㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴ");
     return () => {
       setLoading(false);
     };
