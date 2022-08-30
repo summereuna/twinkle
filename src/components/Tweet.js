@@ -227,7 +227,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
         <>
           <div className="tweetList__tweets">
             <div className="userImg">
-              <NavLink to={tweetObj.creatorId} end>
+              <NavLink to={`/${tweetObj.creatorId}`}>
                 <div className="userImg_img">
                   <ProfilePhoto photoURL={usersPhotoUrl} />
                 </div>
@@ -235,7 +235,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
             </div>
             <div className="tweetList__tweets__tweet">
               <div className="tweetList__tweets__tweet__info">
-                <NavLink to={tweetObj.creatorId} end>
+                <NavLink to={`/${tweetObj.creatorId}`}>
                   <span className="tweetList__tweets__tweet__info__userName">
                     {tweetObj.creatorName}
                   </span>

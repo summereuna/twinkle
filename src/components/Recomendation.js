@@ -8,7 +8,7 @@ const Recommendation = ({ userList, hover }) => {
     <div>
       {userList.map((user) => (
         <div key={user.id}>
-          <NavLink to={user.id} end>
+          <NavLink to={`/${user.id}`}>
             <div className={`recommendation ${hover}`}>
               <div className="recommendation__userImg">
                 <ProfilePhoto photoURL={user.photoURL} />

@@ -52,6 +52,7 @@ const SideSection = () => {
       }
     }
     setRandomUserList(randomUsersArr);*/
+    //메모리 릭 발생해서 일단 이렇게 커밋
     setRandomUserList(allUserWithoutCurrentUserList);
   };
   console.log("밖");

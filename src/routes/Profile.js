@@ -35,6 +35,7 @@ import { Route, Routes, useParams } from "react-router-dom";
 import ProfileSection from "./pages/ProfileSection";
 import ProfileSectionLikes from "./pages/ProfileSectionLikes";
 import ProfileSectionMedia from "./pages/ProfileSectionMedia";
+import SideSection from "components/SideSection";
 
 //로그인한 유저 정보 prop으로 받기
 const Profile = ({ refreshUser, userObj }) => {
@@ -62,7 +63,7 @@ const Profile = ({ refreshUser, userObj }) => {
     return () => {
       setInit(false);
     };
-  }, []);
+  }, [userId]);
 
   console.log("🍎밖", userData.uid);
   //✅ 닉네임 수정
@@ -463,6 +464,9 @@ const Profile = ({ refreshUser, userObj }) => {
             <FontAwesomeIcon className="loading" icon={faCog} spin size="3x" />
           </div>
         )}
+      </div>
+      <div className="mobile">
+        <SideSection />
       </div>
     </main>
   );
