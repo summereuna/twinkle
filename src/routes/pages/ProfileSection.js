@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import Tweet from "../../components/Tweet";
 
 const ProfileSection = ({ userObj }) => {
+  console.log("🐥", userObj.uid);
   //✅트윗 가져오기
   const [tweets, setTweets] = useState([]);
 

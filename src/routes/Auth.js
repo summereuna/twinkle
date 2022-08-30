@@ -40,7 +40,9 @@ const Auth = () => {
     const user = auth.currentUser;
     setDoc(doc(dbService, "users", `${user.uid}`), {
       uid: user.uid,
-      displayName: user.displayName,
+      displayName: user.displayName
+        ? user.displayName
+        : `${user.email.substring(0, user.email.indexOf("@"))}`,
       email: user.email,
       photoURL: "",
       headerURL: "",

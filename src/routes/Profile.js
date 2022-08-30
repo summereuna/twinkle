@@ -64,7 +64,7 @@ const Profile = ({ refreshUser, userObj }) => {
     };
   }, []);
 
-  console.log("🍎밖", userData);
+  console.log("🍎밖", userData.uid);
   //✅ 닉네임 수정
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
@@ -336,7 +336,7 @@ const Profile = ({ refreshUser, userObj }) => {
   };
 
   //유저 가입일
-  const userCreatedAtTimestamp = Number(userObj.metadata.createdAt);
+  const userCreatedAtTimestamp = Number(userData.createdAt);
   //타입이 string이어서 number로 바꿔줌
   const date = new Date(userCreatedAtTimestamp);
   const year = date.getFullYear();
@@ -439,20 +439,22 @@ const Profile = ({ refreshUser, userObj }) => {
                   </div>
                 </div>
                 <ProfileTab />
-                <Routes>
-                  <Route
-                    path=""
-                    element={<ProfileSection userObj={userObj} />}
-                  />
-                  <Route
-                    path="media"
-                    element={<ProfileSectionMedia userObj={userObj} />}
-                  />
-                  <Route
-                    path="likes"
-                    element={<ProfileSectionLikes userObj={userObj} />}
-                  />
-                </Routes>
+                {userData.uid && (
+                  <Routes>
+                    <Route
+                      path=""
+                      element={<ProfileSection userObj={userData} />}
+                    />
+                    <Route
+                      path="media"
+                      element={<ProfileSectionMedia userObj={userData} />}
+                    />
+                    <Route
+                      path="likes"
+                      element={<ProfileSectionLikes userObj={userData} />}
+                    />
+                  </Routes>
+                )}
               </div>
             </div>
           )

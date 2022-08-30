@@ -29,7 +29,7 @@ const SearchModal = ({
       className={`modal-layout ${isModalOpen ? "show" : ""}`}
       onClick={handleModalClose}
     >
-      <div className="modal-layout-inside">
+      <div className="modal-search-layout-inside">
         <div className="modal-search">
           <div
             className="modal-search-content"

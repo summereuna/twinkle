@@ -80,6 +80,7 @@ function App() {
     console.log("🔥refresh: newMergeUserObj", newMergeUserObj.photoURL);
     console.log("🔥refresh: userObj", userObj.photoURL);
   };
+
   console.log("✅ refresh");
   console.log("✅userObj✅", userObj);
 

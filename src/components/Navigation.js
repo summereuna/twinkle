@@ -92,7 +92,7 @@ const Navigation = ({ userObj }) => {
               </div>
             </li>
             <li className="nav__ul__li">
-              <Link to="/profile">
+              <Link to={userObj.uid} end>
                 <div className="nav__ul__li__btn nav__btn btn--circle">
                   <FontAwesomeIcon icon={faUser} size="2x" />
                 </div>
