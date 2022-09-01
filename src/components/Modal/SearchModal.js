@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Recommendation from "components/Recomendation";
+import SearchUser from "components/SearchUser";
 
 const SearchModal = ({
   isModalOpen,
@@ -38,7 +38,11 @@ const SearchModal = ({
             <div>
               {searchKeyword ? (
                 filterKeywordArr.length > 0 ? (
-                  <Recommendation hover={hover} userList={filterKeywordArr} />
+                  <SearchUser
+                    hover={hover}
+                    userList={filterKeywordArr}
+                    handleModalClose={handleModalClose}
+                  />
                 ) : (
                   <div className="modal-search-content__default">
                     {`'${searchKeyword}'에 대한 검색 결과가 없습니다.`}

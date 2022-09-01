@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import SearchModal from "./Modal/SearchModal";
 import Recommendation from "./Recomendation";
 
-const SideSection = () => {
+const SideSection = (userObjFollowing) => {
   const [loading, setLoading] = useState();
 
   //유저 데이터
@@ -29,11 +29,12 @@ const SideSection = () => {
     const allUserWithoutCurrentUserList = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       displayName: doc.data().displayName,
+      bio: doc.data().bio,
       email: doc.data().email,
       photoURL: doc.data().photoURL,
     }));
 
-    /*setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
+    setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
     //console.log(allUserWithoutCurrentUserList);
     //유저 3명 무작위 추첨
     let randomUsersArr = [];
@@ -51,15 +52,18 @@ const SideSection = () => {
         i--;
       }
     }
-    setRandomUserList(randomUsersArr);*/
-    //메모리 릭 발생해서 일단 이렇게 커밋
-    setRandomUserList(allUserWithoutCurrentUserList);
+    setRandomUserList(randomUsersArr);
+    console.log("팔로우 추천");
   };
+
   console.log("밖");
   useEffect(() => {
-    setLoading(true);
-    getUsers();
-    console.log("dhoㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴ");
+    //useEffect 무한 루프 돌아서 메모리 릭 발생해서 조건 묶음
+    if (randomUserList) {
+      setLoading(true);
+      getUsers();
+      console.log("dhoㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴ");
+    }
     return () => {
       setLoading(false);
     };
