@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import Tweet from "../../components/Tweet";
 
-const ProfileSectionMedia = ({ userObj }) => {
+const ProfileSectionMedia = ({ userData, userObj }) => {
   //트윗 가져오기
   const [mediaTweets, setMediaTweets] = useState([]);
   useEffect(() => {
@@ -18,7 +18,7 @@ const ProfileSectionMedia = ({ userObj }) => {
       collection(dbService, "tweets"),
       where("attachmentUrl", "!=", ""),
       orderBy("attachmentUrl"),
-      where("creatorId", "==", userObj.uid),
+      where("creatorId", "==", userData.uid),
       orderBy("createdAt", "desc")
     );
 
@@ -34,7 +34,7 @@ const ProfileSectionMedia = ({ userObj }) => {
     return () => {
       unsubscribe(); //stop listening to changes
     };
-  }, [userObj.uid]);
+  }, [userData.uid]);
 
   return (
     <div className="tweetList">
@@ -45,7 +45,7 @@ const ProfileSectionMedia = ({ userObj }) => {
           key={tweet.id}
           tweetObj={tweet}
           isOwner={tweet.creatorId === userObj.uid}
-          userObj={userObj}
+          userObj={userData}
         />
       ))}
     </div>

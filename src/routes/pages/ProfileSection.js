@@ -9,8 +9,8 @@ import {
 import { useEffect, useState } from "react";
 import Tweet from "../../components/Tweet";
 
-const ProfileSection = ({ userObj }) => {
-  console.log("🐥", userObj.uid);
+const ProfileSection = ({ userData, userObj }) => {
+  console.log("🐥", userData.uid);
   //✅트윗 가져오기
   const [tweets, setTweets] = useState([]);
 
@@ -19,7 +19,7 @@ const ProfileSection = ({ userObj }) => {
     //tweets은 페이지를 불러올 때 snapshot에서 나오는 거다.
     const q = query(
       collection(dbService, "tweets"),
-      where("creatorId", "==", userObj.uid),
+      where("creatorId", "==", userData.uid),
       orderBy("createdAt", "desc")
     );
 
@@ -37,7 +37,7 @@ const ProfileSection = ({ userObj }) => {
     return () => {
       unsubscribe(); //stop listening to changes
     };
-  }, [userObj.uid]);
+  }, [userData.uid]);
 
   return (
     <div className="tweetList">
@@ -48,7 +48,7 @@ const ProfileSection = ({ userObj }) => {
           key={tweet.id}
           tweetObj={tweet}
           isOwner={tweet.creatorId === userObj.uid}
-          userObj={userObj}
+          userObj={userData}
         />
       ))}
     </div>

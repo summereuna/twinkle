@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { dbService, storageService } from "fbase";
+import { authService, dbService, storageService } from "fbase";
 import {
   doc,
   deleteDoc,
@@ -25,6 +25,10 @@ import ProfilePhoto from "./ProfilePhoto";
 import { NavLink } from "react-router-dom";
 
 const Tweet = ({ tweetObj, isOwner, userObj }) => {
+  //프로필 페이지에서 userObj는 프로필 페이지 유저 정보를 담는다.
+  //console.log(userObj.displayName);
+  //따라서 현재 로그인한 유저에 대해 따로 변수를 주자.
+  const currentUserUid = authService.currentUser.uid;
   //수정모드인지 아닌지 false/true
   const [editing, setEditing] = useState(false);
 
@@ -109,14 +113,14 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
     const tweetDocRef = doc(dbService, "tweets", tweetObj.id);
 
     await updateDoc(tweetDocRef, {
-      like: arrayUnion(`${userObj.uid}`),
+      like: arrayUnion(currentUserUid),
     });
   };
 
   //하트를 누른 유저의 user 문서의 like 필드([])에 해당 tweet의 doc.id를 추가
   // Atomically add a new region to the "like" array field.
   const addUserLike = async () => {
-    const userRef = doc(dbService, "users", `${userObj.uid}`);
+    const userRef = doc(dbService, "users", currentUserUid);
 
     await updateDoc(userRef, {
       like: arrayUnion(`${tweetObj.id}`),
@@ -128,13 +132,13 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
     const tweetDocRef = doc(dbService, "tweets", tweetObj.id);
 
     await updateDoc(tweetDocRef, {
-      like: arrayRemove(`${userObj.uid}`),
+      like: arrayRemove(currentUserUid),
     });
   };
 
   //Atomically remove a region from the "like" array field.
   const removeUserLike = async () => {
-    const userRef = doc(dbService, "users", `${userObj.uid}`);
+    const userRef = doc(dbService, "users", currentUserUid);
 
     await updateDoc(userRef, {
       like: arrayRemove(`${tweetObj.id}`),
@@ -157,7 +161,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
   //useEffect 사용해서 좋아요한 트윗 하트 색깔 유지
   useEffect(() => {
     async function fetchData() {
-      const usersLikeRef = doc(dbService, "users", `${userObj.uid}`);
+      const usersLikeRef = doc(dbService, "users", currentUserUid);
       const usersLikeSnap = await getDoc(usersLikeRef);
       const userLikedTweetArr = usersLikeSnap.data().like;
 
@@ -168,7 +172,8 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
       }
     }
     fetchData();
-  }, []);
+    //클린업 펑션 추가해야함
+  }, [currentUserUid, tweetObj.id]);
 
   return (
     <div>

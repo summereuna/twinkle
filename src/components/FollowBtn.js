@@ -73,14 +73,21 @@ const FollowBtn = ({ thisUserId }) => {
       const usersFollowingSnap = await getDoc(usersFollowingRef);
       const usersFollowingUsers = usersFollowingSnap.data().follower;
 
+      console.log("ㅇ", usersFollowingUsers.includes(myId));
+      //8번 리렌더링
+
       if (usersFollowingUsers.includes(myId)) {
         setIsFollow(true);
       } else {
         setIsFollow(false);
       }
     }
-    fetchData();
-  }, []);
+
+    //인덱스 에러 방지
+    if (thisUserId) {
+      fetchData();
+    }
+  }, [myId, thisUserId]);
 
   const [isBtnHover, setIsBtnHover] = useState(false);
 

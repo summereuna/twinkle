@@ -405,9 +405,7 @@ const Profile = ({ refreshUser, userObj }) => {
                           />
                         </>
                       ) : (
-                        <div>
-                          <FollowBtn thisUserId={userData.uid} />
-                        </div>
+                        <div>{<FollowBtn thisUserId={userData.uid} />}</div>
                       )}
                     </div>
                     <div className="profile__user__info__userName">
@@ -441,7 +439,7 @@ const Profile = ({ refreshUser, userObj }) => {
                           : " 팔로우"}
                       </span>
                       <span>
-                        <b>{userData.follower?.length}</b>
+                        <b>{userData.follower?.length} </b>
                         팔로워
                       </span>
                     </div>
@@ -452,15 +450,27 @@ const Profile = ({ refreshUser, userObj }) => {
                   <Routes>
                     <Route
                       path=""
-                      element={<ProfileSection userObj={userData} />}
+                      element={
+                        <ProfileSection userData={userData} userObj={userObj} />
+                      }
                     />
                     <Route
                       path="media"
-                      element={<ProfileSectionMedia userObj={userData} />}
+                      element={
+                        <ProfileSectionMedia
+                          userData={userData}
+                          userObj={userObj}
+                        />
+                      }
                     />
                     <Route
                       path="likes"
-                      element={<ProfileSectionLikes userObj={userData} />}
+                      element={
+                        <ProfileSectionLikes
+                          userData={userData}
+                          userObj={userObj}
+                        />
+                      }
                     />
                   </Routes>
                 )}

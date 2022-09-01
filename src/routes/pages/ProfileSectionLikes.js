@@ -10,14 +10,14 @@ import {
 import { useState } from "react";
 import Tweet from "../../components/Tweet";
 
-const ProfileSectionLikes = ({ userObj }) => {
+const ProfileSectionLikes = ({ userData, userObj }) => {
   //트윗 가져오기
   const [likeTweets, setLikeTweets] = useState([]);
 
   useEffect(() => {
     const q = query(
       collection(dbService, "tweets"),
-      where("like", "array-contains", userObj.uid),
+      where("like", "array-contains", userData.uid),
       orderBy("createdAt", "desc")
     );
 
@@ -33,7 +33,7 @@ const ProfileSectionLikes = ({ userObj }) => {
     return () => {
       unsubscribe(); //stop listening to changes
     };
-  }, [userObj.uid]);
+  }, [userData.uid]);
 
   return (
     <div className="tweetList">
@@ -44,7 +44,7 @@ const ProfileSectionLikes = ({ userObj }) => {
           key={tweet.id}
           tweetObj={tweet}
           isOwner={tweet.creatorId === userObj.uid}
-          userObj={userObj}
+          userObj={userData}
         />
       ))}
     </div>
