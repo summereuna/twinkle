@@ -65,21 +65,21 @@ function App() {
   // user 새로고침하는 기능: firebase의 정보를 가지고 react.js의 userObj 업데이트 하기
   //으로 하려고 하다가 계속 오류나서 그냥 state 하나 더 만들어서 렌더링만을 위한 state 추가
   const refreshUser = useCallback(async () => {
-    const newAuthServiceCurrentUser = authService.currentUser;
+    //const newAuthServiceCurrentUser = authService.currentUser;
 
     const newDocRef = doc(dbService, "users", `${userObj.uid}`);
     const newDocSnap = await getDoc(newDocRef);
     const newUserCollectionDocObj = newDocSnap.data();
 
-    const newMergeUserObj = {
+    /*const newMergeUserObj = {
       ...newAuthServiceCurrentUser,
       ...newUserCollectionDocObj,
     };
-    setUserObj(newMergeUserObj);
+    setUserObj(newMergeUserObj);*/
 
-    //setUserObj(newUserCollectionDocObj);
+    setUserObj(newUserCollectionDocObj);
     console.log("🔥refresh: authService.currentUser", authService.currentUser);
-    //console.log("🔥refresh: newMergeUserObj", newMergeUserObj.photoURL);
+    console.log("🔥refresh: newUserCollectionDocObj", newUserCollectionDocObj);
     console.log("🔥refresh: userObj 얘가 안바뀌네 ㅡㅡ", userObj);
   }, [userObj]);
 
