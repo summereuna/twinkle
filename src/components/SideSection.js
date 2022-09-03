@@ -39,31 +39,73 @@ const SideSection = (userObj) => {
 
     //현재 로그인한 유저가 팔로우한 유저 id 배열 가져오기
     const userObjFollowingArr = userObj.userObj.following;
-    console.log(userObjFollowingArr);
+    //console.log(userObjFollowingArr);
 
     //현재 로그인한 유저가 팔로우한 유저 제외한 나머지 유저 배열 가져오기
     let filterArr = allUserWithoutCurrentUserList.filter((user) => {
       return !userObjFollowingArr.includes(user.id);
     });
 
-    console.log("🔥", filterArr);
+    //console.log("🔥", filterArr);
+    if (allUserWithoutCurrentUserList.length - userObjFollowingArr.length > 2) {
+      //그 중에서 유저 3명 무작위 추첨
+      let randomUsersArr = [];
 
-    //그 중에서 유저 3명 무작위 추첨
-    let randomUsersArr = [];
+      for (let i = 1; i <= 3; i++) {
+        const randomUsers =
+          filterArr[Math.floor(Math.random() * filterArr.length)];
 
-    for (let i = 1; i <= 3; i++) {
-      const randomUsers =
-        filterArr[Math.floor(Math.random() * filterArr.length)];
-
-      //중복 제거
-      if (randomUsersArr.indexOf(randomUsers) === -1) {
-        randomUsersArr.push(randomUsers);
-      } else {
-        i--;
+        //중복 제거
+        if (randomUsersArr.indexOf(randomUsers) === -1) {
+          randomUsersArr.push(randomUsers);
+        } else {
+          i--;
+        }
       }
+
+      setRandomUserList(randomUsersArr);
+    } else if (
+      allUserWithoutCurrentUserList.length - userObjFollowingArr.length >
+      1
+    ) {
+      //그 중에서 유저 3명 무작위 추첨
+      let randomUsersArr = [];
+
+      for (let i = 1; i <= 2; i++) {
+        const randomUsers =
+          filterArr[Math.floor(Math.random() * filterArr.length)];
+
+        //중복 제거
+        if (randomUsersArr.indexOf(randomUsers) === -1) {
+          randomUsersArr.push(randomUsers);
+        } else {
+          i--;
+        }
+      }
+
+      setRandomUserList(randomUsersArr);
+    } else if (
+      allUserWithoutCurrentUserList.length - userObjFollowingArr.length >
+      0
+    ) {
+      //그 중에서 유저 3명 무작위 추첨
+      let randomUsersArr = [];
+
+      for (let i = 1; i <= 1; i++) {
+        const randomUsers =
+          filterArr[Math.floor(Math.random() * filterArr.length)];
+
+        //중복 제거
+        if (randomUsersArr.indexOf(randomUsers) === -1) {
+          randomUsersArr.push(randomUsers);
+        } else {
+          i--;
+        }
+      }
+
+      setRandomUserList(randomUsersArr);
     }
 
-    setRandomUserList(randomUsersArr);
     //console.log("팔로우 추천");
   };
 
@@ -73,7 +115,7 @@ const SideSection = (userObj) => {
     if (randomUserList) {
       setLoading(true);
       getUsers();
-      console.log("dhoㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴㄹㅁㅇㄴ");
+      console.log("랜덤유저 가져오기");
     }
     return () => {
       setLoading(false);
