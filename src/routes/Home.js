@@ -65,7 +65,7 @@ const Home = ({ userObj }) => {
         </div>
       </div>
       <div className="mobile">
-        <SideSection userObjFollowing={userObj.following} />
+        <SideSection userObj={userObj} />
       </div>
     </main>
   );

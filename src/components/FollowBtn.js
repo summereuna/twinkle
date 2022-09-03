@@ -8,7 +8,6 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-//아직 데이터 못 받아 오는 중
 const FollowBtn = ({ thisUserId }) => {
   const myId = authService.currentUser.uid;
 
@@ -91,7 +90,6 @@ const FollowBtn = ({ thisUserId }) => {
 
   const [isBtnHover, setIsBtnHover] = useState(false);
 
-  //scss클래스 아직 추가 안함
   return (
     <div
       className={`follow-btn ${

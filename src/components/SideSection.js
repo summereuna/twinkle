@@ -6,18 +6,19 @@ import { useEffect, useState } from "react";
 import SearchModal from "./Modal/SearchModal";
 import Recommendation from "./Recomendation";
 
-const SideSection = (userObjFollowing) => {
+const SideSection = (userObj) => {
   const [loading, setLoading] = useState();
 
   //유저 데이터
+  const currentUserUid = authService.currentUser.uid;
+
   const [allUserWithoutCurrentUser, setAllUserWithoutCurrentUser] = useState(
     []
   );
   const [randomUserList, setRandomUserList] = useState([]);
-  const currentUserUid = authService.currentUser.uid;
 
   const getUsers = async () => {
-    //전체 사용자 가져오기
+    //현재 로그인한 유저 본인 제외한 유저 전체 배열 가져오기
     const usersRef = collection(dbService, "users");
     const usersQuery = query(
       usersRef,
@@ -35,15 +36,24 @@ const SideSection = (userObjFollowing) => {
     }));
 
     setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
-    //console.log(allUserWithoutCurrentUserList);
-    //유저 3명 무작위 추첨
+
+    //현재 로그인한 유저가 팔로우한 유저 id 배열 가져오기
+    const userObjFollowingArr = userObj.userObj.following;
+    console.log(userObjFollowingArr);
+
+    //현재 로그인한 유저가 팔로우한 유저 제외한 나머지 유저 배열 가져오기
+    let filterArr = allUserWithoutCurrentUserList.filter((user) => {
+      return !userObjFollowingArr.includes(user.id);
+    });
+
+    console.log("🔥", filterArr);
+
+    //그 중에서 유저 3명 무작위 추첨
     let randomUsersArr = [];
 
     for (let i = 1; i <= 3; i++) {
       const randomUsers =
-        allUserWithoutCurrentUserList[
-          Math.floor(Math.random() * allUserWithoutCurrentUserList.length)
-        ];
+        filterArr[Math.floor(Math.random() * filterArr.length)];
 
       //중복 제거
       if (randomUsersArr.indexOf(randomUsers) === -1) {
@@ -52,11 +62,12 @@ const SideSection = (userObjFollowing) => {
         i--;
       }
     }
+
     setRandomUserList(randomUsersArr);
-    console.log("팔로우 추천");
+    //console.log("팔로우 추천");
   };
 
-  console.log("밖");
+  //console.log("밖");
   useEffect(() => {
     //useEffect 무한 루프 돌아서 메모리 릭 발생해서 조건 묶음
     if (randomUserList) {
@@ -90,13 +101,13 @@ const SideSection = (userObjFollowing) => {
       .replace(" ", "")
       .toLocaleLowerCase()
       .includes(search.toLocaleLowerCase().replace(" ", ""));
-    console.log("필터");
+    //console.log("필터");
     return search && (username || userId);
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    //페이지 바뀌게
+    //🌟 페이지 바뀌게: 나중에 할 것
   };
 
   //Modal

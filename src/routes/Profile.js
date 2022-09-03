@@ -14,29 +14,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 
-import EditProfileModal from "../components/Modal/EditProfileModal";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-  faCalendarAlt,
-  faCog,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
 import {
   deleteObject,
   getDownloadURL,
   ref,
   uploadString,
 } from "firebase/storage";
-import ProfilePhoto from "components/ProfilePhoto";
-import Header from "components/Header";
-import ProfileTab from "components/ProfileTab";
-import { Route, Routes, useParams } from "react-router-dom";
-import ProfileSection from "./pages/ProfileSection";
-import ProfileSectionLikes from "./pages/ProfileSectionLikes";
-import ProfileSectionMedia from "./pages/ProfileSectionMedia";
+import { useParams } from "react-router-dom";
 import SideSection from "components/SideSection";
-import FollowBtn from "components/FollowBtn";
 import UserProfile from "components/UserProfile";
 
 //로그인한 유저 정보 prop으로 받기
@@ -393,7 +380,7 @@ const Profile = ({ refreshUser, userObj }) => {
         )}
       </div>
       <div className="mobile">
-        <SideSection />
+        <SideSection userObj={userObj} />
       </div>
     </main>
   );
