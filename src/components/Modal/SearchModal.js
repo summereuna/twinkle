@@ -26,7 +26,7 @@ const SearchModal = ({
 
   return (
     <div
-      className={`modal-layout ${isModalOpen ? "show" : ""}`}
+      className={`modal-search-layout ${isModalOpen ? "show" : ""}`}
       onClick={handleModalClose}
     >
       <div className="modal-search-layout-inside">

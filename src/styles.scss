@@ -310,56 +310,136 @@ footer {
   flex-direction: column;
   flex-shrink: 0;
   .header__container {
-    min-width: 88px;
+    width: 88px;
     position: relative;
     display: flex;
     flex-basis: auto;
     flex-direction: column;
     align-items: stretch;
     box-sizing: border-box;
-    .nav {
-      width: 88px;
-      overflow-y: auto;
+    .header__container__container {
       height: 100%;
+      top: 0;
       position: fixed;
-      padding: 0 12px 20px 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      box-sizing: border-box;
-      flex-basis: auto;
-      flex-direction: column;
-      .nav__ul {
-        .nav__ul__li {
-          width: 50px;
-          .nav__ul__li__btn {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: stretch;
-            justify-content: center;
-            margin: 4px 0;
-          }
-        }
-      }
-      .nav__user {
+
+      .nav {
+        width: 88px;
+        overflow-y: auto;
+        height: 100%;
+        position: relative;
+        padding: 0 12px 20px 12px;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         align-items: center;
-        .nav__user__userImg {
-          width: 64px;
-          height: 64px;
-          padding: 12px;
-          .nav__user__userImg_img {
-            width: 40px;
-            height: 40px;
-            border-radius: 25px;
+        box-sizing: border-box;
+        flex-basis: auto;
+        flex-direction: column;
+        .nav__ul {
+          .nav__ul__li {
+            width: 50px;
+            .nav__ul__li__btn {
+              width: 50px;
+              height: 50px;
+              display: flex;
+              align-items: stretch;
+              justify-content: center;
+              margin: 4px 0;
+            }
+          }
+        }
+        .nav__user {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .nav__user__userImg {
+            width: 64px;
+            height: 64px;
+            padding: 12px;
+            .nav__user__userImg_img {
+              width: 40px;
+              height: 40px;
+              border-radius: 25px;
+            }
           }
         }
       }
     }
   }
+}
+
+//💬 Log Out Modal Component
+.modal-layout {
+  z-index: 999;
+  position: absolute;
+  left: 0;
+  top: 68vh;
+  display: flex;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+  pointer-events: none;
+  .modal-logout {
+    position: fixed;
+    top: 68vh;
+    .modal-logout-content-1 {
+      width: 300px;
+      padding: 12px 0;
+      background-color: rgb(255, 255, 255);
+      border-radius: 10px;
+      box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
+      font-size: 15px;
+      .modal-logout-header {
+        padding: 12px 16px;
+        border-bottom: 1px solid $color-border;
+        .modal-logout-header__container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .modal-logout-header__container__userImg {
+            width: 48px;
+            height: 48px;
+            border-radius: 25px;
+            background-color: rgb(255, 255, 255);
+          }
+          .modal-logout-header__container__userInfo {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 0 12px;
+            .modal-logout-header__container__userInfo__userName {
+              font-weight: 800;
+            }
+            .modal-logout-header__container__userInfo__userId {
+              color: $color-id;
+            }
+          }
+          .modal-logout-header__container__userInfo__check {
+            color: $color-main;
+          }
+        }
+      }
+      .modal-logout-body {
+        padding: 16px;
+        cursor: pointer;
+        transition: 0.3s background-color ease-in-out;
+      }
+      .modal-logout-body:hover {
+        background-color: #f6f9f9;
+      }
+    }
+    .modal-logout-content-2 {
+      position: absolute;
+      left: 12%;
+      border-top: 10px solid rgb(255, 255, 255);
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
+  }
+}
+.modal-layout.show {
+  opacity: 1;
+  pointer-events: visible;
 }
 
 /*✅ home*/
@@ -926,89 +1006,6 @@ footer {
   }
 }
 
-//💬 Log Out Modal Component
-.modal-layout {
-  z-index: 999;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  opacity: 0;
-  transition: all 0.15s ease-in-out;
-  pointer-events: none;
-  .modal-layout-inside {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 68%;
-    display: flex;
-    .modal-logout {
-      position: sticky;
-      left: -13px;
-      .modal-logout-content-1 {
-        width: 300px;
-        padding: 12px 0;
-        background-color: rgb(255, 255, 255);
-        border-radius: 10px;
-        box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
-        font-size: 15px;
-        .modal-logout-header {
-          padding: 12px 16px;
-          border-bottom: 1px solid $color-border;
-          .modal-logout-header__container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            .modal-logout-header__container__userImg {
-              width: 48px;
-              height: 48px;
-              border-radius: 25px;
-              background-color: rgb(255, 255, 255);
-            }
-            .modal-logout-header__container__userInfo {
-              display: flex;
-              flex-direction: column;
-              flex: 1;
-              padding: 0 12px;
-              .modal-logout-header__container__userInfo__userName {
-                font-weight: 800;
-              }
-              .modal-logout-header__container__userInfo__userId {
-                color: $color-id;
-              }
-            }
-            .modal-logout-header__container__userInfo__check {
-              color: $color-main;
-            }
-          }
-        }
-        .modal-logout-body {
-          padding: 16px;
-          cursor: pointer;
-          transition: 0.3s background-color ease-in-out;
-        }
-        .modal-logout-body:hover {
-          background-color: #f6f9f9;
-        }
-      }
-      .modal-logout-content-2 {
-        position: absolute;
-        left: 12%;
-        border-top: 10px solid rgb(255, 255, 255);
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid transparent;
-      }
-    }
-  }
-}
-.modal-layout.show {
-  opacity: 1;
-  pointer-events: visible;
-}
-
 //💬 Write Box Modal
 
 .btn--blue--circle {
@@ -1147,6 +1144,9 @@ footer {
           width: 88%;
         }
       }
+      .side__search__container__search__modal {
+        position: relative;
+      }
     }
   }
   .side__search-box {
@@ -1159,8 +1159,8 @@ footer {
 }
 
 //
-//💬 Log Out Modal Component
-.modal-layout {
+//💬 Search Modal Component
+.modal-search-layout {
   z-index: 999;
   position: fixed;
   left: 0;
@@ -1177,7 +1177,9 @@ footer {
     position: fixed;
     //display: flex;
     .modal-search {
-      position: sticky;
+      position: absolute;
+      top: 0;
+      left: 0;
       .modal-search-content {
         width: 345px;
         padding: 12px 0;
@@ -1194,7 +1196,7 @@ footer {
     }
   }
 }
-.modal-layout.show {
+.modal-search-layout.show {
   opacity: 1;
   pointer-events: visible;
 }
