@@ -38,16 +38,20 @@ const ProfileSectionMedia = ({ userData, userObj }) => {
 
   return (
     <div className="tweetList">
-      {mediaTweets.map((tweet) => (
-        //Tweet을 컴포넌트로 만고 props으로 가져온다.
-        //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
-        <Tweet
-          key={tweet.id}
-          tweetObj={tweet}
-          isOwner={tweet.creatorId === userObj.uid}
-          userObj={userData}
-        />
-      ))}
+      {mediaTweets.length > 0 ? (
+        mediaTweets.map((tweet) => (
+          //Tweet을 컴포넌트로 만고 props으로 가져온다.
+          //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
+          <Tweet
+            key={tweet.id}
+            tweetObj={tweet}
+            isOwner={tweet.creatorId === userObj.uid}
+            userObj={userData}
+          />
+        ))
+      ) : (
+        <div className="tweetList noTweet">작성한 트윗이 없습니다.</div>
+      )}
     </div>
   );
 };
