@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { authService } from "fbase";
 import ProfilePhoto from "components/ProfilePhoto";
 
-const LogOutModal = ({ ref, show, userObj }) => {
+const LogOutModal = ({ show, userObj, onClose }) => {
   const navigate = useNavigate();
 
   const onLogOutClick = () => {
@@ -15,35 +15,40 @@ const LogOutModal = ({ ref, show, userObj }) => {
   };
 
   return (
-    <div className={`modal-layout ${show ? "show" : ""}`}>
-      <div className="modal-logout">
-        <div className="modal-logout-content-1">
-          <div className="modal-logout-header">
-            <div className="modal-logout-header__container">
-              <div className="modal-logout-header__container__userImg">
-                <ProfilePhoto photoURL={userObj.photoURL} />
-              </div>
-              <div className="modal-logout-header__container__userInfo">
-                <div className="modal-logout-header__container__userInfo__userName">
-                  {userObj.displayName}
+    <div className={`modal-layout ${show ? "show" : ""}`} onClick={onClose}>
+      <div className="modal-layout-inside">
+        <div className="modal-logout">
+          <div
+            className="modal-logout-content-1"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-logout-header">
+              <div className="modal-logout-header__container">
+                <div className="modal-logout-header__container__userImg">
+                  <ProfilePhoto photoURL={userObj.photoURL} />
                 </div>
-                <div className="modal-logout-header__container__userInfo__userId">
-                  @{userObj.email.substring(0, userObj.email.indexOf("@"))}
+                <div className="modal-logout-header__container__userInfo">
+                  <div className="modal-logout-header__container__userInfo__userName">
+                    {userObj.displayName}
+                  </div>
+                  <div className="modal-logout-header__container__userInfo__userId">
+                    @{userObj.email.substring(0, userObj.email.indexOf("@"))}
+                  </div>
                 </div>
-              </div>
-              <div className="modal-logout-header__container__userInfo__check">
-                <FontAwesomeIcon icon={faCheck} />
+                <div className="modal-logout-header__container__userInfo__check">
+                  <FontAwesomeIcon icon={faCheck} />
+                </div>
               </div>
             </div>
+            <div className="modal-logout-body">
+              <button onClick={onLogOutClick}>
+                @{userObj.email.substring(0, userObj.email.indexOf("@"))}{" "}
+                계정에서 로그아웃
+              </button>
+            </div>
           </div>
-          <div className="modal-logout-body">
-            <button onClick={onLogOutClick}>
-              @{userObj.email.substring(0, userObj.email.indexOf("@"))} 계정에서
-              로그아웃
-            </button>
-          </div>
+          <div className="modal-logout-content-2"></div>
         </div>
-        <div className="modal-logout-content-2"></div>
       </div>
     </div>
   );

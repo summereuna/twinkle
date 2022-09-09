@@ -185,7 +185,6 @@ const SideSection = ({ userObj, pageUserId = "" }) => {
                 </button>
                 <input
                   id="searchInput"
-                  autoComplete="off"
                   type="text"
                   placeholder="트윙클 검색"
                   onChange={onChange}
@@ -196,15 +195,13 @@ const SideSection = ({ userObj, pageUserId = "" }) => {
               </label>
             </div>
           </form>
-          <div className="side__search__container__search__modal">
-            <SearchModal
-              handleModalClose={handleModalClose}
-              isModalOpen={isModalOpen}
-              hover={"hover--bg--light"}
-              filterKeywordArr={filterKeywordArr}
-              searchKeyword={search}
-            ></SearchModal>
-          </div>
+          <SearchModal
+            handleModalClose={handleModalClose}
+            isModalOpen={isModalOpen}
+            hover={"hover--bg--light"}
+            filterKeywordArr={filterKeywordArr}
+            searchKeyword={search}
+          ></SearchModal>
         </div>
       </div>
       <div className="side__search-box"></div>

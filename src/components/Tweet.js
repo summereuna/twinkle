@@ -192,7 +192,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                   <textarea
                     className="tweetSender__writeBox__text__textarea"
                     type="text"
-                    autoComplete="off"
                     wrap="on"
                     placeholder="수정할 내용을 입력하세요."
                     maxLength={150}
