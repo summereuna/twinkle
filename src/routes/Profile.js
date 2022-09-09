@@ -324,10 +324,12 @@ const Profile = ({ refreshUser, userObj }) => {
   };
 
   const handleEditModalClose = () => {
-    setIsEditProfileModalOpen(false);
-    onClearProfileAttachment();
-    onClearHeaderAttachment();
-    console.log("모달 클로즈");
+    if (isEditProfileModalOpen) {
+      setIsEditProfileModalOpen(false);
+      onClearProfileAttachment();
+      onClearHeaderAttachment();
+      console.log("모달 클로즈");
+    }
   };
 
   return (
@@ -380,7 +382,7 @@ const Profile = ({ refreshUser, userObj }) => {
         )}
       </div>
       <div className="mobile">
-        <SideSection userObj={userObj} />
+        <SideSection userObj={userObj} pageUserId={userId} />
       </div>
     </main>
   );

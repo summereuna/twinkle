@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import SearchModal from "./Modal/SearchModal";
 import Recommendation from "./Recomendation";
 
-const SideSection = (userObj) => {
+const SideSection = ({ userObj, pageUserId = "" }) => {
   const [loading, setLoading] = useState();
 
   //유저 데이터
@@ -38,11 +38,14 @@ const SideSection = (userObj) => {
     setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
 
     //현재 로그인한 유저가 팔로우한 유저 id 배열 가져오기
-    const userObjFollowingArr = userObj.userObj.following;
+    const userObjFollowingArr = userObj.following;
     //console.log(userObjFollowingArr);
-
     //현재 로그인한 유저가 팔로우한 유저 제외한 나머지 유저 배열 가져오기
     let filterArr = allUserWithoutCurrentUserList.filter((user) => {
+      if (user.id === pageUserId) {
+        return false;
+      }
+
       return !userObjFollowingArr.includes(user.id);
     });
 
@@ -120,7 +123,7 @@ const SideSection = (userObj) => {
     return () => {
       setLoading(false);
     };
-  }, []);
+  }, [pageUserId]);
 
   //검색
   const [search, setSearch] = useState("");

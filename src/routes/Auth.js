@@ -38,20 +38,37 @@ const Auth = () => {
     await signInWithPopup(auth, provider);
 
     const user = auth.currentUser;
-    setDoc(doc(dbService, "users", `${user.uid}`), {
-      uid: user.uid,
-      displayName: user.displayName
-        ? user.displayName
-        : `${user.email.substring(0, user.email.indexOf("@"))}`,
-      email: user.email,
-      photoURL: "",
-      headerURL: "",
-      bio: "",
-      like: [],
-      follower: [],
-      following: [],
-      createdAt: user.metadata.createdAt,
-    });
+    if (user.photoURL) {
+      setDoc(doc(dbService, "users", `${user.uid}`), {
+        uid: user.uid,
+        displayName: user.displayName
+          ? user.displayName
+          : `${user.email.substring(0, user.email.indexOf("@"))}`,
+        email: user.email,
+        photoURL: user.photoURL,
+        headerURL: "",
+        bio: "",
+        like: [],
+        follower: [],
+        following: [],
+        createdAt: user.metadata.createdAt,
+      });
+    } else {
+      setDoc(doc(dbService, "users", `${user.uid}`), {
+        uid: user.uid,
+        displayName: user.displayName
+          ? user.displayName
+          : `${user.email.substring(0, user.email.indexOf("@"))}`,
+        email: user.email,
+        photoURL: "",
+        headerURL: "",
+        bio: "",
+        like: [],
+        follower: [],
+        following: [],
+        createdAt: user.metadata.createdAt,
+      });
+    }
   };
 
   return (
