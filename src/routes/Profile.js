@@ -27,7 +27,7 @@ import SideSection from "components/SideSection";
 import UserProfile from "components/UserProfile";
 
 //로그인한 유저 정보 prop으로 받기
-const Profile = ({ refreshUser, userObj }) => {
+const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
   //prop으로 받은 userObj는 currentUser의 user Collection data
   //아래 userData state에 있는 유저 오브젝트는 param에 따른 유저 데이터로 유저별 프로필 정보
 
@@ -189,6 +189,8 @@ const Profile = ({ refreshUser, userObj }) => {
         headerAttachment !== userObj.headerURL
       );
 
+      const updatedUserObj = { ...userObj };
+
       //공통으로 읽어 올 userCollectionRef
       const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
 
@@ -227,12 +229,18 @@ const Profile = ({ refreshUser, userObj }) => {
         };
         updateAllMyTweets();
         console.log("✅ 모든 트윗에 있는 이름 업데이트");
+
+        //userObj state 변경
+        updatedUserObj.displayName = newDisplayName;
       }
 
       //자기소개 업데이트
       if (userObj.bio !== newBio) {
         await updateDoc(userCollectionRef, { bio: newBio });
         console.log("✅ 자기소개 업데이트");
+
+        //userObj state 변경
+        updatedUserObj.bio = newBio;
       }
 
       //프로필 사진 업데이트
@@ -270,6 +278,10 @@ const Profile = ({ refreshUser, userObj }) => {
 
         await updateDoc(userCollectionRef, { photoURL: profileAttachmentUrl });
         console.log("✅ 프로필 사진 업데이트");
+
+        //userObj state 변경
+        updatedUserObj.photoURL = profileAttachmentUrl;
+        console.log("바뀐거", userObj.photoURL === profileAttachmentUrl);
       }
 
       //헤더 업데이트
@@ -306,7 +318,8 @@ const Profile = ({ refreshUser, userObj }) => {
       //프로필 페이지에 있는 userData 새로고침
 
       //프로필 수정 사항 있을 때만 react.js에 있는 profile도 새로고침되게 하기
-      refreshUser();
+      // refreshUser();
+      handleUserUpdate(updatedUserObj);
     }
 
     //모달 닫기

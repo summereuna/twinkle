@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 //로그인한 유저 정보 userObj 받기
-const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
+const AppRouter = ({ refreshUser, isLoggedIn, userObj, handleUserUpdate }) => {
   return (
     <Router>
       {/*&&의 의미: <Navigation />이 존재하려면 isLoggedIn이 참이어야 한다*/}
@@ -31,7 +31,13 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
             <Route path="/" element={<Home userObj={userObj} />}></Route>
             <Route
               path="/:id/*"
-              element={<Profile userObj={userObj} refreshUser={refreshUser} />}
+              element={
+                <Profile
+                  userObj={userObj}
+                  refreshUser={refreshUser}
+                  handleUserUpdate={handleUserUpdate}
+                />
+              }
             ></Route>
             {/*중첩 라우팅 위해 뒤에 * 달기*/}
           </>

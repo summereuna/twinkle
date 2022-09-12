@@ -19,6 +19,9 @@ function App() {
   //로그인한 유저 정보 담은 오브젝트 state, 디폴트 값은 일단 아무도 없으니까 null
   const [userObj, setUserObj] = useState(null);
 
+  const handleUserUpdate = (newObj) => {
+    setUserObj(newObj);
+  };
   //refresh 위한 state
   //const [, setNewName] = useState("");
 
@@ -97,6 +100,7 @@ function App() {
             isLoggedIn={Boolean(userObj)}
             userObj={userObj}
             refreshUser={refreshUser}
+            handleUserUpdate={handleUserUpdate}
           />
         ) : (
           <div className="loading__container">
