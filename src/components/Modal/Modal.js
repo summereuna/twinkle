@@ -11,7 +11,7 @@ function Modal({ children, isModalOpen, handleModalClose }) {
   useEffect(() => {
     document.body.addEventListener("keydown", onEscapeKeyDown);
     return function cleanup() {
-      document.body.addEventListener("keydown", onEscapeKeyDown);
+      document.body.removeEventListener("keydown", onEscapeKeyDown);
     };
   }, []);
 

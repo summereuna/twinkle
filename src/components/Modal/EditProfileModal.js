@@ -29,7 +29,7 @@ const EditProfileModal = ({
   useEffect(() => {
     document.body.addEventListener("keydown", onEscapeKeyDown);
     return function cleanup() {
-      document.body.addEventListener("keydown", onEscapeKeyDown);
+      document.body.removeEventListener("keydown", onEscapeKeyDown);
     };
   }, []);
 
@@ -147,6 +147,7 @@ const EditProfileModal = ({
                 aria-describedby="user-name"
                 name="user-name"
                 type="text"
+                autoComplete="off"
                 placeholder="이름"
                 className="btn btn--skyblue"
                 onChange={onChangeDisplayName}
@@ -158,6 +159,7 @@ const EditProfileModal = ({
                 aria-describedby="bio"
                 name="bio"
                 type="text"
+                autoComplete="off"
                 placeholder="자기 소개"
                 className="btn btn--skyblue"
                 onChange={onChangeBio}

@@ -158,6 +158,7 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
               <textarea
                 className="tweetSender__writeBox__text__textarea"
                 type="text"
+                autoComplete="off"
                 wrap="on"
                 placeholder="무슨 일이 일어나고 있나요?"
                 maxLength={150}

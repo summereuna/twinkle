@@ -16,7 +16,7 @@ const SearchModal = ({
   useEffect(() => {
     document.body.addEventListener("keydown", onEscapeKeyDown);
     return function cleanup() {
-      document.body.addEventListener("keydown", onEscapeKeyDown);
+      document.body.removeEventListener("keydown", onEscapeKeyDown);
     };
   }, []);
 
@@ -26,7 +26,7 @@ const SearchModal = ({
 
   return (
     <div
-      className={`modal-layout ${isModalOpen ? "show" : ""}`}
+      className={`modal-search-layout ${isModalOpen ? "show" : ""}`}
       onClick={handleModalClose}
     >
       <div className="modal-search-layout-inside">
