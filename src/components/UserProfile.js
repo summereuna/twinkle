@@ -2,7 +2,7 @@ import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 import ProfileSection from "routes/pages/ProfileSection";
 import ProfileSectionLikes from "routes/pages/ProfileSectionLikes";
 import ProfileSectionMedia from "routes/pages/ProfileSectionMedia";
@@ -50,123 +50,119 @@ const UserProfile = ({
   console.log("ㅡㅡ참나 여긴 바뀜? 설마?", userData.following);
 
   return (
-    (userObj || userData) && (
-      <div className="profile__container">
-        <div className="profile__title">
-          <a href="/">
-            <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-          </a>
-          <h1 className="profile__title__username">{userData.displayName}</h1>
-        </div>
-        <div className="profile__main-container">
-          <div className="profile__user">
-            <div className="profile__user__header">
-              <Header headerURL={userData.headerURL} />
-            </div>
-            <div className="profile__user__info">
-              <div className="profile__user__btns">
-                <div className="profile__user__userImg">
-                  <div className="userImg--lg">
-                    <div className="profile__user__userImg__file">
-                      <ProfilePhoto photoURL={userData.photoURL} />
-                    </div>
+    <div className="profile__container">
+      <div className="profile__title">
+        <NavLink to="/">
+          <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+        </NavLink>
+        <h1 className="profile__title__username">{userData.displayName}</h1>
+      </div>
+      <div className="profile__main-container">
+        <div className="profile__user">
+          <div className="profile__user__header">
+            <Header headerURL={userData.headerURL} />
+          </div>
+          <div className="profile__user__info">
+            <div className="profile__user__btns">
+              <div className="profile__user__userImg">
+                <div className="userImg--lg">
+                  <div className="profile__user__userImg__file">
+                    <ProfilePhoto photoURL={userData.photoURL} />
                   </div>
                 </div>
-                {userData.uid === userObj.uid ? (
-                  <>
-                    <button
-                      className="btn btn--grey"
-                      onClick={handleEditModalOpen}
-                    >
-                      프로필 수정
-                    </button>
-                    <EditProfileModal
+              </div>
+              {userData.uid === userObj.uid ? (
+                <>
+                  <button
+                    className="btn btn--grey"
+                    onClick={handleEditModalOpen}
+                  >
+                    프로필 수정
+                  </button>
+                  <EditProfileModal
+                    userObj={userObj}
+                    isEditProfileModalOpen={isEditProfileModalOpen}
+                    handleEditModalClose={handleEditModalClose}
+                    onChangeDisplayName={onChangeDisplayName}
+                    onChangeBio={onChangeBio}
+                    newDisplayName={newDisplayName}
+                    newBio={newBio}
+                    profileAttachment={profileAttachment}
+                    onProfileFileChange={onProfileFileChange}
+                    profileFileInput={profileFileInput}
+                    headerAttachment={headerAttachment}
+                    onHeaderFileChange={onHeaderFileChange}
+                    headerFileInput={headerFileInput}
+                    onSubmit={onSubmit}
+                  />
+                </>
+              ) : (
+                <div>
+                  {
+                    <FollowBtn
                       userObj={userObj}
-                      isEditProfileModalOpen={isEditProfileModalOpen}
-                      handleEditModalClose={handleEditModalClose}
-                      onChangeDisplayName={onChangeDisplayName}
-                      onChangeBio={onChangeBio}
-                      newDisplayName={newDisplayName}
-                      newBio={newBio}
-                      profileAttachment={profileAttachment}
-                      onProfileFileChange={onProfileFileChange}
-                      profileFileInput={profileFileInput}
-                      headerAttachment={headerAttachment}
-                      onHeaderFileChange={onHeaderFileChange}
-                      headerFileInput={headerFileInput}
-                      onSubmit={onSubmit}
+                      userData={userData}
+                      handleUserUpdate={handleUserUpdate}
+                      handleUserDataUpdate={handleUserDataUpdate}
                     />
-                  </>
-                ) : (
-                  <div>
-                    {
-                      <FollowBtn
-                        userObj={userObj}
-                        userData={userData}
-                        handleUserUpdate={handleUserUpdate}
-                        handleUserDataUpdate={handleUserDataUpdate}
-                      />
-                    }
-                  </div>
-                )}
-              </div>
-              <div className="profile__user__info__userName">
-                <span className="profile__user__info__userName__name">
-                  {userData.displayName}
-                </span>
-                <span className="profile__user__info__userName__id">
-                  @{userData.email?.substring(0, userData.email?.indexOf("@"))}
-                </span>
-              </div>
-              <div className="profile__user__info__userInfo">
-                <div className="profile__user__info__userInfo__bio">
-                  <span>{userData.bio}</span>
+                  }
                 </div>
-                <div className="profile__user__info__userInfo__createdAt">
-                  <span>
-                    <FontAwesomeIcon icon={faCalendarAlt} />
-                  </span>
-                  <span> 가입일: {userCreatedAt}</span>
-                </div>
+              )}
+            </div>
+            <div className="profile__user__info__userName">
+              <span className="profile__user__info__userName__name">
+                {userData.displayName}
+              </span>
+              <span className="profile__user__info__userName__id">
+                @{userData.email?.substring(0, userData.email?.indexOf("@"))}
+              </span>
+            </div>
+            <div className="profile__user__info__userInfo">
+              <div className="profile__user__info__userInfo__bio">
+                <span>{userData.bio}</span>
               </div>
-              <div className="profile__user__info__userMeta">
+              <div className="profile__user__info__userInfo__createdAt">
                 <span>
-                  <b>{userData.following?.length}</b>
-                  {userData.following?.length > 0 ? " 팔로우 중" : " 팔로우"}
+                  <FontAwesomeIcon icon={faCalendarAlt} />
                 </span>
-                <span>
-                  <b>{userData.follower?.length} </b>
-                  팔로워
-                </span>
+                <span> 가입일: {userCreatedAt}</span>
               </div>
+            </div>
+            <div className="profile__user__info__userMeta">
+              <span>
+                <b>{userData.following?.length}</b>
+                {userData.following?.length > 0 ? " 팔로우 중" : " 팔로우"}
+              </span>
+              <span>
+                <b>{userData.follower?.length} </b>
+                팔로워
+              </span>
             </div>
           </div>
-          <ProfileTab />
-          {userData.uid && (
-            <Routes>
-              <Route
-                path=""
-                element={
-                  <ProfileSection userData={userData} userObj={userObj} />
-                }
-              />
-              <Route
-                path="media"
-                element={
-                  <ProfileSectionMedia userData={userData} userObj={userObj} />
-                }
-              />
-              <Route
-                path="likes"
-                element={
-                  <ProfileSectionLikes userData={userData} userObj={userObj} />
-                }
-              />
-            </Routes>
-          )}
         </div>
+        <ProfileTab />
+        {userData.uid && (
+          <Routes>
+            <Route
+              path=""
+              element={<ProfileSection userData={userData} userObj={userObj} />}
+            />
+            <Route
+              path="media"
+              element={
+                <ProfileSectionMedia userData={userData} userObj={userObj} />
+              }
+            />
+            <Route
+              path="likes"
+              element={
+                <ProfileSectionLikes userData={userData} userObj={userObj} />
+              }
+            />
+          </Routes>
+        )}
       </div>
-    )
+    </div>
   );
 };
 
