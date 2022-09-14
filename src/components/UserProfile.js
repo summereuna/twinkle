@@ -1,6 +1,7 @@
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import ProfileSection from "routes/pages/ProfileSection";
 import ProfileSectionLikes from "routes/pages/ProfileSectionLikes";
@@ -14,6 +15,7 @@ import ProfileTab from "./ProfileTab";
 const UserProfile = ({
   userObj,
   userData,
+  handleUserDataUpdate,
   handleEditModalOpen,
   isEditProfileModalOpen,
   handleEditModalClose,
@@ -28,6 +30,7 @@ const UserProfile = ({
   onHeaderFileChange,
   headerFileInput,
   onSubmit,
+  handleUserUpdate,
 }) => {
   //유저 가입일
 
@@ -44,9 +47,10 @@ const UserProfile = ({
   const day = date.getDate();
   const userCreatedAt = `${year}년 ${month}월 ${day}일`;
   console.log("과연");
+  console.log("ㅡㅡ참나 여긴 바뀜? 설마?", userData.following);
 
   return (
-    userData && (
+    (userObj || userData) && (
       <div className="profile__container">
         <div className="profile__title">
           <a href="/">
@@ -94,7 +98,16 @@ const UserProfile = ({
                     />
                   </>
                 ) : (
-                  <div>{<FollowBtn thisUserId={userData.uid} />}</div>
+                  <div>
+                    {
+                      <FollowBtn
+                        userObj={userObj}
+                        userData={userData}
+                        handleUserUpdate={handleUserUpdate}
+                        handleUserDataUpdate={handleUserDataUpdate}
+                      />
+                    }
+                  </div>
                 )}
               </div>
               <div className="profile__user__info__userName">

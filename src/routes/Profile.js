@@ -48,10 +48,15 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
   }, [userId]);
   //userId 파람 디펜던시에 넣으면 다른 유저 선택시 페이지 리렌더링 된다.
 
+  //userData 팔로우 클릭시 setUserData 실행
+  const handleUserDataUpdate = (newUserData) => {
+    setUserData(newUserData);
+  };
+
   useEffect(() => {
     setInit(true);
     getProfiles();
-    console.log("🔥유즈이펙트", userData);
+    console.log("🔥유즈이펙트");
     return () => {
       setInit(false);
     };
@@ -136,36 +141,6 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
     headerFileInput.current.value = null;
   };
 
-  /*✅파일 업데이트 함수
-  //함수로 파라미터 보내서 사용하니까 한 박자 느려서 일단 뺌
-  const fileUpdate = async (fileURL, foldername, attachment) => {
-    console.log(userObj[fileURL]);
-    const userCollectionRef = doc(dbService, "users", `${userObj.uid}`);
-    const desertRef = ref(storageService, userObj[fileURL]);
-    if (userObj[fileURL] !== "") {
-      await deleteObject(desertRef);
-    }
-    //새로운 프로필 사진 업데이트: 버킷에 파일 업로드
-    const theFileRef = ref(
-      storageService,
-      `${userObj.uid}/${foldername}/${uuidv4()}`
-    );
-    //ref 위치에 파일 업로드
-    const response = await uploadString(theFileRef, attachment, "data_url");
-    //console.log(response);
-    //버킷에 업로드된 파일 url 다운로드
-    let attachmentUrl;
-    attachmentUrl = await getDownloadURL(response.ref);
-
-    if (fileURL === "photoURL") {
-      await updateProfile(authService.currentUser, {
-        photoURL: attachmentUrl,
-      });
-    }
-
-    await updateDoc(userCollectionRef, { [fileURL]: attachmentUrl });
-  };
-*/
   //✅ 프로필 수정 submit
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -314,6 +289,9 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
 
         await updateDoc(userCollectionRef, { headerURL: attachmentUrl });
         console.log("✅ 헤더 업데이트");
+
+        //userObj state 변경
+        updatedUserObj.headerURL = attachmentUrl;
       }
       //프로필 페이지에 있는 userData 새로고침
 
@@ -353,6 +331,7 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
             <UserProfile
               userObj={userObj}
               userData={userObj}
+              handleUserUpdate={handleUserUpdate}
               handleEditModalOpen={handleEditModalOpen}
               isEditProfileModalOpen={isEditProfileModalOpen}
               handleEditModalClose={handleEditModalClose}
@@ -372,20 +351,22 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
             <UserProfile
               userObj={userObj}
               userData={userData}
-              handleEditModalOpen={handleEditModalOpen}
-              isEditProfileModalOpen={isEditProfileModalOpen}
-              handleEditModalClose={handleEditModalClose}
-              onChangeDisplayName={onChangeDisplayName}
-              onChangeBio={onChangeBio}
-              newDisplayName={newDisplayName}
-              newBio={newBio}
-              profileAttachment={profileAttachment}
-              onProfileFileChange={onProfileFileChange}
-              profileFileInput={profileFileInput}
-              headerAttachment={headerAttachment}
-              onHeaderFileChange={onHeaderFileChange}
-              headerFileInput={headerFileInput}
-              onSubmit={onSubmit}
+              handleUserDataUpdate={handleUserDataUpdate}
+              handleUserUpdate={handleUserUpdate}
+              // handleEditModalOpen={handleEditModalOpen}
+              // isEditProfileModalOpen={isEditProfileModalOpen}
+              // handleEditModalClose={handleEditModalClose}
+              // onChangeDisplayName={onChangeDisplayName}
+              // onChangeBio={onChangeBio}
+              // newDisplayName={newDisplayName}
+              // newBio={newBio}
+              // profileAttachment={profileAttachment}
+              // onProfileFileChange={onProfileFileChange}
+              // profileFileInput={profileFileInput}
+              // headerAttachment={headerAttachment}
+              // onHeaderFileChange={onHeaderFileChange}
+              // headerFileInput={headerFileInput}
+              // onSubmit={onSubmit}
             />
           )
         ) : (

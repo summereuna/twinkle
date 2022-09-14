@@ -6,8 +6,8 @@ const SearchUser = ({ userList, hover, handleModalClose }) => {
   return (
     <div>
       {userList.map((user) => (
-        <div key={user.id} onClick={handleModalClose}>
-          <NavLink to={`/${user.id}`}>
+        <div key={user.uid} onClick={handleModalClose}>
+          <NavLink to={`/${user.uid}`}>
             <div className={`searchUser ${hover}`}>
               <div className="searchUser__userImg">
                 <ProfilePhoto photoURL={user.photoURL} />

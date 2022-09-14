@@ -1229,6 +1229,11 @@ footer {
     color: $color-main;
   }
 }
+.no-recommendation {
+  padding: 15px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
 
 .hover--bg--light {
   transition: 0.3s background-color ease-in-out;

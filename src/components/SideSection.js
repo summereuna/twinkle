@@ -1,8 +1,8 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { authService, dbService } from "fbase";
+import { dbService } from "fbase";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SearchModal from "./Modal/SearchModal";
 import Recommendation from "./Recomendation";
 
@@ -10,14 +10,13 @@ const SideSection = ({ userObj, pageUserId }) => {
   const [loading, setLoading] = useState();
 
   //유저 데이터
-  const currentUserUid = authService.currentUser.uid;
-
+  const currentUserUid = userObj.uid;
   const [allUserWithoutCurrentUser, setAllUserWithoutCurrentUser] = useState(
     []
   );
   const [randomUserList, setRandomUserList] = useState([]);
 
-  const getUsers = async () => {
+  const getUsers = useCallback(async () => {
     //현재 로그인한 유저 본인 제외한 유저 전체 배열 가져오기
     const usersRef = collection(dbService, "users");
     const usersQuery = query(
@@ -27,25 +26,30 @@ const SideSection = ({ userObj, pageUserId }) => {
     const querySnapshot = await getDocs(usersQuery);
 
     //전체 사용자 어레이
-    const allUserWithoutCurrentUserList = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      displayName: doc.data().displayName,
-      bio: doc.data().bio,
-      email: doc.data().email,
-      photoURL: doc.data().photoURL,
-    }));
+    const allUserWithoutCurrentUserList = querySnapshot.docs.map((doc) =>
+      doc.data()
+    );
 
     setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
 
     //현재 로그인한 유저가 팔로우한 유저 id 배열 가져오기
     const userObjFollowingArr = userObj.following;
-    //현재 로그인한 유저가 팔로우한 유저 제외한 나머지 유저 배열 가져오기
-    let filterArr = allUserWithoutCurrentUserList.filter((user) => {
-      // if (user.id === pageUserId) {
-      //   return false;
-      // }
 
-      return !userObjFollowingArr.includes(user.id);
+    //추천 유저 필터링
+    let filterArr = allUserWithoutCurrentUserList.filter((user) => {
+      //현재 보고 있는 프로필 페이지의 유저는 추천리스트에 포함시키지 않기
+      //이거 쓰면 팔로우 3명 남았을 때 부터 에러 먹기 시작하는데 이유가 이 유저를 추천리스트에 포함시키지 않기 때문에 userObjFollowingArr.length 측정하는데 오류 발생하기 때문인듯
+      //그래서 안되기 때문에 예외 사항을 더 주든지 해야함
+
+      //   // //이제 괜찮긴 하네;;; 근데 바로바로 안뜸 ㅠㅠ
+      //  if (){
+      //   if (user.uid === pageUserId) {
+      //     return false;
+      //   }
+      //  }
+
+      //현재 로그인한 유저가 팔로우한 유저 제외한 나머지 유저 배열 가져오기
+      return !userObjFollowingArr.includes(user.uid);
     });
 
     //console.log("🔥", filterArr);
@@ -108,22 +112,22 @@ const SideSection = ({ userObj, pageUserId }) => {
       setRandomUserList(randomUsersArr);
     }
 
-    //console.log("팔로우 추천");
-  };
+    console.log("팔로우 추천");
+  }, [userObj.following]);
 
   //console.log("밖");
   useEffect(() => {
-    //useEffect 무한 루프 돌아서 메모리 릭 발생해서 조건 묶음
-    if (randomUserList) {
-      setLoading(true);
-      getUsers();
-      console.log("랜덤유저 가져오기");
-    }
+    //useEffect 무한 루프 돌아서 메모리 릭 발생해서 randomUserList 있는 조건으로 묶었다가
+    //getUsers 디펜던시 배열에 넣어주고 조건 뺌
+    setLoading(true);
+    getUsers();
+    console.log("랜덤유저 가져오기");
+
     return () => {
       setLoading(false);
     };
-  }, [pageUserId]);
-
+  }, [getUsers]);
+  //pageUserId
   //검색
   const [search, setSearch] = useState("");
 
