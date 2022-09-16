@@ -13,6 +13,7 @@ import Home from "routes/Home";
 import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
 import PropTypes from "prop-types";
+import Follow from "../routes/Follow";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 //로그인한 유저 정보 userObj 받기
@@ -40,6 +41,16 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj, handleUserUpdate }) => {
               }
             ></Route>
             {/*중첩 라우팅 위해 뒤에 * 달기*/}
+            <Route
+              path="/:id/following"
+              end
+              element={<Follow userObj={userObj} state={"following"} />}
+            />
+            <Route
+              path="/:id/follower"
+              end
+              element={<Follow userObj={userObj} state={"follower"} />}
+            />
           </>
         ) : (
           <>

@@ -1,7 +1,6 @@
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import ProfileSection from "routes/pages/ProfileSection";
 import ProfileSectionLikes from "routes/pages/ProfileSectionLikes";
@@ -47,15 +46,18 @@ const UserProfile = ({
   const day = date.getDate();
   const userCreatedAt = `${year}년 ${month}월 ${day}일`;
   console.log("과연");
-  console.log("ㅡㅡ참나 여긴 바뀜? 설마?", userData.following);
 
   return (
     <div className="profile__container">
       <div className="profile__title">
-        <NavLink to="/">
-          <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-        </NavLink>
-        <h1 className="profile__title__username">{userData.displayName}</h1>
+        <div className="profile__title__container">
+          <NavLink to="/">
+            <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+          </NavLink>
+          <div className="profile__title__user">
+            <h1 className="profile__title__username">{userData.displayName}</h1>
+          </div>
+        </div>
       </div>
       <div className="profile__main-container">
         <div className="profile__user">
@@ -129,14 +131,19 @@ const UserProfile = ({
               </div>
             </div>
             <div className="profile__user__info__userMeta">
-              <span>
-                <b>{userData.following?.length}</b>
-                {userData.following?.length > 0 ? " 팔로우 중" : " 팔로우"}
-              </span>
-              <span>
-                <b>{userData.follower?.length} </b>
-                팔로워
-              </span>
+              <NavLink to="following">
+                <div className="profile__user__info__userMeta__followList">
+                  <span>
+                    {userData.following?.length}
+                    {userData.following?.length > 0 ? " 팔로우 중" : " 팔로우"}
+                  </span>
+                </div>
+              </NavLink>
+              <NavLink to="follower">
+                <div className="profile__user__info__userMeta__followList">
+                  <span> {userData.follower?.length} 팔로워</span>
+                </div>
+              </NavLink>
             </div>
           </div>
         </div>

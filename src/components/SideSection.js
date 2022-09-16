@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import SearchModal from "./Modal/SearchModal";
 import Recommendation from "./Recomendation";
 
-const SideSection = ({ userObj, pageUserId }) => {
+const SideSection = ({ userObj }) => {
   const [loading, setLoading] = useState();
 
   //유저 데이터
