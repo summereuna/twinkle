@@ -108,7 +108,6 @@ function App() {
           </div>
         )}
       </div>
-      <footer>&copy; Twinkle {new Date().getFullYear()}</footer>
     </>
   );
 }

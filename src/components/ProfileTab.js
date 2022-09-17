@@ -21,7 +21,7 @@ const ProfileTab = () => {
                 </div>
               </NavLink>
             </li>
-            <li className="nav-tab__list__presentation">
+            {/* <li className="nav-tab__list__presentation">
               <a href="/" className="nav-tab__list__presentation__a">
                 <div className="nav-tab__list__presentation__a__text-box">
                   <span className="nav-tab__list__presentation__a__text-box__name">
@@ -30,7 +30,7 @@ const ProfileTab = () => {
                   <div className="nav-tab__list__presentation__a__text-box__line"></div>
                 </div>
               </a>
-            </li>
+            </li> */}
             <li className="nav-tab__list__presentation">
               <NavLink
                 to="media"

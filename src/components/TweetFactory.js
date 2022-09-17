@@ -7,7 +7,7 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import ProfilePhoto from "./ProfilePhoto";
 
 const TweetFactory = ({ userObj, setIsModalOpen }) => {
@@ -167,6 +167,23 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
                 ref={textRef}
                 onInput={autoResizeTextarea}
               />
+              {attachment && (
+                <div className="preview">
+                  <img
+                    src={attachment}
+                    alt="preview"
+                    width="300"
+                    height="auto"
+                    className="previewImg"
+                  />
+                  <button
+                    className="preview--remove"
+                    onClick={onClearAttachment}
+                  >
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="tweetSender__writeBox__btn">
@@ -182,12 +199,6 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
               <label className="icon" htmlFor="files">
                 <FontAwesomeIcon icon={faImage} size="2x" />
               </label>
-              {attachment && (
-                <div>
-                  <img src={attachment} alt="preview" width="50" height="50" />
-                  <button onClick={onClearAttachment}>취소</button>
-                </div>
-              )}
               <div className="tweetSender__writeBox__btn__submit">
                 <input
                   className="btn btn--blue btn--border-zero"

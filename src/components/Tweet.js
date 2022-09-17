@@ -180,7 +180,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
       {/*수정 버튼 클릭된 거면(true) 수정할 폼 보여주고 : 아니면(false) 트윗 내용 보여주기*/}
       {editing ? (
         <>
-          <div className="tweetSender">
+          <div className="tweetSender tweetSender--edit">
             <div className="tweetSender__userImg">
               <div className="tweetSender__userImg__img">
                 <ProfilePhoto photoURL={userObj.photoURL} />
@@ -202,28 +202,36 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                     ref={textRef}
                     onInput={autoResizeTextarea}
                   />
+                  {tweetObj.attachmentUrl && (
+                    <div className="tweetList__tweets__tweet__content__img">
+                      <img
+                        src={tweetObj.attachmentUrl}
+                        alt="tweetImg"
+                        width="200"
+                        className="tweetImg--edit"
+                      />
+                    </div>
+                  )}
                 </div>
-                {tweetObj.attachmentUrl && (
-                  <div className="tweetList__tweets__tweet__content__img">
-                    <img
-                      src={tweetObj.attachmentUrl}
-                      alt="tweetImg"
-                      width="200"
-                    />
-                  </div>
-                )}
                 <div className="tweetSender__writeBox__btn">
-                  <div className="tweetSender__writeBox__btn__submit">
-                    <input
-                      className="btn btn--blue btn--border-zero"
-                      type="submit"
-                      value="수정"
-                      disabled={
-                        newTweet.length === 0 || tweetObj.text === newTweet
-                      }
-                    />
+                  <div className="tweetSender__writeBox__btn__editBox">
+                    <div className="tweetSender__writeBox__btn__submit">
+                      <button
+                        onClick={toggleEditing}
+                        className="tweetSender__writeBox__btn__editBox__delete btn btn--grey "
+                      >
+                        취소
+                      </button>
+                      <input
+                        className="btn btn--blue btn--border-zero"
+                        type="submit"
+                        value="수정"
+                        disabled={
+                          newTweet.length === 0 || tweetObj.text === newTweet
+                        }
+                      />
+                    </div>
                   </div>
-                  <button onClick={toggleEditing}>취소</button>
                 </div>
               </form>
             </div>
@@ -261,6 +269,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                       src={tweetObj.attachmentUrl}
                       alt="tweetImg"
                       width="200"
+                      className="tweetImg"
                     />
                   </div>
                 )}
