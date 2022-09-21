@@ -235,6 +235,28 @@ footer {
 }
 
 /* ✅ Auth */
+#loginPage__container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+
+  .loginPage__img {
+    width: 50vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+  @media (max-width: 880px) {
+    .loginPage__img {
+      display: none;
+    }
+  }
+  @media (min-width: 990px) {
+    .loginPage__img {
+      display: flex;
+    }
+  }
+}
+
 .auth__container {
   display: flex;
   flex-direction: column;

@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { doc, setDoc } from "firebase/firestore";
 import { dbService } from "fbase";
+import welcomeimage from "../img/nasa.jpeg";
 
 const Auth = ({ allUserIdList }) => {
   console.log("받아지는지 체크", allUserIdList);
@@ -94,35 +95,38 @@ const Auth = ({ allUserIdList }) => {
 
   return (
     <main>
-      <div id="body-content">
-        <div className="auth__container">
-          <div className="auth__title__container">
-            <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" />
-            <h1 className="auth__title">지금 일어나고 있는 일</h1>
-            <h2 className="auth__subtitle">오늘 트윙클을 시작하세요.</h2>
-          </div>
-          <div className="auth__btns">
-            {/*🔥 버튼 만들고 onClick 이벤트에 onSocialClick 함수 연결*/}
-            <button
-              className="btn btn--grey"
-              name="google"
-              onClick={onSocialClick}
-            >
-              <FontAwesomeIcon icon={faGoogle} /> Google 계정으로 계속하기
-            </button>
-            <button
-              className="btn btn--grey"
-              name="github"
-              onClick={onSocialClick}
-            >
-              <FontAwesomeIcon icon={faGithub} /> GitHub 계정으로 계속하기
-            </button>
-            <div className="line__box">
-              <div className="line"></div>
-              <span> 또는 </span>
-              <div className="line"></div>
+      <div id="loginPage__container">
+        <img src={welcomeimage} alt="img" className="loginPage__img" />
+        <div id="body-content__">
+          <div className="auth__container">
+            <div className="auth__title__container">
+              <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" />
+              <h1 className="auth__title">지금 일어나고 있는 일</h1>
+              <h2 className="auth__subtitle">오늘 트윙클을 시작하세요.</h2>
             </div>
-            <AuthForm />
+            <div className="auth__btns">
+              {/*🔥 버튼 만들고 onClick 이벤트에 onSocialClick 함수 연결*/}
+              <button
+                className="btn btn--grey"
+                name="google"
+                onClick={onSocialClick}
+              >
+                <FontAwesomeIcon icon={faGoogle} /> Google 계정으로 계속하기
+              </button>
+              <button
+                className="btn btn--grey"
+                name="github"
+                onClick={onSocialClick}
+              >
+                <FontAwesomeIcon icon={faGithub} /> GitHub 계정으로 계속하기
+              </button>
+              <div className="line__box">
+                <div className="line"></div>
+                <span> 또는 </span>
+                <div className="line"></div>
+              </div>
+              <AuthForm />
+            </div>
           </div>
         </div>
       </div>

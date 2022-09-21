@@ -5,14 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 //fbase에서 authService 가져오기(export로 내보냈기 때문에 {} 중괄호 쳐서 가져와야 함)
 import { onAuthStateChanged } from "firebase/auth";
 
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
