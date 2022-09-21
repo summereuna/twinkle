@@ -2,6 +2,7 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
+  faTwitter,
   faVimeo,
   faVimeoV,
 } from "@fortawesome/free-brands-svg-icons";
@@ -236,16 +237,25 @@ const SideSection = ({ userObj }) => {
         <FontAwesomeIcon icon={faEnvelope} />
         <span> summereuna@gmail.com</span>
         <span> | </span>
-        <a href="https://github.com/summereuna">
+        <a
+          href="https://github.com/summereuna"
+          rel="noreferrer"
+          target="_blank"
+        >
           <FontAwesomeIcon icon={faGithub} />
           <span> github</span>
         </a>
         <span> | </span>
-        <a href="https://velog.io/@summereuna">
+        <a href="https://velog.io/@summereuna" rel="noreferrer" target="_blank">
           <FontAwesomeIcon icon={faVimeoV} />
           <span> blog</span>
         </a>
-        <p>&copy; Twinkle {new Date().getFullYear()}</p>
+        <p>
+          <span>&copy; {new Date().getFullYear()} Twinkle</span>
+          <span> | </span>
+          <span>Twitter 클론 사이트 </span>
+          <FontAwesomeIcon icon={faTwitter} />
+        </p>
       </footer>
     </div>
   );

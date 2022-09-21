@@ -17,7 +17,8 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { dbService } from "fbase";
 
-const Auth = () => {
+const Auth = ({ allUserIdList }) => {
+  console.log("받아지는지 체크", allUserIdList);
   const auth = getAuth();
 
   //소셜로그인 버튼 클릭하면 실행될 함수 생성
@@ -38,36 +39,56 @@ const Auth = () => {
     await signInWithPopup(auth, provider);
 
     const user = auth.currentUser;
-    if (user.photoURL) {
-      setDoc(doc(dbService, "users", `${user.uid}`), {
-        uid: user.uid,
-        displayName: user.displayName
-          ? user.displayName
-          : `${user.email.substring(0, user.email.indexOf("@"))}`,
-        email: user.email,
-        photoURL: user.photoURL,
-        headerURL: "",
-        bio: "",
-        like: [],
-        follower: [],
-        following: [],
-        createdAt: user.metadata.createdAt,
-      });
+
+    //소셜로 가입한 유저, 이미 가입했는지 체크
+    // const [isUserDocInCollection, setIsUserDocInCollection] = useState(false);
+    // const userDocRef = collection(dbService, "users");
+    // const userDocQuery = query(userDocRef, where("uid", "==", user.uid));
+    // const userDocInCollection = await getDocs(userDocQuery);
+    // if (userDocInCollection.docs.length === 1) {
+    //   setIsUserDocInCollection(true);
+    // } else {
+    // }
+
+    // if (userDocInCollection.docs.length !== 1) {
+    //   //새 계정 생성시 user 컬렉션에 새 문서 추가하기
+    if (!allUserIdList.includes(user.uid)) {
+      if (user.photoURL) {
+        setDoc(doc(dbService, "users", `${user.uid}`), {
+          uid: user.uid,
+          displayName: user.displayName
+            ? user.displayName
+            : `${user.email.substring(0, user.email.indexOf("@"))}`,
+          email: user.email,
+          photoURL: user.photoURL,
+          headerURL: "",
+          bio: "",
+          like: [],
+          follower: [],
+          following: [],
+          createdAt: user.metadata.createdAt,
+        });
+        console.log("🌟유저 새로 만듬: 포토유알엘 O");
+      } else {
+        setDoc(doc(dbService, "users", `${user.uid}`), {
+          uid: user.uid,
+          displayName: user.displayName
+            ? user.displayName
+            : `${user.email.substring(0, user.email.indexOf("@"))}`,
+          email: user.email,
+          photoURL: "",
+          headerURL: "",
+          bio: "",
+          like: [],
+          follower: [],
+          following: [],
+          createdAt: user.metadata.createdAt,
+        });
+        console.log("🌟유저 새로 만듬: 포토유알엘 X");
+      }
     } else {
-      setDoc(doc(dbService, "users", `${user.uid}`), {
-        uid: user.uid,
-        displayName: user.displayName
-          ? user.displayName
-          : `${user.email.substring(0, user.email.indexOf("@"))}`,
-        email: user.email,
-        photoURL: "",
-        headerURL: "",
-        bio: "",
-        like: [],
-        follower: [],
-        following: [],
-        createdAt: user.metadata.createdAt,
-      });
+      //이미 계정 있으면 아무것도 안함
+      console.log("이미 있는 계정");
     }
   };
 

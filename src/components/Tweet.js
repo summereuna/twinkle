@@ -219,6 +219,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                       <button
                         onClick={toggleEditing}
                         className="tweetSender__writeBox__btn__editBox__delete btn btn--grey "
+                        type="button"
                       >
                         취소
                       </button>

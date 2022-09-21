@@ -17,7 +17,13 @@ import Follow from "../routes/Follow";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 //로그인한 유저 정보 userObj 받기
-const AppRouter = ({ refreshUser, isLoggedIn, userObj, handleUserUpdate }) => {
+const AppRouter = ({
+  refreshUser,
+  isLoggedIn,
+  userObj,
+  handleUserUpdate,
+  allUserIdList,
+}) => {
   return (
     <Router>
       {/*&&의 의미: <Navigation />이 존재하려면 isLoggedIn이 참이어야 한다*/}
@@ -54,7 +60,10 @@ const AppRouter = ({ refreshUser, isLoggedIn, userObj, handleUserUpdate }) => {
           </>
         ) : (
           <>
-            <Route path="/" element={<Auth />}></Route>
+            <Route
+              path="/"
+              element={<Auth allUserIdList={allUserIdList} />}
+            ></Route>
             {/*여기도*/}
             <Route path="*" element={<Navigate replace to="/" />} />
           </>
