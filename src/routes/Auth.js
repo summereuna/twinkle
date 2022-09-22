@@ -13,7 +13,9 @@ import {
   faTwitter,
   faGoogle,
   faGithub,
+  faVimeoV,
 } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { doc, setDoc } from "firebase/firestore";
 import { dbService } from "fbase";
 import welcomeimage from "../img/nasa.jpeg";
@@ -95,40 +97,87 @@ const Auth = ({ allUserIdList }) => {
 
   return (
     <main>
-      <div id="loginPage__container">
-        <img src={welcomeimage} alt="img" className="loginPage__img" />
-        <div id="body-content__">
-          <div className="auth__container">
-            <div className="auth__title__container">
-              <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" />
-              <h1 className="auth__title">지금 일어나고 있는 일</h1>
-              <h2 className="auth__subtitle">오늘 트윙클을 시작하세요.</h2>
-            </div>
-            <div className="auth__btns">
-              {/*🔥 버튼 만들고 onClick 이벤트에 onSocialClick 함수 연결*/}
-              <button
-                className="btn btn--grey"
-                name="google"
-                onClick={onSocialClick}
-              >
-                <FontAwesomeIcon icon={faGoogle} /> Google 계정으로 계속하기
-              </button>
-              <button
-                className="btn btn--grey"
-                name="github"
-                onClick={onSocialClick}
-              >
-                <FontAwesomeIcon icon={faGithub} /> GitHub 계정으로 계속하기
-              </button>
-              <div className="line__box">
-                <div className="line"></div>
-                <span> 또는 </span>
-                <div className="line"></div>
+      <div id="loginPage">
+        <div id="loginPage__container">
+          <img src={welcomeimage} alt="img" className="loginPage__img" />
+          <div id="body-content__">
+            <div className="auth__container">
+              <div className="auth__title__container">
+                <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" />
+                <h1 className="auth__title">지금 일어나고 있는 일</h1>
+                <h2 className="auth__subtitle">오늘 트윙클을 시작하세요.</h2>
               </div>
-              <AuthForm />
+              <div className="auth__btns">
+                {/*🔥 버튼 만들고 onClick 이벤트에 onSocialClick 함수 연결*/}
+                <button
+                  className="btn btn--grey"
+                  name="google"
+                  onClick={onSocialClick}
+                >
+                  <FontAwesomeIcon icon={faGoogle} /> Google 계정으로 계속하기
+                </button>
+                <button
+                  className="btn btn--grey"
+                  name="github"
+                  onClick={onSocialClick}
+                >
+                  <FontAwesomeIcon icon={faGithub} /> GitHub 계정으로 계속하기
+                </button>
+                <div className="line__box">
+                  <div className="line"></div>
+                  <span> 또는 </span>
+                  <div className="line"></div>
+                </div>
+                <AuthForm />
+              </div>
             </div>
           </div>
         </div>
+        <footer className="loginPage__footer">
+          <div className="loginPage__footer__box">
+            <span>&copy; {new Date().getFullYear()} Twinkle</span>
+          </div>
+          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box">
+            <span> Twitter 클론 사이트 </span>
+          </div>
+          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box">
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              className="loginPage__footer__box__icon"
+            />
+            <span> summereuna@gmail.com</span>
+          </div>
+          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box">
+            <a
+              href="https://github.com/summereuna"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                icon={faGithub}
+                className="loginPage__footer__box__icon"
+              />
+              <span> github</span>
+            </a>
+          </div>
+          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box">
+            <a
+              href="https://velog.io/@summereuna"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <FontAwesomeIcon
+                icon={faVimeoV}
+                className="loginPage__footer__box__icon"
+              />
+              <span> blog</span>
+            </a>
+          </div>
+        </footer>
       </div>
     </main>
   );

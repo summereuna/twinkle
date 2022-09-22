@@ -235,24 +235,51 @@ footer {
 }
 
 /* ✅ Auth */
-#loginPage__container {
-  display: flex;
-  flex-direction: row;
+#loginPage {
   width: 100vw;
-
-  .loginPage__img {
-    width: 50vw;
-    height: 100vh;
-    object-fit: cover;
-  }
-  @media (max-width: 880px) {
+  height: 100vh;
+  position: relative;
+  #loginPage__container {
+    display: flex;
+    flex-direction: row;
+    //
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 25px;
     .loginPage__img {
-      display: none;
+      width: 50vw;
+      object-fit: cover;
+    }
+    @media (max-width: 880px) {
+      .loginPage__img {
+        display: none;
+      }
+    }
+    @media (min-width: 990px) {
+      .loginPage__img {
+        display: flex;
+      }
     }
   }
-  @media (min-width: 990px) {
-    .loginPage__img {
-      display: flex;
+  .loginPage__footer {
+    font-size: 12px;
+    margin: 0;
+    //
+    height: 25px;
+    position: relative;
+    transform: translateY(-100%);
+    //
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .loginPage__footer__box {
+      margin: 0 3px;
+      .loginPage__footer__box__icon {
+        margin-right: 3px;
+      }
     }
   }
 }
@@ -260,7 +287,7 @@ footer {
 .auth__container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   margin: 0 52px;
   .auth__title__container {
     display: flex;
@@ -268,12 +295,12 @@ footer {
     align-items: flex-start;
     .auth__title {
       font-weight: 700;
-      font-size: 60px;
-      margin: 48px 0;
+      font-size: 50px;
+      margin: 40px 0;
     }
     .auth__subtitle {
       font-weight: 700;
-      font-size: 30px;
+      font-size: 25px;
       margin: 0 0 32px;
     }
   }
