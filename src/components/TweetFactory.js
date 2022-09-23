@@ -133,6 +133,11 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
     fileInput.current.value = null;
   };
 
+  //파일 업로드시 각 DOM 영역에 이미지 띄우기
+  const clickFileUploader = () => {
+    fileInput.current.click();
+  };
+
   //엔터키 작동 막기
   document.addEventListener(
     "keydown",
@@ -197,9 +202,9 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
               id="files"
               className="hidden"
             />
-            <label className="icon" htmlFor="files">
+            <div className="icon" htmlFor="files" onClick={clickFileUploader}>
               <FontAwesomeIcon icon={faImage} size="2x" />
-            </label>
+            </div>
             <div className="tweetSender__writeBox__btn__submit">
               <input
                 className="btn btn--blue btn--border-zero"
