@@ -1,0 +1,120 @@
+@import "../variables.scss";
+
+/* ✅ Auth */
+#loginPage {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  #loginPage__container {
+    display: flex;
+    flex-direction: row;
+    //
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 25px;
+    .loginPage__img {
+      width: 50vw;
+      object-fit: cover;
+    }
+    @media (max-width: 880px) {
+      .loginPage__img {
+        display: none;
+      }
+    }
+    @media (min-width: 990px) {
+      .loginPage__img {
+        display: flex;
+      }
+    }
+  }
+  .loginPage__footer {
+    font-size: 12px;
+    margin: 0;
+    //
+    height: 25px;
+    position: relative;
+    transform: translateY(-100%);
+    //
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .loginPage__footer__box {
+      margin: 0 3px;
+      .loginPage__footer__box__icon {
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+.auth__container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 0 20px;
+  margin: 0 52px;
+  .auth__title__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .auth__title {
+      font-weight: 700;
+      font-size: 50px;
+      margin: 40px 0;
+    }
+    .auth__subtitle {
+      font-weight: 700;
+      font-size: 25px;
+      margin: 0 0 32px;
+    }
+  }
+
+  .auth__btns {
+    display: flex;
+    flex-direction: column;
+    button {
+      width: 300px;
+      margin-bottom: 15px;
+    }
+    .auth__btn {
+      background-color: transparent;
+      border: 1px solid #dcdfe2;
+      border-radius: 25px;
+      height: 40px;
+      padding: 0 16px;
+    }
+    .line__box {
+      max-width: 300px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .line {
+        width: 130px;
+        height: 1px;
+        box-sizing: border-box;
+        background-color: $color-border;
+      }
+    }
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      input {
+        font-weight: 500;
+        width: 300px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        cursor: auto;
+      }
+      input:focus {
+        background-color: #ebf5fe;
+        transition: 0.3s;
+      }
+    }
+    .auth__h3 {
+      margin: 15px 0;
+    }
+  }
+}

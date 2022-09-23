@@ -1,0 +1,36 @@
+@import "../variables.scss";
+
+.searchUser {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid $color-border;
+
+  .searchUser__userImg {
+    width: 56px;
+    height: 56px;
+  }
+  .searchUser__userInfo {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding-left: 12px;
+    .searchUser__userInfo__userName {
+      font-weight: 800;
+    }
+    .searchUser__userInfo__userId {
+      color: $color-id;
+    }
+    .searchUser__userInfo__userBio {
+      color: $color-id;
+      font-size: 13px;
+      width: inherit;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+}

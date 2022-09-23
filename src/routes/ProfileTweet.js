@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { dbService } from "fbase";
 import {
   collection,
@@ -7,30 +6,34 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useState } from "react";
-import Tweet from "../../components/Tweet";
+import { useEffect, useState } from "react";
+import Tweet from "../components/Tweet";
 
-const ProfileSectionMedia = ({ userData, userObj }) => {
-  //트윗 가져오기
-  const [mediaTweets, setMediaTweets] = useState([]);
+const ProfileTweet = ({ userData, userObj }) => {
+  //console.log("🐥", userData.uid);
+  //✅트윗 가져오기
+  const [tweets, setTweets] = useState([]);
+
   useEffect(() => {
+    //snapshot은 쿼리 같은 건데 docs를 가지고 있다.
+    //tweets은 페이지를 불러올 때 snapshot에서 나오는 거다.
     const q = query(
       collection(dbService, "tweets"),
-      where("attachmentUrl", "!=", ""),
-      orderBy("attachmentUrl"),
       where("creatorId", "==", userData.uid),
       orderBy("createdAt", "desc")
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
+      //모든 docs는 {} 오브젝트 반환하도록
+      //아이디 가져오고, 그리고 나머지 데이터 전체 가져오기
       const tweetArr = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-
-      setMediaTweets(tweetArr);
+      //트윗어레이 확인해보자. 오케이 원하는대로 포맷된것을 확인할 수 있다!
+      //console.log(tweetArr);
+      setTweets(tweetArr);
     });
-
     return () => {
       unsubscribe(); //stop listening to changes
     };
@@ -38,8 +41,8 @@ const ProfileSectionMedia = ({ userData, userObj }) => {
 
   return (
     <div className="tweetList">
-      {mediaTweets.length > 0 ? (
-        mediaTweets.map((tweet) => (
+      {tweets.length > 0 ? (
+        tweets.map((tweet) => (
           //Tweet을 컴포넌트로 만고 props으로 가져온다.
           //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
           <Tweet
@@ -56,4 +59,4 @@ const ProfileSectionMedia = ({ userData, userObj }) => {
   );
 };
 
-export default ProfileSectionMedia;
+export default ProfileTweet;

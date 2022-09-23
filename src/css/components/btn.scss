@@ -1,0 +1,130 @@
+@import "../variables.scss";
+
+/*✅ Btns*/
+
+.btn {
+  border: 1px solid #dcdfe2;
+  border-radius: 25px;
+  height: 40px;
+  padding: 0 16px;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+.btn--border-zero {
+  border: 0;
+}
+
+.btn--grey {
+  background-color: #ffffff;
+  color: #3c4043;
+}
+.btn--grey:hover,
+.btn--grey:focus {
+  background-color: #e6e6e6;
+  transition: 0.3s;
+}
+
+.btn--blue {
+  background-color: $color-main;
+  color: rgb(255, 255, 255);
+  font-weight: 800;
+}
+.btn--blue:hover,
+.btn--blue:focus {
+  background-color: #188cd8;
+  transition: 0.3s;
+}
+
+.btn--skyblue {
+  font-weight: 800;
+  color: $color-main;
+}
+.btn--skyblue:hover,
+.btn--skyblue:focus {
+  background-color: #ebf5fe;
+  transition: 0.3s;
+}
+
+.btn--blue--circle {
+  color: $color-main;
+  font-weight: 800;
+}
+.btn--blue--circle:hover,
+.btn--blue--circle:focus {
+  color: #188cd8;
+  transition: 0.3s;
+}
+
+.nav__btn {
+  width: 50px;
+  height: 50px;
+  padding: 12px;
+}
+
+.btn--circle {
+  border-radius: 50px;
+}
+
+.btn--circle:hover {
+  background-color: #e7e7e8;
+  transition: 0.3s;
+}
+
+.btn--circle:focus {
+  background-color: #e7e7e8;
+  transition: 0.3s;
+}
+
+.btn--min {
+  width: 34px;
+  height: 34px;
+}
+
+.btn--min--circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 25px;
+  color: #b0b6be;
+}
+.btn--min--circle:hover {
+  background-color: #ffeaf2;
+  color: #f9197f;
+  transition: 0.3s;
+}
+.btn--min--circle:active {
+  background-color: #ffd0e2;
+  color: #f9197f;
+  transition: 0.3s;
+}
+
+.follow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 0 16px;
+  border-radius: 25px;
+  cursor: point;
+  pointer-events: auto;
+}
+
+.follow-btn--black {
+  color: white;
+  background-color: rgb(15, 20, 25);
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.follow-btn--white {
+  color: rgba(0, 0, 0, 1);
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid rgb(207, 217, 222);
+}
+
+.follow-btn--red {
+  color: #f4212d;
+  background-color: #fdc9ce;
+  border: 1px solid #ff9ea8;
+}

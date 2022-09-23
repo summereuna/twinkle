@@ -1,0 +1,43 @@
+@import "../variables.scss";
+
+//💬 Modal Search Component
+.modal-search-layout {
+  z-index: 999;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  opacity: 0;
+  transition: all;
+  pointer-events: none;
+  .modal-search-layout-inside {
+    top: 51px;
+    left: 62.3%;
+    position: fixed;
+    //display: flex;
+    .modal-search {
+      position: absolute;
+      top: 0;
+      left: 0;
+      .modal-search-content {
+        width: 345px;
+        padding: 12px 0;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
+        font-size: 15px;
+        .modal-search-content__default {
+          padding: 0 40px;
+          white-space: pre-wrap;
+          overflow-wrap: break-word;
+        }
+      }
+    }
+  }
+}
+.modal-search-layout.show {
+  opacity: 1;
+  pointer-events: visible;
+}

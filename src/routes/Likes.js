@@ -8,9 +8,9 @@ import {
   where,
 } from "firebase/firestore";
 import { useState } from "react";
-import Tweet from "../../components/Tweet";
+import Tweet from "../components/Tweet";
 
-const ProfileSectionLikes = ({ userData, userObj }) => {
+const Likes = ({ userData, userObj }) => {
   //트윗 가져오기
   const [likeTweets, setLikeTweets] = useState([]);
 
@@ -55,4 +55,4 @@ const ProfileSectionLikes = ({ userData, userObj }) => {
   );
 };
 
-export default ProfileSectionLikes;
+export default Likes;

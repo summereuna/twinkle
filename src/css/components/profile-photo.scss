@@ -1,0 +1,26 @@
+@import "../variables.scss";
+
+//🌟 프로필 포토 컴포넌트
+.profile-photo {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  background-color: rgb(199, 199, 199);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .profile-photo__img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    object-fit: cover;
+    background-color: rgb(255, 255, 255);
+  }
+  .profile-photo__default {
+    width: 55%;
+    height: 55%;
+    color: rgb(255, 255, 255);
+  }
+}

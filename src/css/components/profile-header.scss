@@ -1,0 +1,21 @@
+@import "../variables.scss";
+
+//🌟 헤더 포토 컴포넌트
+.header-photo {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  background-color: rgb(255, 255, 255);
+  .header-photo__img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: rgb(255, 255, 255);
+  }
+  .header-photo__default {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(225, 225, 225);
+  }
+}

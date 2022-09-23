@@ -72,7 +72,7 @@ const Navigation = ({ userObj }) => {
           <nav className="nav">
             <ul className="nav__ul">
               <Link to="/">
-                <div className="nav__ul__li__btn nav__btn color-main">
+                <div className="nav__ul__li__btn nav__btn logo-color">
                   <FontAwesomeIcon
                     icon={faTwitter}
                     size="2x"

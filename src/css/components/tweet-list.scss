@@ -1,0 +1,87 @@
+@import "../variables.scss";
+
+/*💬 Tweet List Component: Home & Profile*/
+.tweetList {
+  .noTweet {
+    padding: 80px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-bottom: 1px solid $color-border;
+    color: $color-id;
+  }
+  .tweetList__tweets {
+    padding: 12px 16px;
+    border-bottom: 1px solid $color-border;
+    display: grid;
+    grid-template-columns: 1fr 8fr;
+    .userImg {
+      margin: 0 12px 0 0;
+      padding: 4px 0 0;
+      .userImg_img {
+        height: 48px;
+        width: 48px;
+        background-color: $color-main;
+        border-radius: 25px;
+      }
+    }
+    .tweetList__tweets__tweet {
+      display: flex;
+      flex-direction: column;
+      .tweetList__tweets__tweet__info {
+        display: flex;
+        flex-direction: row;
+        font-size: 15px;
+        span {
+          padding-right: 5px;
+        }
+        .tweetList__tweets__tweet__info__userName {
+          font-weight: 700;
+          color: $color-text;
+        }
+      }
+      .tweetList__tweets__tweet__content {
+        display: flex;
+        flex-direction: column;
+        .tweetList__tweets__tweet__content__text {
+          box-sizing: border-box;
+          padding-top: 10px;
+          font-size: 15px;
+          color: $color-text;
+          width: 100%;
+          overflow-wrap: break-word;
+          white-space: pre-wrap;
+          word-break: break-word;
+          word-wrap: break-word;
+          line-height: 20px;
+        }
+        .tweetList__tweets__tweet__content__img {
+          padding-top: 20px;
+          .tweetImg {
+            border-radius: 15px;
+          }
+        }
+        .tweetList__tweets__tweet__content__btns {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 15px;
+          margin-top: 12px;
+          margin-left: -10px;
+          span {
+            padding: 0 12px;
+          }
+        }
+      }
+    }
+  }
+  .tweetList__tweets:hover {
+    background-color: #f7f7f7;
+    transition: 0.3s;
+  }
+  .clicked-heart {
+    color: #f9197f;
+  }
+}

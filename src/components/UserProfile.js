@@ -2,9 +2,9 @@ import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NavLink, Route, Routes } from "react-router-dom";
-import ProfileSection from "routes/pages/ProfileSection";
-import ProfileSectionLikes from "routes/pages/ProfileSectionLikes";
-import ProfileSectionMedia from "routes/pages/ProfileSectionMedia";
+import ProfileTweet from "../routes/ProfileTweet";
+import Likes from "../routes/Likes";
+import Media from "../routes/Media";
 import FollowBtn from "./FollowBtn";
 import Header from "./Header";
 import EditProfileModal from "./Modal/EditProfileModal";
@@ -151,19 +151,15 @@ const UserProfile = ({
           <Routes>
             <Route
               path=""
-              element={<ProfileSection userData={userData} userObj={userObj} />}
+              element={<ProfileTweet userData={userData} userObj={userObj} />}
             />
             <Route
               path="media"
-              element={
-                <ProfileSectionMedia userData={userData} userObj={userObj} />
-              }
+              element={<Media userData={userData} userObj={userObj} />}
             />
             <Route
               path="likes"
-              element={
-                <ProfileSectionLikes userData={userData} userObj={userObj} />
-              }
+              element={<Likes userData={userData} userObj={userObj} />}
             />
           </Routes>
         )}

@@ -1,0 +1,27 @@
+@import "../variables.scss";
+
+/*✅ home*/
+.home__container {
+  padding: 0;
+  .home__tile {
+    z-index: 2;
+    padding: 0 16px;
+    /*엥 이거 왜 두배 되는거지?*/
+    font-size: 10px;
+    position: sticky;
+    position: -webkit-sticky;
+    height: 53px;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+  }
+  .home__main-container {
+    max-width: 600px;
+    width: 100%;
+    .home__main-container__write {
+      border-bottom: 1px solid $color-border;
+    }
+  }
+}
