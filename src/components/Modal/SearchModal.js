@@ -9,20 +9,18 @@ const SearchModal = ({
   searchKeyword,
 }) => {
   const onEscapeKeyDown = (event) => {
-    if ((event.charCode || event.keyCode) === 27) {
+    if (isModalOpen && (event.charCode || event.keyCode) === 27) {
       handleModalClose();
+      console.log("❗️esc 누름❗️");
     }
   };
-  useEffect(() => {
-    document.body.addEventListener("keydown", onEscapeKeyDown);
-    return function cleanup() {
-      document.body.removeEventListener("keydown", onEscapeKeyDown);
-    };
-  }, []);
 
-  //console.log(isModalOpen);
-  //console.log("searchKeyword", searchKeyword);
-  //console.log("filterKeywordArr", filterKeywordArr);
+  useEffect(() => {
+    window.addEventListener("keydown", onEscapeKeyDown);
+    return function cleanup() {
+      window.removeEventListener("keydown", onEscapeKeyDown);
+    };
+  });
 
   return (
     <div

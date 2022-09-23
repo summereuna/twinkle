@@ -118,7 +118,7 @@ const SideSection = ({ userObj }) => {
       setRandomUserList(randomUsersArr);
     }
 
-    console.log("팔로우 추천");
+    //console.log("팔로우 추천");
   }, [userObj.following]);
 
   //console.log("밖");
@@ -168,12 +168,16 @@ const SideSection = ({ userObj }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
-    setIsModalOpen((prev) => !prev);
+    if (!isModalOpen) {
+      setIsModalOpen((prev) => !prev);
+    }
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
-    setSearch("");
+    if (isModalOpen) {
+      setIsModalOpen((prev) => !prev);
+      setSearch("");
+    }
   };
 
   return (

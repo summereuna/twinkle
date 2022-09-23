@@ -22,8 +22,9 @@ const EditProfileModal = ({
   onSubmit,
 }) => {
   const onEscapeKeyDown = (event) => {
-    if ((event.charCode || event.keyCode) === 27) {
+    if (isEditProfileModalOpen && (event.charCode || event.keyCode) === 27) {
       handleEditModalClose();
+      console.log("에딧 모달 esc로 끔");
     }
   };
   useEffect(() => {
@@ -31,19 +32,18 @@ const EditProfileModal = ({
     return function cleanup() {
       document.body.removeEventListener("keydown", onEscapeKeyDown);
     };
-  }, []);
-
+  });
   //console.log(userObj);
 
   return (
     <div
-      className={`modal ${isEditProfileModalOpen ? "show" : ""}`}
+      className={`edit-modal ${isEditProfileModalOpen ? "show" : ""}`}
       onClick={handleEditModalClose}
     >
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <div className="modal-header__box">
-            <div className="modal-x-btn">
+      <div className="edit-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="edit-modal__header">
+          <div className="edit-modal__header__box">
+            <div className="edit-modal__header__box__xBtn">
               <button
                 className="btn--min btn--circle"
                 onClick={handleEditModalClose}
@@ -51,7 +51,7 @@ const EditProfileModal = ({
                 <FontAwesomeIcon icon={faTimes} />
               </button>
             </div>
-            <h4 className="modal-title">프로필 수정</h4>
+            <h4 className="edit-modal__header__box__title">프로필 수정</h4>
             <button
               className="btn btn--blue btn--border-zero"
               type="submit"
@@ -61,8 +61,12 @@ const EditProfileModal = ({
             </button>
           </div>
         </div>
-        <div className="modal-body">
-          <form id="edit-form" className="edit-form" onSubmit={onSubmit}>
+        <div className="edit-modal-body">
+          <form
+            id="edit-form"
+            className="edit-modal-body__edit-form"
+            onSubmit={onSubmit}
+          >
             <div className="profile__user__header">
               <div className="header-photo">
                 {headerAttachment ? (
@@ -140,7 +144,7 @@ const EditProfileModal = ({
                 </div>
               </div>
             </div>
-            <div className="modal-edit">
+            <div className="profile__user__name">
               <label htmlFor="user-name"> 이름 </label>
               <input
                 id="user-name"

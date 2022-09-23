@@ -19,7 +19,6 @@ import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import LogOutModal from "./Modal/LogOutModal";
 import Modal from "./Modal/Modal";
 import { useEffect, useRef, useState } from "react";
-import TweetFactory from "./TweetFactory";
 import ProfilePhoto from "./ProfilePhoto";
 
 const Navigation = ({ userObj }) => {
@@ -28,7 +27,9 @@ const Navigation = ({ userObj }) => {
   const [isOpenLogOutModal, setIsOpenLogOutModal] = useState(false);
 
   const handleOpenLogOutModal = () => {
-    setIsOpenLogOutModal((prev) => !prev);
+    if (!isOpenLogOutModal) {
+      setIsOpenLogOutModal((prev) => !prev);
+    }
   };
 
   const handleCloseLogOutModal = (event) => {
@@ -36,7 +37,7 @@ const Navigation = ({ userObj }) => {
       isOpenLogOutModal &&
       !outsideOfLogOutModal.current.contains(event.target)
     ) {
-      setIsOpenLogOutModal(false);
+      setIsOpenLogOutModal((prev) => !prev);
     }
   };
 
@@ -51,11 +52,17 @@ const Navigation = ({ userObj }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
-    setIsModalOpen((prev) => !prev);
+    if (!isModalOpen) {
+      setIsModalOpen((prev) => !prev);
+      console.log("❗️트윗 모달 오픈하기", isModalOpen);
+    }
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
+    if (isModalOpen) {
+      setIsModalOpen((prev) => !prev);
+      console.log("❌트윗 모달 클로즈하기", isModalOpen);
+    }
   };
 
   return (
@@ -131,12 +138,7 @@ const Navigation = ({ userObj }) => {
                     userObj={userObj}
                     handleModalClose={handleModalClose}
                     isModalOpen={isModalOpen}
-                  >
-                    <TweetFactory
-                      setIsModalOpen={setIsModalOpen}
-                      userObj={userObj}
-                    />
-                  </Modal>
+                  />
                 </div>
               </li>
             </ul>

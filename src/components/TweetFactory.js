@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import ProfilePhoto from "./ProfilePhoto";
 
-const TweetFactory = ({ userObj, setIsModalOpen }) => {
+const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
   //input에 데이터 입력될 때 마다 ref 가져와서 textarea의 height에 scrollHeight 높이만큼 더해주기
   const textRef = useRef();
 
@@ -83,8 +83,8 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
 
     textRef.current.style.height = "auto";
     //모달로 열린 경우 setIsModalOpen false로 변경하여 창 닫기
-    if (setIsModalOpen) {
-      setIsModalOpen(false);
+    if (isModalOpen) {
+      handleModalClose();
     }
   };
 
@@ -143,75 +143,73 @@ const TweetFactory = ({ userObj, setIsModalOpen }) => {
     },
     true
   );
-  console.log("🎨", attachment);
-  return (
-    <div className="modal-body-inside">
-      <div className="tweetSender">
-        <div className="tweetSender__userImg">
-          <div className="tweetSender__userImg__img">
-            <ProfilePhoto photoURL={userObj.photoURL} />
-          </div>
-        </div>
-        <div className="tweetSender__writeBox">
-          <form onSubmit={onSubmit}>
-            <div className="tweetSender__writeBox__text">
-              <textarea
-                className="tweetSender__writeBox__text__textarea"
-                type="text"
-                autoComplete="off"
-                wrap="on"
-                placeholder="무슨 일이 일어나고 있나요?"
-                maxLength={150}
-                value={tweet}
-                onChange={onChange}
-                ref={textRef}
-                onInput={autoResizeTextarea}
-              />
-              {attachment && (
-                <div className="preview">
-                  <img
-                    src={attachment}
-                    alt="preview"
-                    width="300"
-                    height="auto"
-                    className="previewImg"
-                  />
-                  <button
-                    className="preview--remove"
-                    onClick={onClearAttachment}
-                  >
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                </div>
-              )}
-            </div>
 
-            <div className="tweetSender__writeBox__btn">
-              <input
-                name="file"
-                type="file"
-                accept="image/*"
-                onChange={onFileChange}
-                ref={fileInput}
-                id="files"
-                className="hidden"
-              />
-              <label className="icon" htmlFor="files">
-                <FontAwesomeIcon icon={faImage} size="2x" />
-              </label>
-              <div className="tweetSender__writeBox__btn__submit">
-                <input
-                  className="btn btn--blue btn--border-zero"
-                  type="submit"
-                  value="트윗하기"
-                  disabled={
-                    tweet.length > 0 || attachment !== "" ? false : true
-                  }
-                />
-              </div>
-            </div>
-          </form>
+  if (attachment) {
+    console.log("🎨", true);
+  } else {
+    console.log("🎨", false);
+  }
+  return (
+    <div className="tweetSender">
+      <div className="tweetSender__userImg">
+        <div className="tweetSender__userImg__img">
+          <ProfilePhoto photoURL={userObj.photoURL} />
         </div>
+      </div>
+      <div className="tweetSender__writeBox">
+        <form onSubmit={onSubmit}>
+          <div className="tweetSender__writeBox__text">
+            <textarea
+              className="tweetSender__writeBox__text__textarea"
+              type="text"
+              autoComplete="off"
+              wrap="on"
+              placeholder="무슨 일이 일어나고 있나요?"
+              maxLength={150}
+              value={tweet}
+              onChange={onChange}
+              ref={textRef}
+              onInput={autoResizeTextarea}
+            />
+            {attachment && (
+              <div className="preview">
+                <img
+                  src={attachment}
+                  alt="preview"
+                  width="300"
+                  height="auto"
+                  className="previewImg"
+                />
+                <button className="preview--remove" onClick={onClearAttachment}>
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="tweetSender__writeBox__btn">
+            <input
+              name="file"
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+              ref={fileInput}
+              id="files"
+              className="hidden"
+            />
+            <label className="icon" htmlFor="files">
+              <FontAwesomeIcon icon={faImage} size="2x" />
+            </label>
+            <div className="tweetSender__writeBox__btn__submit">
+              <input
+                className="btn btn--blue btn--border-zero"
+                type="submit"
+                value="트윗하기"
+                disabled={tweet.length > 0 || attachment !== "" ? false : true}
+              />
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );

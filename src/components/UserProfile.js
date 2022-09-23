@@ -45,7 +45,6 @@ const UserProfile = ({
   const month = date.getMonth() + 1;
   const day = date.getDate();
   const userCreatedAt = `${year}년 ${month}월 ${day}일`;
-  console.log("과연");
 
   return (
     <div className="profile__container">

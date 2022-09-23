@@ -44,7 +44,7 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
     const usersSnap = await getDoc(usersRef);
     const userDataObj = usersSnap.data();
     setUserData(userDataObj);
-    console.log("괜찮니");
+    //console.log("괜찮니");
   }, [userId]);
   //userId 파람 디펜던시에 넣으면 다른 유저 선택시 페이지 리렌더링 된다.
 
@@ -63,7 +63,7 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
   }, [getProfiles]);
   //param 바뀌는거에 따라 getProfiles에서 유저 프로필 데이터를 구해오니까 getProfiles 함수를 디펜던시에 넣으면 다른 유저 선택시 페이지 리렌더링 된다.
 
-  console.log("🍎밖", userData.uid);
+  //console.log("🍎밖", userData.uid);
   //✅ 닉네임 수정
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
@@ -150,19 +150,19 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
       userObj.photoURL !== profileAttachment ||
       userObj.headerURL !== headerAttachment
     ) {
-      console.log(
-        "💗displayName: is updated?",
-        newDisplayName !== userObj.displayName
-      );
-      console.log("💗bio: is updated?", newBio !== userObj.bio);
-      console.log(
-        "💗photoURL: is updated?",
-        profileAttachment !== userObj.photoURL
-      );
-      console.log(
-        "💗headerURL: is updated?",
-        headerAttachment !== userObj.headerURL
-      );
+      // console.log(
+      //   "💗displayName: is updated?",
+      //   newDisplayName !== userObj.displayName
+      // );
+      // console.log("💗bio: is updated?", newBio !== userObj.bio);
+      // console.log(
+      //   "💗photoURL: is updated?",
+      //   profileAttachment !== userObj.photoURL
+      // );
+      // console.log(
+      //   "💗headerURL: is updated?",
+      //   headerAttachment !== userObj.headerURL
+      // );
 
       const updatedUserObj = { ...userObj };
 
@@ -308,18 +308,20 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
   const handleEditModalOpen = () => {
-    setIsEditProfileModalOpen((prev) => !prev);
-    setProfileAttachment(userObj.photoURL);
-    setHeaderAttachment(userObj.headerURL);
-    console.log("모달 오픈");
+    if (!isEditProfileModalOpen) {
+      setIsEditProfileModalOpen((prev) => !prev);
+      setProfileAttachment(userObj.photoURL);
+      setHeaderAttachment(userObj.headerURL);
+      console.log("프로필 수정 모달 오픈", isEditProfileModalOpen);
+    }
   };
 
   const handleEditModalClose = () => {
     if (isEditProfileModalOpen) {
-      setIsEditProfileModalOpen(false);
+      setIsEditProfileModalOpen((prev) => !prev);
       onClearProfileAttachment();
       onClearHeaderAttachment();
-      console.log("모달 클로즈");
+      console.log("프로필 수정 모달 클로즈", isEditProfileModalOpen);
     }
   };
 
