@@ -47,6 +47,9 @@
               align-items: stretch;
               justify-content: center;
               margin: 4px 0;
+              .cursor--pointer {
+                cursor: pointer;
+              }
             }
           }
           .logo-color {
@@ -54,6 +57,7 @@
           }
         }
         .nav__user {
+          cursor: pointer;
           display: flex;
           flex-direction: column;
           align-items: center;

@@ -149,11 +149,6 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
     true
   );
 
-  if (attachment) {
-    console.log("🎨", true);
-  } else {
-    console.log("🎨", false);
-  }
   return (
     <div className="tweetSender">
       <div className="tweetSender__userImg">

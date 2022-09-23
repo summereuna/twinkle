@@ -73,11 +73,9 @@
       align-items: center;
       padding-top: 12px;
       border-top: 1px solid $color-border;
-      label {
+      .icon {
         cursor: pointer;
-      }
-      input {
-        cursor: pointer;
+        color: $color-main;
       }
       .tweetSender__writeBox__btn__submit {
         input:disabled {
