@@ -49,12 +49,12 @@ const AppRouter = ({
             {/*중첩 라우팅 위해 뒤에 * 달기*/}
             <Route
               path="/:id/following"
-              end
+              end="true"
               element={<Follow userObj={userObj} state={"following"} />}
             />
             <Route
               path="/:id/follower"
-              end
+              end="true"
               element={<Follow userObj={userObj} state={"follower"} />}
             />
           </>

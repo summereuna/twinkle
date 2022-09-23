@@ -62,7 +62,7 @@ const Follow = ({ userObj, state }) => {
                         <li className="nav-tab__list__presentation">
                           <NavLink
                             to={`/${userData.uid}/follower`}
-                            end
+                            end="true"
                             className={({ isActive }) =>
                               isActive ? "tab-on" : undefined
                             }
