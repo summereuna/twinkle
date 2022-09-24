@@ -155,7 +155,7 @@ const EditProfileModal = ({
                 placeholder="이름"
                 className="btn btn--skyblue"
                 onChange={onChangeDisplayName}
-                value={newDisplayName}
+                value={newDisplayName || ""}
               />
               <label htmlFor="bio"> 자기 소개 </label>
               <input
@@ -167,7 +167,7 @@ const EditProfileModal = ({
                 placeholder="자기 소개"
                 className="btn btn--skyblue"
                 onChange={onChangeBio}
-                value={newBio}
+                value={newBio || ""}
               />
             </div>
           </form>
