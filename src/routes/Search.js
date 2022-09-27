@@ -14,8 +14,8 @@ const Search = ({ userObj }) => {
   const [loading, setLoading] = useState();
 
   const [searchParams] = useSearchParams();
-
   const searchKeyword = searchParams.get("q");
+
   console.log("💜searchKeyword", searchKeyword);
 
   const currentUserUid = userObj.uid;
@@ -36,11 +36,15 @@ const Search = ({ userObj }) => {
     const allUserWithoutCurrentUserList = querySnapshot.docs.map((doc) =>
       doc.data()
     );
+    console.log(
+      "🍀필터할 유저 디비에서 가꼬온 리스트",
+      allUserWithoutCurrentUserList
+    );
     setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
-
+    console.log("🌸필터할 유저 어레이", allUserWithoutCurrentUser);
     //let filterKeywords = [...filterKeywordArr];
 
-    const filterKeywords = allUserWithoutCurrentUser.filter((user) => {
+    const filterKeywords = allUserWithoutCurrentUserList.filter((user) => {
       const username = user.displayName
         .replace(" ", "")
         .toLocaleLowerCase()
@@ -53,11 +57,11 @@ const Search = ({ userObj }) => {
       console.log("필터");
       return searchKeyword && (username || userId);
     });
+
     console.log("🔥filterKeywords", filterKeywords);
+
     setFilterKeywordArr(filterKeywords);
   }, [currentUserUid, searchKeyword]);
-
-  console.log("🍎셋한 키워드", filterKeywordArr);
 
   useEffect(() => {
     setLoading(true);
@@ -68,7 +72,7 @@ const Search = ({ userObj }) => {
     return () => {
       setLoading(false);
     };
-  }, [getUsers]);
+  }, [getUsers, searchKeyword]);
 
   return (
     userObj && (
@@ -86,8 +90,7 @@ const Search = ({ userObj }) => {
                 <div className="searchPage__title__searchBar">
                   <SearchBar
                     allUserWithoutCurrentUser={allUserWithoutCurrentUser}
-                    isInExplore={isInExplore}
-                  />{" "}
+                  />
                 </div>
               </div>
             </div>

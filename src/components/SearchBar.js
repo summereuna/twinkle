@@ -13,9 +13,9 @@ const SearchBar = ({ allUserWithoutCurrentUser }) => {
     const {
       target: { value },
     } = e;
+    console.log("🌟onChange 안에 있는 value", value);
     setSearch(value);
   };
-
   //검색 필터
   const filterKeywordArr = allUserWithoutCurrentUser.filter((user) => {
     const username = user.displayName
@@ -33,25 +33,27 @@ const SearchBar = ({ allUserWithoutCurrentUser }) => {
 
   const handleSearchOnClick = (e) => {
     e.preventDefault();
-    console.log("클릭");
+    //console.log("클릭");
     handleSearch();
   };
 
   const handleSearchOnEnterKey = (e) => {
     if (e.keyCode === 13 || e.key === "Enter" || e.code === "Enter") {
-      console.log("엔터키");
+      //console.log("엔터키");
       handleSearch();
     }
   };
 
   const handleSearch = () => {
-    console.log("작동 ㅇ");
-    setSearch("");
+    //console.log("작동 ㅇ");
+
+    console.log("💗search", search);
     handleModalClose();
     navigate({
       pathname: "/search",
       search: `?q=${search}`,
     });
+    setSearch("");
   };
 
   //Modal
