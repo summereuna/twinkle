@@ -6,9 +6,8 @@
   position: absolute;
   left: 0;
   top: 68vh;
-  display: flex;
-  opacity: 0;
   transition: all 0.15s ease-in-out;
+  display: none;
   pointer-events: none;
   .modal-logout {
     position: fixed;
@@ -70,6 +69,6 @@
   }
 }
 .modal-layout.show {
-  opacity: 1;
+  display: flex;
   pointer-events: visible;
 }

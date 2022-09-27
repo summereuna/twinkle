@@ -8,10 +8,12 @@
 //routes
 @import "./routes/auth.scss";
 @import "./routes/home.scss";
+@import "./routes/explore.scss";
 @import "./routes/profile.scss";
 @import "./routes/follow.scss";
 @import "./routes/nav.scss";
 @import "./routes/sidesection.scss";
+@import "./routes/search.scss";
 
 //modal
 @import "./modal/modal-logout.scss";
@@ -26,6 +28,7 @@
 @import "./components/profile-nav-tab.scss";
 @import "./components/profile-photo.scss";
 @import "./components/profile-header.scss";
+@import "./components/searchbar.scss";
 @import "./components/search-user-list.scss";
 @import "./components/recommendation.scss";
 

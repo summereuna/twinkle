@@ -8,19 +8,19 @@
   right: 0;
   top: 0;
   bottom: 0;
-  display: flex;
-  opacity: 0;
   transition: all;
+  display: none;
   pointer-events: none;
   .modal-search-layout-inside {
     top: 51px;
-    left: 62.3%;
+    left: 0;
     position: fixed;
     //display: flex;
     .modal-search {
       position: absolute;
       top: 0;
       left: 0;
+      //left: 62.3%;
       .modal-search-content {
         width: 345px;
         padding: 12px 0;
@@ -38,6 +38,6 @@
   }
 }
 .modal-search-layout.show {
-  opacity: 1;
+  display: flex;
   pointer-events: visible;
 }

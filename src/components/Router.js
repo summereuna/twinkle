@@ -14,6 +14,8 @@ import Navigation from "components/Navigation";
 import Profile from "routes/Profile";
 import PropTypes from "prop-types";
 import Follow from "../routes/Follow";
+import Explore from "routes/Explore";
+import Search from "routes/Search";
 
 //App에서 AppRouter로 보낸 prop인 isLoggedIn 받기
 //로그인한 유저 정보 userObj 받기
@@ -36,6 +38,14 @@ const AppRouter = ({
             <Route path="*" element={<Navigate replace to="/" />} />
             {/*로그인한 유저정보(userObj)를 prop으로 Home컴포넌트에 보내기*/}
             <Route path="/" element={<Home userObj={userObj} />}></Route>
+            <Route
+              path="/explore"
+              element={<Explore userObj={userObj} />}
+            ></Route>
+            <Route
+              path="/search"
+              element={<Search userObj={userObj} />}
+            ></Route>
             <Route
               path="/:id/*"
               element={

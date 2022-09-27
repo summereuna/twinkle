@@ -7,14 +7,7 @@ import {
   faHome,
   faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  faBell,
-  faUser,
-  faListAlt,
-  faBookmark,
-  faEnvelope,
-  faCaretSquareRight,
-} from "@fortawesome/free-regular-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import LogOutModal from "./Modal/LogOutModal";
 import Modal from "./Modal/Modal";
@@ -88,11 +81,13 @@ const Navigation = ({ userObj }) => {
                 </Link>
               </li>
               <li className="nav__ul__li">
-                <div className="nav__ul__li__btn nav__btn btn--circle">
-                  <FontAwesomeIcon icon={faHashtag} size="2x" />
-                </div>
+                <Link to="explore">
+                  <div className="nav__ul__li__btn nav__btn btn--circle">
+                    <FontAwesomeIcon icon={faHashtag} size="2x" />
+                  </div>
+                </Link>
               </li>
-              <li className="nav__ul__li">
+              {/* <li className="nav__ul__li">
                 <div className="nav__ul__li__btn nav__btn btn--circle">
                   <FontAwesomeIcon icon={faBell} size="2x" />
                 </div>
@@ -101,28 +96,13 @@ const Navigation = ({ userObj }) => {
                 <div className="nav__ul__li__btn nav__btn btn--circle">
                   <FontAwesomeIcon icon={faEnvelope} size="2x" />
                 </div>
-              </li>
-              <li className="nav__ul__li">
-                <div className="nav__ul__li__btn nav__btn btn--circle">
-                  <FontAwesomeIcon icon={faBookmark} size="2x" />
-                </div>
-              </li>
-              <li className="nav__ul__li">
-                <div className="nav__ul__li__btn nav__btn btn--circle">
-                  <FontAwesomeIcon icon={faListAlt} size="2x" />
-                </div>
-              </li>
+              </li> */}
               <li className="nav__ul__li">
                 <Link to={userObj.uid} end="true">
                   <div className="nav__ul__li__btn nav__btn btn--circle">
                     <FontAwesomeIcon icon={faUser} size="2x" />
                   </div>
                 </Link>
-              </li>
-              <li className="nav__ul__li">
-                <div className="nav__ul__li__btn nav__btn btn--circle">
-                  <FontAwesomeIcon icon={faCaretSquareRight} size="2x" />
-                </div>
               </li>
               <li className="nav__ul__li">
                 <div

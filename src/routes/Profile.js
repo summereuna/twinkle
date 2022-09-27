@@ -27,7 +27,7 @@ import SideSection from "components/SideSection";
 import UserProfile from "components/UserProfile";
 
 //로그인한 유저 정보 prop으로 받기
-const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
+const Profile = ({ userObj, handleUserUpdate }) => {
   //prop으로 받은 userObj는 currentUser의 user Collection data
   //아래 userData state에 있는 유저 오브젝트는 param에 따른 유저 데이터로 유저별 프로필 정보
 
@@ -37,7 +37,18 @@ const Profile = ({ refreshUser, userObj, handleUserUpdate }) => {
   const [init, setInit] = useState(false);
   //state에 어떤 타입의 데이터가 들어올지 디폴트를 작성해 두면 state가 업데이트 되기전 에러를 출력하지 않음
   //그리고 && 연산자 적극 사용하자
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({
+    // uid: "",
+    // displayName: "",
+    // email: "",
+    // photoURL: "",
+    // headerURL: "",
+    // bio: "",
+    // like: [],
+    // follower: [],
+    // following: [],
+    // createdAt: "",
+  });
 
   const getProfiles = useCallback(async () => {
     const usersRef = doc(dbService, "users", userId);

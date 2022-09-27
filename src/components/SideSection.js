@@ -9,11 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { dbService } from "fbase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
-import SearchModal from "./Modal/SearchModal";
 import Recommendation from "./Recomendation";
+import SearchBar from "./SearchBar";
 
-const SideSection = ({ userObj }) => {
-  const [loading, setLoading] = useState();
+const SideSection = ({ userObj, isInExplore }) => {
+  const [loading, setLoading] = useState(false);
 
   //유저 데이터
   const currentUserUid = userObj.uid;
@@ -134,94 +134,16 @@ const SideSection = ({ userObj }) => {
     };
   }, [getUsers]);
   //pageUserId
-  //검색
-  const [search, setSearch] = useState("");
-
-  const onChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setSearch(value);
-  };
-
-  //검색 필터
-  const filterKeywordArr = allUserWithoutCurrentUser.filter((user) => {
-    const username = user.displayName
-      .replace(" ", "")
-      .toLocaleLowerCase()
-      .includes(search.toLocaleLowerCase().replace(" ", ""));
-    const emailId = user.email.substring(0, user.email.indexOf("@"));
-    const userId = emailId
-      .replace(" ", "")
-      .toLocaleLowerCase()
-      .includes(search.toLocaleLowerCase().replace(" ", ""));
-    //console.log("필터");
-    return search && (username || userId);
-  });
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    //🌟 페이지 바뀌게: 나중에 할 것
-  };
-
-  //Modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleModalOpen = () => {
-    if (!isModalOpen) {
-      setIsModalOpen((prev) => !prev);
-    }
-  };
-
-  const handleModalClose = () => {
-    if (isModalOpen) {
-      setIsModalOpen((prev) => !prev);
-      setSearch("");
-    }
-  };
 
   return (
     <div className="side__container">
-      <div className="side__search__container">
-        <div className="side__search__container__search">
-          <form
-            onSubmit={onSubmit}
-            className="side__search__container__search__form"
-          >
-            <div className="side__search__container__search__form__div">
-              <label htmlFor="searchInput">
-                <button
-                  type="submit"
-                  className="side__search__container__search__form__btn"
-                >
-                  <FontAwesomeIcon icon={faSearch} />
-                </button>
-                <input
-                  id="searchInput"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="트윙클 검색"
-                  onChange={onChange}
-                  value={search}
-                  className="side__search__container__search__form__input"
-                  onClick={handleModalOpen}
-                />
-              </label>
-            </div>
-          </form>
-          <div className="side__search__container__search__modal">
-            <SearchModal
-              handleModalClose={handleModalClose}
-              isModalOpen={isModalOpen}
-              hover={"hover--bg--light"}
-              filterKeywordArr={filterKeywordArr}
-              searchKeyword={search}
-            ></SearchModal>
-          </div>
-        </div>
+      <div className={`side__search__container ${isInExplore ? "" : "show"}`}>
+        <SearchBar
+          allUserWithoutCurrentUser={allUserWithoutCurrentUser}
+          isInExplore={isInExplore}
+        />
       </div>
-      <div className="side__search-box"></div>
-
+      <div className={`side__search-box ${isInExplore ? "" : "show"}`}></div>
       <div className="side-box">
         <div className="side__trends">
           <h2>나를 위한 트렌드</h2>
