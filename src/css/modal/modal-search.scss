@@ -30,14 +30,14 @@
         border-radius: 10px;
         box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
         font-size: 15px;
-        .modal-search-content__default {
-          padding: 0 40px;
-          white-space: pre-wrap;
-          overflow-wrap: break-word;
-        }
       }
     }
   }
+}
+.modal-search-content__default {
+  padding: 0 40px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 .modal-search-layout.show {
   display: flex;

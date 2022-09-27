@@ -74,13 +74,16 @@ const Search = ({ userObj }) => {
     userObj && (
       <main>
         <div id="body-content">
-          <div className="explore__container">
-            <div className="explore__title">
-              <div className="explore__title__container">
-                <NavLink to="/">
-                  <FontAwesomeIcon icon={faArrowLeft} size="2x" />
-                </NavLink>
-                <div className="explore-search__title__searchBar">
+          <div className="searchPage__container">
+            <div className="searchPage__title">
+              <div className="searchPage__title__container">
+                <div className="searchPage__title__icon">
+                  <NavLink to="/">
+                    <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+                  </NavLink>
+                </div>
+
+                <div className="searchPage__title__searchBar">
                   <SearchBar
                     allUserWithoutCurrentUser={allUserWithoutCurrentUser}
                     isInExplore={isInExplore}
@@ -89,7 +92,7 @@ const Search = ({ userObj }) => {
               </div>
             </div>
 
-            <div className="explore__main-container">
+            <div className="searchPage__main-container">
               <div>
                 {searchKeyword ? (
                   filterKeywordArr.length > 0 ? (
