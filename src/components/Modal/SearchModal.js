@@ -28,31 +28,29 @@ const SearchModal = ({
       onClick={handleModalClose}
     >
       <div className="modal-search-layout-inside">
-        <div className="modal-search-width">
-          <div className="modal-search">
-            <div
-              className="modal-search-content"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div>
-                {searchKeyword ? (
-                  filterKeywordArr.length > 0 ? (
-                    <SearchUser
-                      hover={hover}
-                      userList={filterKeywordArr}
-                      handleModalClose={handleModalClose}
-                    />
-                  ) : (
-                    <div className="modal-search-content__default">
-                      {`'${searchKeyword}'에 대한 검색 결과가 없습니다.`}
-                    </div>
-                  )
+        <div className="modal-search">
+          <div
+            className="modal-search-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div>
+              {searchKeyword ? (
+                filterKeywordArr.length > 0 ? (
+                  <SearchUser
+                    hover={hover}
+                    userList={filterKeywordArr}
+                    handleModalClose={handleModalClose}
+                  />
                 ) : (
                   <div className="modal-search-content__default">
-                    사용자를 검색해보세요
+                    {`'${searchKeyword}'에 대한 검색 결과가 없습니다.`}
                   </div>
-                )}
-              </div>
+                )
+              ) : (
+                <div className="modal-search-content__default">
+                  사용자를 검색해보세요
+                </div>
+              )}
             </div>
           </div>
         </div>
