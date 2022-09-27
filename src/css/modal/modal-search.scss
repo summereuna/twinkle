@@ -3,7 +3,7 @@
 //💬 Modal Search Component
 .modal-search-layout {
   z-index: 999;
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   top: 0;
@@ -11,18 +11,20 @@
   transition: all;
   display: none;
   pointer-events: none;
+  width: inherit;
   .modal-search-layout-inside {
-    top: 51px;
+    top: 0;
     left: 0;
-    position: fixed;
+    position: absolute;
+    width: 100%;
     //display: flex;
     .modal-search {
+      width: 100%;
       position: absolute;
       top: 0;
       left: 0;
-      //left: 62.3%;
       .modal-search-content {
-        width: 345px;
+        width: inherit;
         padding: 12px 0;
         background-color: rgb(255, 255, 255);
         border-radius: 10px;
