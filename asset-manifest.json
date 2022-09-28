@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/twinkle/static/css/main.ead3b4ce.css",
+    "main.js": "/twinkle/static/js/main.af8a9aff.js",
+    "static/media/nasa.jpeg": "/twinkle/static/media/nasa.0fdbb4f5269db92a4377.jpeg",
+    "index.html": "/twinkle/index.html",
+    "main.ead3b4ce.css.map": "/twinkle/static/css/main.ead3b4ce.css.map",
+    "main.af8a9aff.js.map": "/twinkle/static/js/main.af8a9aff.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ead3b4ce.css",
+    "static/js/main.af8a9aff.js"
+  ]
+}
