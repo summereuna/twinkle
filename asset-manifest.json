@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/twinkle/static/css/main.ea57472f.css",
-    "main.js": "/twinkle/static/js/main.078ee6a9.js",
+    "main.js": "/twinkle/static/js/main.f47cb0d2.js",
     "static/media/nasa.jpeg": "/twinkle/static/media/nasa.0fdbb4f5269db92a4377.jpeg",
     "index.html": "/twinkle/index.html",
     "main.ea57472f.css.map": "/twinkle/static/css/main.ea57472f.css.map",
-    "main.078ee6a9.js.map": "/twinkle/static/js/main.078ee6a9.js.map"
+    "main.f47cb0d2.js.map": "/twinkle/static/js/main.f47cb0d2.js.map"
   },
   "entrypoints": [
     "static/css/main.ea57472f.css",
-    "static/js/main.078ee6a9.js"
+    "static/js/main.f47cb0d2.js"
   ]
 }
