@@ -24,7 +24,7 @@ function App() {
 
   //소셜 로그인 시 이미 가입한 유저 필터하기 위한 코드
   //모든 유저의 id 정보 담는 어레이
-  const [allUserIdList, setAllUserIdList] = useState(false);
+  const [allUserIdList, setAllUserIdList] = useState([]);
 
   const getAllUserIdList = async () => {
     const querySnapshot = await getDocs(collection(dbService, "users"));
@@ -34,7 +34,6 @@ function App() {
 
   useEffect(() => {
     getAllUserIdList();
-
     //유저 변화가 있는지 listen하기: onAuthStateChanged관찰자 사용
     //onAuthStateChanged은 콜백이 필요한데, 콜백은 user
     onAuthStateChanged(authService, async (user) => {
