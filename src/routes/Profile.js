@@ -175,9 +175,12 @@ const Profile = ({ userObj, handleUserUpdate }) => {
 
       if (userObj.photoURL !== profileAttachment) {
         //프로필 사진 업데이트 시 이미 프로필 사진이 있다면 기존 사진 파일은 스토리지에서 삭제
-        const desertRef = ref(storageService, userObj.photoURL);
-        if (userObj.photoURL) {
-          await deleteObject(desertRef);
+        //소셜로그인 사용자는 처음 로그인시 photoURL이 다르고 스토리지에 포토가 추가되지 않았기 때문에 아래 조건 추가
+        if (userObj.photoURL.includes("firebasestorage")) {
+          const desertRef = ref(storageService, userObj.photoURL);
+          if (userObj.photoURL) {
+            await deleteObject(desertRef);
+          }
         }
 
         const profileFileRef = ref(
@@ -194,7 +197,6 @@ const Profile = ({ userObj, handleUserUpdate }) => {
         //버킷에 업로드된 파일 url 다운로드
         let profileAttachmentUrl;
         profileAttachmentUrl = await getDownloadURL(response.ref);
-
         await updateProfile(authService.currentUser, {
           photoURL: profileAttachmentUrl,
         });
