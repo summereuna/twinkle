@@ -57,49 +57,60 @@ const Explore = ({ userObj }) => {
               </div>
             </div>
 
-            <div className="explore__main-container">
-              <div className="explore__main__title">
-                <h1 className="explore__main__title__title">모든 유저</h1>
+            <div className="explore__main">
+              <div className="explore__main__box">
+                <div className="explore__main__box__title">
+                  <h1 className="explore__main__box__title__title">
+                    모든 유저
+                  </h1>
+                </div>
+                <div className="exploreList">
+                  {allUserWithoutCurrentUser.length > 0 ? (
+                    allUserWithoutCurrentUser.map((user) => (
+                      <div key={user.uid}>
+                        <NavLink to={`/${user.uid}`}>
+                          <div className="explore hover--bg--deep">
+                            <div className="explore__userImg">
+                              <ProfilePhoto photoURL={user.photoURL} />
+                            </div>
+                            <div className="explore__userInfo">
+                              <div className="explore__userInfo__userName">
+                                {user.displayName}
+                              </div>
+                              <div className="explore__userInfo__userId">
+                                @
+                                {user.email.substring(
+                                  0,
+                                  user.email.indexOf("@")
+                                )}
+                              </div>
+                              <div className="explore__userInfo__userBio">
+                                {user.bio}
+                              </div>
+                            </div>
+                          </div>
+                        </NavLink>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="explore--nothing">
+                      <FontAwesomeIcon icon={faUserSlash} size="2x" />
+                      <div className="explore--nothing__info">
+                        유저가 없습니다.
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="exploreList">
-                {allUserWithoutCurrentUser.length > 0 ? (
-                  allUserWithoutCurrentUser.map((user) => (
-                    <div key={user.uid}>
-                      <NavLink to={`/${user.uid}`}>
-                        <div className="explore hover--bg--deep">
-                          <div className="explore__userImg">
-                            <ProfilePhoto photoURL={user.photoURL} />
-                          </div>
-                          <div className="explore__userInfo">
-                            <div className="explore__userInfo__userName">
-                              {user.displayName}
-                            </div>
-                            <div className="explore__userInfo__userId">
-                              @
-                              {user.email.substring(0, user.email.indexOf("@"))}
-                            </div>
-                            <div className="explore__userInfo__userBio">
-                              {user.bio}
-                            </div>
-                          </div>
-                        </div>
-                      </NavLink>
-                    </div>
-                  ))
-                ) : (
-                  <div className="explore--nothing">
-                    <FontAwesomeIcon icon={faUserSlash} size="2x" />
-                    <div className="explore--nothing__info">
-                      유저가 없습니다.
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="explore__main__title">
-                <h1 className="explore__main__title__title">인기 있는 트윗</h1>
-              </div>
+              {/* <div className="explore__main__box">
+                <div className="explore__main__box__title">
+                  <h1 className="explore__main__box__title__title">
+                    인기 있는 트윗
+                  </h1>
+                </div>
+                <div>트윗 넣기</div>
+              </div> */}
             </div>
           </div>
         </div>
