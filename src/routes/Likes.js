@@ -11,7 +11,6 @@ import { useState } from "react";
 import Tweet from "../components/Tweet";
 
 const Likes = ({ userData, userObj }) => {
-  //트윗 가져오기
   const [likeTweets, setLikeTweets] = useState([]);
 
   useEffect(() => {
@@ -31,7 +30,7 @@ const Likes = ({ userData, userObj }) => {
     });
 
     return () => {
-      unsubscribe(); //stop listening to changes
+      unsubscribe();
     };
   }, [userData.uid]);
 
@@ -39,8 +38,6 @@ const Likes = ({ userData, userObj }) => {
     <div className="tweetList">
       {likeTweets.length > 0 ? (
         likeTweets.map((tweet) => (
-          //Tweet을 컴포넌트로 만고 props으로 가져온다.
-          //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
           <Tweet
             key={tweet.id}
             tweetObj={tweet}

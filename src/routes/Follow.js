@@ -24,7 +24,6 @@ const Follow = ({ userObj, state }) => {
   useEffect(() => {
     setInit(true);
     getPageUserProfiles();
-    console.log("🔥");
     return () => {
       setInit(false);
     };

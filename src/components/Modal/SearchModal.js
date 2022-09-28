@@ -11,7 +11,6 @@ const SearchModal = ({
   const onEscapeKeyDown = (event) => {
     if (isModalOpen && (event.charCode || event.keyCode) === 27) {
       handleModalClose();
-      console.log("❗️esc 누름❗️");
     }
   };
 

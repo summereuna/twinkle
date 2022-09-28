@@ -1,5 +1,4 @@
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faTwitter,
@@ -31,7 +30,7 @@ const SideSection = ({ userObj, isInExplore }) => {
     );
     const querySnapshot = await getDocs(usersQuery);
 
-    //전체 사용자 어레이
+    //사용자 어레이
     const allUserWithoutCurrentUserList = querySnapshot.docs.map((doc) =>
       doc.data()
     );
@@ -43,22 +42,11 @@ const SideSection = ({ userObj, isInExplore }) => {
 
     //추천 유저 필터링
     let filterArr = allUserWithoutCurrentUserList.filter((user) => {
-      //현재 보고 있는 프로필 페이지의 유저는 추천리스트에 포함시키지 않기
-      //이거 쓰면 팔로우 3명 남았을 때 부터 에러 먹기 시작하는데 이유가 이 유저를 추천리스트에 포함시키지 않기 때문에 userObjFollowingArr.length 측정하는데 오류 발생하기 때문인듯
-      //그래서 안되기 때문에 예외 사항을 더 주든지 해야함
-
-      //   // //이제 괜찮긴 하네;;; 근데 바로바로 안뜸 ㅠㅠ
-      //  if (){
-      //   if (user.uid === pageUserId) {
-      //     return false;
-      //   }
-      //  }
-
       //현재 로그인한 유저가 팔로우한 유저 제외한 나머지 유저 배열 가져오기
       return !userObjFollowingArr.includes(user.uid);
     });
 
-    //console.log("🔥", filterArr);
+    //userObjFollowingArr.length 에 따른 추첨
     if (allUserWithoutCurrentUserList.length - userObjFollowingArr.length > 2) {
       //그 중에서 유저 3명 무작위 추첨
       let randomUsersArr = [];
@@ -117,23 +105,16 @@ const SideSection = ({ userObj, isInExplore }) => {
 
       setRandomUserList(randomUsersArr);
     }
-
-    //console.log("팔로우 추천");
   }, [userObj.following]);
 
-  //console.log("밖");
   useEffect(() => {
-    //useEffect 무한 루프 돌아서 메모리 릭 발생해서 randomUserList 있는 조건으로 묶었다가
-    //getUsers 디펜던시 배열에 넣어주고 조건 뺌
     setLoading(true);
     getUsers();
-    console.log("랜덤유저 가져오기");
 
     return () => {
       setLoading(false);
     };
   }, [getUsers]);
-  //pageUserId
 
   return (
     <div className="side__container">

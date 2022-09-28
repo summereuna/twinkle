@@ -11,7 +11,6 @@ import { useState } from "react";
 import Tweet from "../components/Tweet";
 
 const Media = ({ userData, userObj }) => {
-  //트윗 가져오기
   const [mediaTweets, setMediaTweets] = useState([]);
   useEffect(() => {
     const q = query(
@@ -32,7 +31,7 @@ const Media = ({ userData, userObj }) => {
     });
 
     return () => {
-      unsubscribe(); //stop listening to changes
+      unsubscribe();
     };
   }, [userData.uid]);
 
@@ -40,8 +39,6 @@ const Media = ({ userData, userObj }) => {
     <div className="tweetList">
       {mediaTweets.length > 0 ? (
         mediaTweets.map((tweet) => (
-          //Tweet을 컴포넌트로 만고 props으로 가져온다.
-          //tweetObj 만들 때 각각의 tweet에 할당한 id 값을 div의 key에 넣어주자
           <Tweet
             key={tweet.id}
             tweetObj={tweet}

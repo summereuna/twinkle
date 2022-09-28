@@ -24,7 +24,6 @@ const EditProfileModal = ({
   const onEscapeKeyDown = (event) => {
     if (isEditProfileModalOpen && (event.charCode || event.keyCode) === 27) {
       handleEditModalClose();
-      console.log("에딧 모달 esc로 끔");
     }
   };
   useEffect(() => {
@@ -33,7 +32,6 @@ const EditProfileModal = ({
       document.body.removeEventListener("keydown", onEscapeKeyDown);
     };
   });
-  //console.log(userObj);
 
   return (
     <div

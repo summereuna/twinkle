@@ -1,4 +1,4 @@
-import { authService, dbService } from "fbase";
+import { dbService } from "fbase";
 import {
   arrayRemove,
   arrayUnion,
@@ -16,6 +16,7 @@ const FollowBtn = ({
 }) => {
   //const myId = authService.currentUser.uid;
   const myId = userObj.uid;
+
   //팔로우 버튼 토글
   const [isFollow, setIsFollow] = useState(false);
 
@@ -121,14 +122,6 @@ const FollowBtn = ({
 
   //팔로우 버튼 토글
   const toggleFollowBtn = async () => {
-    console.log(
-      "프로필 버튼 컴포넌트 userData",
-      "💜",
-      userData.displayName,
-      " : ",
-      userData.follower
-    );
-    console.log("전", userData.follower);
     if (!isFollow) {
       increaseFollowerInOther();
       addFollow();
@@ -142,7 +135,6 @@ const FollowBtn = ({
       removeUserFollowerList();
       setIsFollow((prev) => !prev);
     }
-    console.log("후", userData.follower);
   };
 
   //useEffect 사용해서 팔로우 버튼 색깔 유지
@@ -151,9 +143,6 @@ const FollowBtn = ({
       const usersFollowingRef = doc(dbService, "users", userData.uid);
       const usersFollowingSnap = await getDoc(usersFollowingRef);
       const usersFollowingUsers = usersFollowingSnap.data().follower;
-
-      console.log("ㅇ", usersFollowingUsers.includes(myId));
-      //8번 리렌더링
 
       if (usersFollowingUsers.includes(myId)) {
         setIsFollow(true);

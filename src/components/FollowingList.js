@@ -16,8 +16,6 @@ import ProfilePhoto from "./ProfilePhoto";
 const FollowingList = ({ hover, userData }) => {
   const [followingUsers, setFollowingUsers] = useState([]);
   useEffect(() => {
-    //snapshot은 쿼리 같은 건데 docs를 가지고 있다.
-    //tweets은 페이지를 불러올 때 snapshot에서 나오는 거다.
     const q = query(
       collection(dbService, "users"),
       where("follower", "array-contains", userData.uid),
@@ -25,18 +23,15 @@ const FollowingList = ({ hover, userData }) => {
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      //모든 docs는 {} 오브젝트 반환하도록
-      //아이디 가져오고, 그리고 나머지 데이터 전체 가져오기
       const followingArr = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      //트윗어레이 확인해보자. 오케이 원하는대로 포맷된것을 확인할 수 있다!
-      //console.log(followingArr);
+
       setFollowingUsers(followingArr);
     });
     return () => {
-      unsubscribe(); //stop listening to changes
+      unsubscribe();
     };
   }, [userData.uid]);
 

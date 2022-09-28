@@ -32,13 +32,13 @@ const UserProfile = ({
   handleUserUpdate,
 }) => {
   //유저 가입일
-
   let userCreatedAtTimestamp;
   if (userObj.uid !== userData.uid) {
     userCreatedAtTimestamp = Number(userData.createdAt);
   } else if (userObj.uid === userData.uid) {
     userCreatedAtTimestamp = Number(userObj.createdAt);
   }
+
   //타입이 string이어서 number로 바꿔줌
   const date = new Date(userCreatedAtTimestamp);
   const year = date.getFullYear();

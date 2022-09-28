@@ -7,7 +7,6 @@ function Modal({ userObj, isModalOpen, handleModalClose }) {
   const onEscapeKeyDown = (event) => {
     if (isModalOpen && (event.charCode || event.keyCode) === 27) {
       handleModalClose();
-      console.log("트윗 모달 esc");
     }
   };
 

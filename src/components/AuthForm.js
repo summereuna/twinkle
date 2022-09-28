@@ -11,7 +11,7 @@ const AuthForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
-  //error 스테이드를 만들자. 디폴트 값으로 비어 있는 텍스트 주기
+  //error 스테이드를 만들고 디폴트 값으로 비어 있는 텍스트 주기
   const [error, setError] = useState("");
 
   //email, password에 사용하는 이벤트
@@ -29,12 +29,12 @@ const AuthForm = () => {
   //form에 사용하는 이벤트
   const onSubmit = async (event) => {
     event.preventDefault();
-    //form submit하면 newAccount 스테이트로 확인하자!
+    //form submit하면 newAccount 스테이트로 확인
     //newAccount가 참이면 계정 새로 만들고, 거짓이면 로그인하기
     try {
       if (newAccount) {
         await createUserWithEmailAndPassword(authService, email, password);
-        //⚠️ 에러 발생 지점: 라우터이동 후 state 변경하기 때문, 삭제
+        //에러 발생 지점: 라우터이동 후 state 변경하기 때문, 삭제
         //setNewAccount(false);
         const user = authService.currentUser;
         return setDoc(doc(dbService, "users", `${user.uid}`), {
@@ -54,12 +54,11 @@ const AuthForm = () => {
       }
     } catch (error) {
       //에러가 생기면 error 스테이트에 넣어서 에러 메세지 띄우기
-      //console.log(error.message);
       setError(error.message);
     }
   };
 
-  //클린업 펑션 넣음
+  //클린업 펑션
   useEffect(() => {
     return () => setNewAccount(false);
   }, []);

@@ -16,6 +16,7 @@ import ProfilePhoto from "./ProfilePhoto";
 
 const Navigation = ({ userObj }) => {
   const outsideOfLogOutModal = useRef();
+
   //Log Out Modal
   const [isOpenLogOutModal, setIsOpenLogOutModal] = useState(false);
 
@@ -47,14 +48,12 @@ const Navigation = ({ userObj }) => {
   const handleModalOpen = () => {
     if (!isModalOpen) {
       setIsModalOpen((prev) => !prev);
-      console.log("❗️트윗 모달 오픈하기", isModalOpen);
     }
   };
 
   const handleModalClose = () => {
     if (isModalOpen) {
       setIsModalOpen((prev) => !prev);
-      console.log("❌트윗 모달 클로즈하기", isModalOpen);
     }
   };
 

@@ -6,6 +6,7 @@ import SearchModal from "./Modal/SearchModal";
 
 const SearchBar = ({ allUserWithoutCurrentUser }) => {
   const navigate = useNavigate();
+
   //검색
   const [search, setSearch] = useState("");
 
@@ -13,9 +14,9 @@ const SearchBar = ({ allUserWithoutCurrentUser }) => {
     const {
       target: { value },
     } = e;
-    console.log("🌟onChange 안에 있는 value", value);
     setSearch(value);
   };
+
   //검색 필터
   const filterKeywordArr = allUserWithoutCurrentUser.filter((user) => {
     const username = user.displayName
@@ -27,27 +28,22 @@ const SearchBar = ({ allUserWithoutCurrentUser }) => {
       .replace(" ", "")
       .toLocaleLowerCase()
       .includes(search.toLocaleLowerCase().replace(" ", ""));
-    //console.log("필터");
+
     return search && (username || userId);
   });
 
   const handleSearchOnClick = (e) => {
     e.preventDefault();
-    //console.log("클릭");
     handleSearch();
   };
 
   const handleSearchOnEnterKey = (e) => {
     if (e.keyCode === 13 || e.key === "Enter" || e.code === "Enter") {
-      //console.log("엔터키");
       handleSearch();
     }
   };
 
   const handleSearch = () => {
-    //console.log("작동 ㅇ");
-
-    console.log("💗search", search);
     handleModalClose();
     navigate({
       pathname: "/search",

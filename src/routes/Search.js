@@ -16,8 +16,6 @@ const Search = ({ userObj }) => {
   const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get("q");
 
-  console.log("💜searchKeyword", searchKeyword);
-
   const currentUserUid = userObj.uid;
   const [allUserWithoutCurrentUser, setAllUserWithoutCurrentUser] = useState(
     []
@@ -25,7 +23,6 @@ const Search = ({ userObj }) => {
   const [filterKeywordArr, setFilterKeywordArr] = useState([]);
 
   const getUsers = useCallback(async () => {
-    //현재 로그인한 유저 본인 제외한 유저 전체 배열 가져오기
     const usersRef = collection(dbService, "users");
     const usersQuery = query(
       usersRef,
@@ -36,13 +33,8 @@ const Search = ({ userObj }) => {
     const allUserWithoutCurrentUserList = querySnapshot.docs.map((doc) =>
       doc.data()
     );
-    console.log(
-      "🍀필터할 유저 디비에서 가꼬온 리스트",
-      allUserWithoutCurrentUserList
-    );
+
     setAllUserWithoutCurrentUser(allUserWithoutCurrentUserList);
-    console.log("🌸필터할 유저 어레이", allUserWithoutCurrentUser);
-    //let filterKeywords = [...filterKeywordArr];
 
     const filterKeywords = allUserWithoutCurrentUserList.filter((user) => {
       const username = user.displayName
@@ -54,11 +46,8 @@ const Search = ({ userObj }) => {
         .replace(" ", "")
         .toLocaleLowerCase()
         .includes(searchKeyword.toLocaleLowerCase().replace(" ", ""));
-      console.log("필터");
       return searchKeyword && (username || userId);
     });
-
-    console.log("🔥filterKeywords", filterKeywords);
 
     setFilterKeywordArr(filterKeywords);
   }, [currentUserUid, searchKeyword]);
@@ -67,8 +56,6 @@ const Search = ({ userObj }) => {
     setLoading(true);
     setIsInExplore(true);
     getUsers();
-    console.log("랜덤유저 가져오기");
-
     return () => {
       setLoading(false);
     };

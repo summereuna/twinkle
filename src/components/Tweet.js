@@ -25,27 +25,26 @@ import ProfilePhoto from "./ProfilePhoto";
 import { NavLink } from "react-router-dom";
 
 const Tweet = ({ tweetObj, isOwner, userObj }) => {
-  //프로필 페이지에서 userObj는 프로필 페이지 유저 정보를 담는다.
-  //console.log(userObj.displayName);
-  //따라서 현재 로그인한 유저에 대해 따로 변수를 주자.
+  //프로필 페이지에서 userObj는 프로필 페이지 유저 정보를 담기 때문에
+  //현재 로그인한 유저에 대해 따로 변수를 주자
   const currentUserUid = authService.currentUser.uid;
+
   //수정모드인지 아닌지 false/true
   const [editing, setEditing] = useState(false);
 
   //수정모드 input에서 입력된 트윗 내용 업데이트
   const [newTweet, setNewTweet] = useState(tweetObj.text);
 
-  //디비 > 트윗컬렉션 > 해당하는 id 가진 다큐먼트 찝어오기
+  //디비 > 트윗컬렉션 > 해당하는 id 가진 다큐먼트 읽기
   const tweetTextRef = doc(dbService, "tweets", `${tweetObj.id}`);
 
   //삭제하려는 이미지 파일 가리키는 ref 생성
-  //tweetObj의 attachmentUrl이 바로 삭제하려는 그 url임
+  //tweetObj의 attachmentUrl이 바로 삭제하려는 그 url
   const desertRef = ref(storageService, tweetObj.attachmentUrl);
 
   //트윗 삭제
   const onDeleteClick = async () => {
     const ok = window.confirm("정말 이 트윗을 삭제하시겠습니까?");
-    //console.log(ok);  //treu/false 반환함
     if (ok) {
       try {
         //해당하는 트윗 파이어스토어에서 삭제
@@ -67,7 +66,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
 
-  //수정모드 토글 (토글 버튼 누르면 현재 상태(기본 false) 반대로 바뀜
+  //수정모드 토글
   const toggleEditing = () => {
     setEditing((prev) => !prev);
     setNewTweet(tweetObj.text);
@@ -79,7 +78,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
     const ok = window.confirm("정말 이 트윗을 수정하시겠습니까?");
     if (ok) {
       await updateDoc(tweetTextRef, { text: newTweet });
-      //업뎃하고 나서 수정모드 false로 만들어 주기
       setEditing(false);
     }
   };
@@ -105,7 +103,7 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
 
   getUsersPhotoUrl();
 
-  //💗
+  //하트 누르기
   const [isClickedHeart, setIsClickedHeart] = useState(false);
 
   //하트 +1
@@ -118,7 +116,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
   };
 
   //하트를 누른 유저의 user 문서의 like 필드([])에 해당 tweet의 doc.id를 추가
-  // Atomically add a new region to the "like" array field.
   const addUserLike = async () => {
     const userRef = doc(dbService, "users", currentUserUid);
 
@@ -136,7 +133,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
     });
   };
 
-  //Atomically remove a region from the "like" array field.
   const removeUserLike = async () => {
     const userRef = doc(dbService, "users", currentUserUid);
 
@@ -145,7 +141,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
     });
   };
 
-  //하트 토글
   const toggleHeartCounter = async () => {
     if (!isClickedHeart) {
       increaseLikeInTweetObj();
@@ -172,7 +167,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
       }
     }
     fetchData();
-    //클린업 펑션 추가해야함
   }, [currentUserUid, tweetObj.id]);
 
   return (

@@ -11,15 +11,13 @@ import { faImage, faTimes } from "@fortawesome/free-solid-svg-icons";
 import ProfilePhoto from "./ProfilePhoto";
 
 const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
-  //input에 데이터 입력될 때 마다 ref 가져와서 textarea의 height에 scrollHeight 높이만큼 더해주기
   const textRef = useRef();
 
+  //input에 데이터 입력될 때 마다 ref 가져와서 textarea의 height에 scrollHeight 높이만큼 더해주기
   const autoResizeTextarea = useCallback(() => {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
-
-  //홈에서 트윗 내용 작성하는 폼
 
   const [tweet, setTweet] = useState("");
 
@@ -31,18 +29,16 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    //if문 안에 있던 거 밖으로 빼주자. 그래야 오류 안남 (lexical scope: 정적 범위)
     let attachmentUrl = "";
 
-    //이미지 첨부하지 않고 걍 트윗만 올리고 싶을 때도 있기 때문에
-    //attachment가 빈값이 아닌 경우에만 아래 코드 실행되게하자.
+    //이미지 첨부하지 않고 트윗만 올리고 싶은 경우가 있음
+    //attachment가 빈값이 아닌 경우에만 아래 코드 실행
     if (attachment !== "") {
       //storage에 파일 데이터가 업로드될 위치 가리키는 레퍼런스 생성하기
       const attachmentRef = ref(
         storageService,
         `${userObj.uid}/tweets/${uuidv4()}`
       );
-      //console.log(attachmentRef);
 
       //레퍼런스(attachmentRef)가 가리키는 위치에 찐으로 데이터 업로드하기
       //attachmentRef가 가리키는 위치에 attachment에 들어있는 첨부파일 url을 넣어라, 포맷data_url
@@ -51,20 +47,17 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
         attachment,
         "data_url"
       );
-      //console.log(response);
 
       //response의 ref, 즉 스토리지에 업로드한 파일 위치에 있는 그 파일의 URL을 다운로드해서
       //attachmentUrl 변수에 넣어서 업데이트
       attachmentUrl = await getDownloadURL(response.ref);
-      //콘솔에 찍어보자
-      //console.log(attachmentUrl);
     }
-    //빈값인 경우 url에 빈값으로 들어감
+    //attachment가 빈값인 경우(글만 트윗할 경우) url에 빈값으로 들어감
 
     //트윗 오브젝트 형태
     const tweetObj = {
-      text: tweet, //tweet(value로 tweet state 값)
-      createdAt: Date.now(), //serverTimestamp(), //Date.now(),로 해도 되지만 이왕 있는거 함 써보자(타임존 동북아3 = 서울로 설정되어 있음)
+      text: tweet,
+      createdAt: Date.now(),
       creatorId: userObj.uid,
       creatorName: userObj.displayName,
       creatorEmailId: userObj.email.substring(0, userObj.email.indexOf("@")),
@@ -72,17 +65,14 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
       like: [],
     };
 
-    //트윗하기 누르면 tweetObj 형태로 새로운 document 생성하여 tweets 콜렉션에 넣기
     await addDoc(collection(dbService, "tweets"), tweetObj);
-    //console.log("Document written with ID: ", docRef.id);
 
-    //state 비워서 form 비우기
     setTweet("");
-    //파일 미리보기 img src 비워주기
     setAttachment("");
 
     textRef.current.style.height = "auto";
-    //모달로 열린 경우 setIsModalOpen false로 변경하여 창 닫기
+
+    //모달인 경우 창 닫기
     if (isModalOpen) {
       handleModalClose();
     }
@@ -93,30 +83,28 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
       target: { value },
     } = event;
     setTweet(value);
-    //console.log(tweet);
   };
 
   //file 미리보기 제공
   const onFileChange = (event) => {
-    //console.log(event);
     const {
       target: { files },
     } = event;
-    //파일은 하나만 넣을 수 있게..^^;;
+
+    //파일은 하나만
     const theFile = files[0];
-    //console.log(theFile);
+
     //1. 파일리더 새로 만들고
     const reader = new FileReader();
     //3. 파일 읽기 끝나면(reader.onloadend) finishedEvent를 받는다
     reader.onloadend = (finishedEvent) => {
-      //콘솔에 찍어보면 finishedEvent.target.result에 이미지 url이 생성된 것을 확인할 수 있다.
-      //console.log(finishedEvent);
       // 첨부한 사진 데이터 들어있는 위치: 이벤트의 현재 타겟의 결과
       const {
         currentTarget: { result },
       } = finishedEvent;
       setAttachment(result);
     };
+
     //2. 리더에 dataURL로 읽기 메서드로 theFile 읽기 시작
     reader.readAsDataURL(theFile);
   };

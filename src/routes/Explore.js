@@ -1,27 +1,24 @@
-import { faArrowLeft, faUserSlash } from "@fortawesome/free-solid-svg-icons";
+import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProfilePhoto from "components/ProfilePhoto";
 import SearchBar from "components/SearchBar";
 import SideSection from "components/SideSection";
-import Tweet from "components/Tweet";
 import { dbService } from "fbase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Explore = ({ userObj }) => {
   const [isInExplore, setIsInExplore] = useState(false);
-  //console.log(isInExplore);
-  //
+
   const [loading, setLoading] = useState();
-  //유저 데이터
+
   const currentUserUid = userObj.uid;
   const [allUserWithoutCurrentUser, setAllUserWithoutCurrentUser] = useState(
     []
   );
 
   const getUsers = useCallback(async () => {
-    //현재 로그인한 유저 본인 제외한 유저 전체 배열 가져오기
     const usersRef = collection(dbService, "users");
     const usersQuery = query(
       usersRef,
@@ -29,7 +26,6 @@ const Explore = ({ userObj }) => {
     );
     const querySnapshot = await getDocs(usersQuery);
 
-    //전체 사용자 어레이
     const allUserWithoutCurrentUserList = querySnapshot.docs.map((doc) =>
       doc.data()
     );
@@ -42,8 +38,6 @@ const Explore = ({ userObj }) => {
     setLoading(true);
     setIsInExplore(true);
     getUsers();
-    console.log("랜덤유저 가져오기");
-
     return () => {
       setLoading(false);
     };

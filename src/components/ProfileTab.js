@@ -21,16 +21,6 @@ const ProfileTab = () => {
                 </div>
               </NavLink>
             </li>
-            {/* <li className="nav-tab__list__presentation">
-              <a href="/" className="nav-tab__list__presentation__a">
-                <div className="nav-tab__list__presentation__a__text-box">
-                  <span className="nav-tab__list__presentation__a__text-box__name">
-                    트윗 및 답글
-                  </span>
-                  <div className="nav-tab__list__presentation__a__text-box__line"></div>
-                </div>
-              </a>
-            </li> */}
             <li className="nav-tab__list__presentation">
               <NavLink
                 to="media"
