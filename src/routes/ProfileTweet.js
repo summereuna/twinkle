@@ -1,4 +1,5 @@
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   onSnapshot,
@@ -26,6 +27,13 @@ const ProfileTweet = ({ userData, userObj }) => {
       }));
       setTweets(tweetArr);
     });
+
+    onAuthStateChanged(authService, (user) => {
+      if (user === null) {
+        unsubscribe();
+      }
+    });
+
     return () => {
       unsubscribe();
     };

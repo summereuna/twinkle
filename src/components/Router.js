@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -24,7 +24,7 @@ const AppRouter = ({
   allUserIdList,
 }) => {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       {isLoggedIn && <Navigation userObj={userObj} />}
       <Routes>
         {/* 로그인한 상태면 /으로, 아니면 /login으로 */}

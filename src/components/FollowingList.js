@@ -1,6 +1,7 @@
 import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   onSnapshot,
@@ -30,6 +31,13 @@ const FollowingList = ({ hover, userData }) => {
 
       setFollowingUsers(followingArr);
     });
+
+    onAuthStateChanged(authService, (user) => {
+      if (user === null) {
+        unsubscribe();
+      }
+    });
+
     return () => {
       unsubscribe();
     };

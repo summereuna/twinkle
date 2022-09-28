@@ -65,11 +65,7 @@ const Navigation = ({ userObj }) => {
             <ul className="nav__ul">
               <Link to="/">
                 <div className="nav__ul__li__btn nav__btn logo-color">
-                  <FontAwesomeIcon
-                    icon={faTwitter}
-                    size="2x"
-                    className="cursor--pointer"
-                  />
+                  <FontAwesomeIcon icon={faTwitter} size="2x" />
                 </div>
               </Link>
               <li className="nav__ul__li">

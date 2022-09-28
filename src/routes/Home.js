@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 
 import Tweet from "components/Tweet";
 import TweetFactory from "components/TweetFactory";
 import SideSection from "components/SideSection";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Home = ({ userObj }) => {
   const [tweets, setTweets] = useState([]);
@@ -22,6 +23,14 @@ const Home = ({ userObj }) => {
       }));
       setTweets(tweetArr);
     });
+
+    //로그아웃 시 실시간 스냅샷 그만 받기
+    onAuthStateChanged(authService, (user) => {
+      if (user === null) {
+        unsubscribe();
+      }
+    });
+
     return () => {
       unsubscribe();
     };

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { dbService } from "fbase";
+import { authService, dbService } from "fbase";
 import {
   collection,
   onSnapshot,
@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { useState } from "react";
 import Tweet from "../components/Tweet";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Media = ({ userData, userObj }) => {
   const [mediaTweets, setMediaTweets] = useState([]);
@@ -28,6 +29,12 @@ const Media = ({ userData, userObj }) => {
       }));
 
       setMediaTweets(tweetArr);
+    });
+
+    onAuthStateChanged(authService, (user) => {
+      if (user === null) {
+        unsubscribe();
+      }
     });
 
     return () => {
