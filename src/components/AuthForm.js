@@ -99,15 +99,20 @@ const AuthForm = () => {
         {error}
       </form>
 
-      <h3 className="auth__h3">
-        {newAccount
-          ? "이미 트윙클에 가입하셨나요?"
-          : "아직 트윙클 계정이 없나요?"}
-      </h3>
-      {/*newAccount(새로운 계정)가 참이면 로그인, 거짓이면 가입하기가 되는 토글 만들기 */}
-      <button className="btn btn--skyblue" onClick={toggleAccount}>
+      <div className="auth__change">
+        <h3 className="auth__h3">
+          {newAccount
+            ? "이미 트윙클에 가입하셨나요?"
+            : "아직 트윙클 계정이 없나요?"}
+        </h3>
+        <h4 className="auth__change__btn" onClick={toggleAccount}>
+          {newAccount ? "로그인" : "가입하기"}
+        </h4>
+        {/*newAccount(새로운 계정)가 참이면 로그인, 거짓이면 가입하기가 되는 토글 만들기 */}
+        {/* <button className="btn btn--skyblue" onClick={toggleAccount}>
         {newAccount ? "로그인" : "가입하기"}
-      </button>
+      </button> */}
+      </div>
     </>
   );
 };

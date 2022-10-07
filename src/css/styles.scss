@@ -68,10 +68,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 100vw;
+  max-width: 100%;
 }
 main {
-  //width: 990px;
+  max-width: 990px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -104,6 +105,18 @@ main {
   min-height: 100vh;
   border-left: 1px solid $color-border;
   border-right: 1px solid $color-border;
+  min-width: calc(100vw - 88px);
+}
+@media screen and (min-width: 688px) {
+  #body-content {
+    min-width: 600px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  #body-content {
+    min-width: calc(100vw - 64px);
+  }
 }
 
 footer {

@@ -1,6 +1,7 @@
 @import "../variables.scss";
 
 /*✅ nav*/
+
 .header {
   z-index: 3;
   position: relative;
@@ -20,12 +21,13 @@
     flex-direction: column;
     align-items: stretch;
     box-sizing: border-box;
+
     .header__container__container {
       height: 100%;
       top: 0;
       position: fixed;
       .nav {
-        width: 88px;
+        max-width: 100%;
         // overflow-y: auto;
         height: 100%;
         position: relative;
@@ -71,6 +73,19 @@
               border-radius: 25px;
             }
           }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .header {
+    .header__container {
+      width: 64px;
+      .header__container__container {
+        .nav {
+          padding: 0 0 20px 0;
         }
       }
     }

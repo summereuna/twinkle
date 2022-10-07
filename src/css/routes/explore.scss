@@ -5,6 +5,8 @@
 .explore__container {
   display: flex;
   flex-direction: column;
+  width: auto;
+  height: auto;
 
   .explore__title {
     width: inherit;
@@ -58,13 +60,11 @@
   flex-direction: column;
   .explore {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
     padding: 12px 16px;
     min-height: 80px;
     max-height: 108px;
     max-width: 600px;
-    min-width: 598px;
+    min-width: 100%;
     box-sizing: border-box;
     .explore__userImg {
       width: 48px;
@@ -93,7 +93,6 @@
     align-items: center;
     padding-top: 70px;
     max-width: 600px;
-    min-width: 598px;
     color: $color-main;
     .explore--nothing__info {
       display: flex;

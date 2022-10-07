@@ -12,7 +12,6 @@
     min-height: 80px;
     max-height: 108px;
     max-width: 600px;
-    min-width: 598px;
     box-sizing: border-box;
     .follow__userImg {
       width: 48px;
@@ -41,7 +40,8 @@
     align-items: center;
     padding-top: 70px;
     max-width: 600px;
-    min-width: 598px;
+    //min-width: 598px;
+
     color: $color-main;
     .follow--nothing__info {
       display: flex;

@@ -85,7 +85,7 @@ const Auth = ({ allUserIdList }) => {
       <div id="loginPage">
         <div id="loginPage__container">
           <img src={`${welcomeimage}`} alt="img" className="loginPage__img" />
-          <div id="body-content__">
+          <div className="body-content__auth">
             <div className="auth__container">
               <div className="auth__title__container">
                 <FontAwesomeIcon icon={faTwitter} color={"#04AAFF"} size="3x" />
@@ -121,11 +121,17 @@ const Auth = ({ allUserIdList }) => {
           <div className="loginPage__footer__box">
             <span>&copy; {new Date().getFullYear()} Twinkle</span>
           </div>
-          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box footer__box__verticalBar">
+            {" "}
+            |{" "}
+          </div>
           <div className="loginPage__footer__box">
             <span> Twitter 클론 사이트 </span>
           </div>
-          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box footer__box__verticalBar">
+            {" "}
+            |{" "}
+          </div>
           <div className="loginPage__footer__box">
             <FontAwesomeIcon
               icon={faEnvelope}
@@ -133,7 +139,10 @@ const Auth = ({ allUserIdList }) => {
             />
             <span> summereuna@gmail.com</span>
           </div>
-          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box footer__box__verticalBar">
+            {" "}
+            |{" "}
+          </div>
           <div className="loginPage__footer__box">
             <a
               href="https://github.com/summereuna"
@@ -147,7 +156,10 @@ const Auth = ({ allUserIdList }) => {
               <span> github</span>
             </a>
           </div>
-          <div className="loginPage__footer__box"> | </div>
+          <div className="loginPage__footer__box footer__box__verticalBar">
+            {" "}
+            |{" "}
+          </div>
           <div className="loginPage__footer__box">
             <a
               href="https://velog.io/@summereuna"

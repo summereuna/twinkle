@@ -18,6 +18,7 @@
       border: 1px solid rgba(0, 0, 0, 0);
       background-color: #eff3f4;
       transition: all;
+      display: flex;
     }
     .side__search__container__search__form__div:focus-within {
       border: 1px solid $color-main;
@@ -26,15 +27,20 @@
         color: $color-main;
       }
     }
-    .side__search__container__search__form__btn {
-      padding-left: 12px;
-      min-width: 32px;
-    }
-    .side__search__container__search__form__input {
-      flex-grow: 1;
-      padding: 12px;
-      cursor: text;
-      width: 88%;
+    label {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      .side__search__container__search__form__btn {
+        padding-left: 12px;
+        min-width: 32px;
+        flex-shrink: 0;
+      }
+      .side__search__container__search__form__input {
+        padding: 12px;
+        cursor: text;
+        flex-grow: 1;
+      }
     }
   }
   .side__search__container__search__modal {

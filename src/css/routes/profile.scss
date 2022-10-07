@@ -5,6 +5,7 @@
 .profile__container {
   display: flex;
   flex-direction: column;
+  height: auto;
   .profile__title {
     z-index: 2;
     top: 0;
@@ -39,7 +40,7 @@
     width: 100%;
     .profile__user {
       .profile__user__header {
-        width: 598px;
+        max-width: 598px;
         height: 200px;
         background-color: grey;
       }

@@ -7,7 +7,7 @@
   position: relative;
   #loginPage__container {
     display: flex;
-    flex-direction: row;
+
     //
     height: auto;
     min-height: 100%;
@@ -16,19 +16,22 @@
       width: 50vw;
       object-fit: cover;
     }
-    @media (max-width: 880px) {
+  }
+  @media (max-width: 880px) {
+    #loginPage__container {
+      flex-direction: column-reverse;
       .loginPage__img {
-        display: none;
-      }
-    }
-    @media (min-width: 990px) {
-      .loginPage__img {
-        display: flex;
+        width: 100%;
+        object-fit: cover;
       }
     }
   }
+  @media (min-width: 990px) {
+    #loginPage__container {
+      flex-direction: row;
+    }
+  }
   .loginPage__footer {
-    font-size: 12px;
     margin: 0;
     //
     height: 25px;
@@ -42,18 +45,38 @@
     align-items: center;
 
     .loginPage__footer__box {
-      margin: 0 3px;
+      display: flex;
+      flex-direction: row;
       .loginPage__footer__box__icon {
         margin-right: 3px;
       }
     }
+    .footer__box__verticalBar {
+      margin: 0 3px;
+    }
+  }
+  @media (max-width: 880px) {
+    .loginPage__footer {
+      font-size: 8px;
+    }
+  }
+  @media (min-width: 990px) {
+    .loginPage__footer {
+      font-size: 12px;
+    }
   }
 }
 
+.body-content__auth {
+  display: flex;
+  justify-content: center;
+}
 .auth__container {
   display: flex;
   flex-direction: column;
-  padding: 20px 20px 0 20px;
+  align-self: center;
+
+  padding: 20px;
   margin: 0 52px;
   .auth__title__container {
     display: flex;
@@ -75,7 +98,7 @@
     display: flex;
     flex-direction: column;
     button {
-      width: 300px;
+      max-width: 300px;
       margin-bottom: 15px;
     }
     .auth__btn {
@@ -90,9 +113,10 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       .line {
-        width: 130px;
+        min-width: 100px;
+        max-width: 130px;
         height: 1px;
         box-sizing: border-box;
         background-color: $color-border;
@@ -103,7 +127,7 @@
       flex-direction: column;
       input {
         font-weight: 500;
-        width: 300px;
+        max-width: 300px;
         margin-bottom: 15px;
         border-radius: 5px;
         cursor: auto;
@@ -115,6 +139,17 @@
     }
     .auth__h3 {
       margin: 15px 0;
+    }
+    .auth__change {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .auth__change__btn {
+        margin-left: 5px;
+        font-weight: 600;
+        color: $color-main;
+        text-decoration: underline;
+      }
     }
   }
 }
