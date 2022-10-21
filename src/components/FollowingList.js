@@ -45,7 +45,7 @@ const FollowingList = ({ hover, userData }) => {
 
   return (
     followingUsers && (
-      <div>
+      <div className="followList__box">
         {followingUsers.length > 0 ? (
           followingUsers.map((user) => (
             <div key={user.uid}>
