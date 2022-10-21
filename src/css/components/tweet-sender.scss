@@ -39,11 +39,15 @@
         }
       }
       .tweetImg--edit {
+        max-width: 100%;
+        max-height: 400px;
         border-radius: 15px;
       }
       .preview {
         position: relative;
         .previewImg {
+          max-width: 100%;
+          max-height: 400px;
           border-radius: 15px;
         }
         .preview--remove {

@@ -59,6 +59,8 @@
         .tweetList__tweets__tweet__content__img {
           padding-top: 20px;
           .tweetImg {
+            max-width: 100%;
+            max-height: 400px;
             border-radius: 15px;
           }
         }

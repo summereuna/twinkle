@@ -201,7 +201,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                       <img
                         src={tweetObj.attachmentUrl}
                         alt="tweetImg"
-                        width="200"
                         className="tweetImg--edit"
                       />
                     </div>
@@ -263,7 +262,6 @@ const Tweet = ({ tweetObj, isOwner, userObj }) => {
                     <img
                       src={tweetObj.attachmentUrl}
                       alt="tweetImg"
-                      width="200"
                       className="tweetImg"
                     />
                   </div>

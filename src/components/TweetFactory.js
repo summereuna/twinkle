@@ -164,7 +164,6 @@ const TweetFactory = ({ userObj, isModalOpen, handleModalClose }) => {
                 <img
                   src={attachment}
                   alt="preview"
-                  width="300"
                   height="auto"
                   className="previewImg"
                 />
