@@ -69,7 +69,7 @@ const Search = ({ userObj }) => {
             <div className="searchPage__title">
               <div className="searchPage__title__container">
                 <div className="searchPage__title__icon">
-                  <NavLink to="/">
+                  <NavLink to="/explore">
                     <FontAwesomeIcon icon={faArrowLeft} size="2x" />
                   </NavLink>
                 </div>
