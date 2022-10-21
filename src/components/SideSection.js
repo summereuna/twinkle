@@ -125,14 +125,14 @@ const SideSection = ({ userObj, isInExplore }) => {
         />
       </div>
       <div className={`side__search-box ${isInExplore ? "" : "show"}`}></div>
-      <div className="side-box">
+      {/* <div className="side-box">
         <div className="side__trends">
           <h2>나를 위한 트렌드</h2>
           <div>
             <div></div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="side-box">
         <div className="side_recommendation">
           <h2>팔로우 추천</h2>

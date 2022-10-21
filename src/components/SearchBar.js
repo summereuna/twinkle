@@ -1,6 +1,6 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchModal from "./Modal/SearchModal";
 
@@ -68,6 +68,21 @@ const SearchBar = ({ allUserWithoutCurrentUser }) => {
     }
   };
 
+  const outsideOfSearchModal = useRef();
+  const handleCloseSearchModal = (event) => {
+    if (isModalOpen && !outsideOfSearchModal.current.contains(event.target)) {
+      setIsModalOpen((prev) => !prev);
+      setSearch("");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleCloseSearchModal);
+    return () => {
+      window.removeEventListener("click", handleCloseSearchModal);
+    };
+  });
+
   return (
     <div className="side__search__container__search">
       <form
@@ -99,13 +114,15 @@ const SearchBar = ({ allUserWithoutCurrentUser }) => {
           </label>
         </div>
         <div className="side__search__container__search__modal">
-          <SearchModal
-            handleModalClose={handleModalClose}
-            isModalOpen={isModalOpen}
-            hover={"hover--bg--light"}
-            filterKeywordArr={filterKeywordArr}
-            searchKeyword={search}
-          ></SearchModal>
+          <div ref={outsideOfSearchModal}>
+            <SearchModal
+              handleModalClose={handleModalClose}
+              isModalOpen={isModalOpen}
+              hover={"hover--bg--light"}
+              filterKeywordArr={filterKeywordArr}
+              searchKeyword={search}
+            ></SearchModal>
+          </div>
         </div>
       </form>
     </div>
