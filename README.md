@@ -19,11 +19,6 @@ React와 Firebase를 기반으로 텍스트와 사진을 공유하고 게시글�
 #### 사이트 화면
 ![](https://velog.velcdn.com/images/summereuna/post/5d39683e-64b1-4196-a81a-85fec3e75b32/image.gif)
 
-#### 테스트 아이디
-| ID | test@test.com |
-| --- | --- |
-| P/W | 123456 |
-
 ### 스킬
 - React
 - SCSS
