@@ -1,70 +1,26 @@
-# Getting Started with Create React App
+# 반짝이는 지금, Twinkle
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 소개
+React와 Firebase를 기반으로 텍스트와 사진을 공유하고 게시글에 좋아요를 클릭하고 다른 사용자를 팔로우를 할 수 있는 커뮤니티 사이트를 구현했습니다.
 
-## Available Scripts
+### 구현 기능
+- 게시글, 유저 CRUD
+- 사용자별 프로필 페이지에서 전체 게시글, 이미지 포함 게시글, 좋아요 버튼 누른 게시물을 탭으로 구분하여 렌더링
+- 사용자 간 팔로우, 언팔로우 기능
+- 사용자가 팔로우 하지 않은 상대를 랜덤하게 추천하는 기능
+- 사용자 검색시 자동 완성 기능
+- 사용자 프로필 수정/로그아웃/검색 시 모달 창 구현
 
-In the project directory, you can run:
+### 구현 결과
+#### 사이트
+[🌐 반짝이는 지금, Twinkle](summereuna.github.io/twinkle/)
+#### 사이트 화면
+![](https://velog.velcdn.com/images/summereuna/post/5d39683e-64b1-4196-a81a-85fec3e75b32/image.gif)
 
-### `npm start`
+#### 테스트 아이디
+| ID | test@test.com |
+| --- | --- |
+| P/W | 123456 |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 스킬
+React, SCSS, Firebase
