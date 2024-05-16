@@ -1,4 +1,5 @@
 # 반짝이는 지금, Twinkle
+2022년 3-10월, 개인 프로젝트
 
 ### 소개
 React와 Firebase를 기반으로 텍스트와 사진을 공유하고 게시글에 좋아요를 클릭하고 다른 사용자를 팔로우를 할 수 있는 커뮤니티 사이트를 구현했습니다.
@@ -23,4 +24,6 @@ React와 Firebase를 기반으로 텍스트와 사진을 공유하고 게시글�
 | P/W | 123456 |
 
 ### 스킬
-React, SCSS, Firebase
+- React
+- SCSS
+- Firebase
