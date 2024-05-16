@@ -14,7 +14,8 @@ React와 Firebase를 기반으로 텍스트와 사진을 공유하고 게시글�
 
 ### 구현 결과
 #### 사이트
-[🌐 반짝이는 지금, Twinkle](summereuna.github.io/twinkle/)
+[🌐 반짝이는 지금, Twinkle](https://summereuna.github.io/twinkle)
+
 #### 사이트 화면
 ![](https://velog.velcdn.com/images/summereuna/post/5d39683e-64b1-4196-a81a-85fec3e75b32/image.gif)
 
